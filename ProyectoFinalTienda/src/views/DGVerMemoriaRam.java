@@ -7,6 +7,9 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import logic.MemoriaRam;
+
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.GroupLayout;
@@ -25,15 +28,16 @@ public class DGVerMemoriaRam extends JDialog {
 	private JTextField txtCantDisponible;
 	private JTextField txtModelo;
 	private JTextField txtMarca;
-	private JTextField txtcantMemoria;
+	private JTextField txtCantMemoria;
 	private JTextField txtVelocidadProcesamiento;
+	private MemoriaRam ram;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		try {
-			DGVerMemoriaRam dialog = new DGVerMemoriaRam();
+			DGVerMemoriaRam dialog = new DGVerMemoriaRam(null);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -44,7 +48,8 @@ public class DGVerMemoriaRam extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public DGVerMemoriaRam() {
+	public DGVerMemoriaRam(MemoriaRam ram) {
+		this.ram = ram;
 		setBounds(100, 100, 598, 433);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -138,10 +143,10 @@ public class DGVerMemoriaRam extends JDialog {
 				pParentPanel.add(lblCantMemoria);
 			}
 			{
-				txtcantMemoria = new JTextField();
-				txtcantMemoria.setColumns(10);
-				txtcantMemoria.setBounds(139, 228, 201, 22);
-				pParentPanel.add(txtcantMemoria);
+				txtCantMemoria = new JTextField();
+				txtCantMemoria.setColumns(10);
+				txtCantMemoria.setBounds(139, 228, 201, 22);
+				pParentPanel.add(txtCantMemoria);
 			}
 			{
 				JLabel lblVelocidad_Prose = new JLabel("Velocidad de Procesamiento");
@@ -178,6 +183,18 @@ public class DGVerMemoriaRam extends JDialog {
 				buttonPane.add(cancelButton);
 			}
 		}
+		loadData();
+	}
+	
+	private void loadData() {
+		this.txtCantDisponible.setText(String.valueOf(ram.getCantDisponible()));
+		this.txtCantMemoria.setText(ram.getCantMemoria());
+		this.txtIDComponente.setText(ram.getCodigo());
+		this.txtMarca.setText(ram.getMarca());
+		this.txtModelo.setText(ram.getModelo());
+		this.txtNumeroSerie.setText(ram.getNumeroSerie());
+		this.txtPrecio.setText(String.valueOf(ram.getPrecio()));
+		this.txtVelocidadProcesamiento.setText(ram.getVelocidadProcesamiento());
 	}
 }
 
