@@ -16,6 +16,9 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import logic.TarjetaMadre;
+
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JTextField;
@@ -31,16 +34,17 @@ public class DGVerTarjetaMadre extends JDialog {
 	private JTextField txtMarca;
 	private JTextField txtPrecio;
 	private JTextField txtCantDisp;
-	private JTextField txtTipoDD;
+	private JTextField txtConexionesDiscosDuros;
 	private JTextField txtTipoRAM;
 	private boolean editMode;
+	private TarjetaMadre tm;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		try {
-			DGVerTarjetaMadre dialog = new DGVerTarjetaMadre();
+			DGVerTarjetaMadre dialog = new DGVerTarjetaMadre(null);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -51,7 +55,8 @@ public class DGVerTarjetaMadre extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public DGVerTarjetaMadre() {
+	public DGVerTarjetaMadre(TarjetaMadre tm) {
+		this.tm = tm;
 		setTitle("Tarjeta madre");
 		this.editMode = false;
 		setBounds(100, 100, 480, 512);
@@ -140,11 +145,11 @@ public class DGVerTarjetaMadre extends JDialog {
 			panel.add(txtCantDisp);
 			txtCantDisp.setColumns(10);
 			
-			txtTipoDD = new JTextField();
-			txtTipoDD.setEditable(false);
-			txtTipoDD.setBounds(307, 323, 116, 22);
-			panel.add(txtTipoDD);
-			txtTipoDD.setColumns(10);
+			txtConexionesDiscosDuros = new JTextField();
+			txtConexionesDiscosDuros.setEditable(false);
+			txtConexionesDiscosDuros.setBounds(307, 323, 116, 22);
+			panel.add(txtConexionesDiscosDuros);
+			txtConexionesDiscosDuros.setColumns(10);
 			
 			txtTipoRAM = new JTextField();
 			txtTipoRAM.setEditable(false);
@@ -167,7 +172,7 @@ public class DGVerTarjetaMadre extends JDialog {
 						txtModelo.setEditable(editMode);
 						txtNumSerie.setEditable(editMode);
 						txtPrecio.setEditable(editMode);
-						txtTipoDD.setEditable(editMode);
+						txtConexionesDiscosDuros.setEditable(editMode);
 						txtTipoRAM.setEditable(editMode);
 						if(editMode == true) {
 							okButton.setText("guardar valores");
@@ -194,6 +199,18 @@ public class DGVerTarjetaMadre extends JDialog {
 				buttonPane.add(cancelButton);
 			}
 		}
+		loadData();
+	}
+	
+	private void loadData() {
+		txtID.setText(tm.getCodigo());                   
+		txtNumSerie.setText(tm.getNumeroSerie());            
+		txtModelo.setText(tm.getModelo());              
+		txtMarca.setText(tm.getMarca());                
+		txtPrecio.setText(String.valueOf(tm.getPrecio()));     
+		txtCantDisp.setText(String.valueOf(tm.getCantDisponible()));             
+		txtConexionesDiscosDuros.setText(tm.getConxionesDiscosDuros());
+		txtTipoRAM.setText(tm.getTipoMemoriaRAM());              
 	}
 	
 	/*
@@ -220,7 +237,7 @@ public class DGVerTarjetaMadre extends JDialog {
 		this.txtCantDisp.setText(s);
 	}
 	public void setTipoDD(String s) {
-		this.txtTipoDD.setText(s);
+		this.txtConexionesDiscosDuros.setText(s);
 	}
 	
 	public void setTipoRAM(String s) {
