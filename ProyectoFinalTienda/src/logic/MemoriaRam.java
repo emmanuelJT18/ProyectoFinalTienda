@@ -20,6 +20,15 @@ public class MemoriaRam extends Componente {
 		this.velocidadProcesamiento = velocidadProcesamiento;
 		this.tipoMemoriaRAM = tipoMemoriaRAM;
 	}
+	
+	public String getTipoMemoriaRAM() {
+		return tipoMemoriaRAM;
+	}
+
+	public void setTipoMemoriaRAM(String tipoMemoriaRAM) {
+		this.tipoMemoriaRAM = tipoMemoriaRAM;
+	}
+
 
 	public String getCantMemoria() {
 		return cantMemoria;
