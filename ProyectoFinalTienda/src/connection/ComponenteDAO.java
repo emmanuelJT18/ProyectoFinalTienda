@@ -48,9 +48,10 @@ public class ComponenteDAO {
 		}
 		return componentes;
 	}
-	
+	public void updateComponente(Componente comp) {
+	}
 	public static void insertDiscoDuro(DiscoDuro dd) {
-		String query = "INSERT INTO componentes (codigo, numero_serie, marca, modelo, precio, cant_disponible, tipo_conexion, cant_memoria)"
+		String query = "INSERT INTO componentes (codigo, numero_serie, marca, modelo, precio, cant_disponible, tipo_conexion, tipo_memoria_ram)"
 				+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 		try(PreparedStatement stmt = connection.prepareStatement(query)){
 			stmt.setString(1, dd.getCodigo());
@@ -89,7 +90,27 @@ public class ComponenteDAO {
 			ex.printStackTrace();
 		}
 	}
-
+	
+	public static void insertTarjetaMadre(TarjetaMadre tm) {
+		String query = "INSERT INTO componentes (codigo, numero_serie, marca, modelo, precio, cant_disponible, tipo_conexion, tipo_memoria_ram, conexiones_discos_duros)"
+				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		try(PreparedStatement stmt = connection.prepareStatement(query)){
+			stmt.setString(1, tm.getCodigo());
+			stmt.setString(2, tm.getNumeroSerie());
+			stmt.setString(3, tm.getMarca());
+			stmt.setString(4, tm.getModelo());
+			stmt.setDouble(5, tm.getPrecio());
+			stmt.setInt(6, tm.getCantDisponible());
+			stmt.setString(7, tm.getTipoConexion());
+			stmt.setString(8, tm.getTipoMemoriaRAM());
+			stmt.setString(9, tm.getConxionesDiscosDuros());
+			
+			int rowsInserted = stmt.executeUpdate();
+			if(rowsInserted > 0) System.out.println("Tarjeta madre insertada");
+		} catch(Exception ex) {
+			ex.printStackTrace();
+		}
+	}
 	
 	public static void insertMemoriaRam(MemoriaRam ram) {
 		String query = "INSERT INTO componentes(codigo, numero_serie, marca, modelo, precio, cant_disponible, tipo_memoria_ram, velocidad_procesamiento, cant_memoria)"

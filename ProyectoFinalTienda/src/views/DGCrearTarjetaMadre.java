@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
+import connection.ComponenteDAO;
 import logic.TarjetaMadre;
 import logic.Tienda;
 import logic.Utilidad;
@@ -239,7 +240,7 @@ public class DGCrearTarjetaMadre extends JDialog {
 			
 			TarjetaMadre nuevoComponente = new TarjetaMadre(codigo, numeroSerie, marca, modelo, precio, cantDisponible, tipoConexion, tipoMemoriaRAM, conxionesDiscosDuros);
 			controller.addComponente(nuevoComponente);
-			
+			ComponenteDAO.insertTarjetaMadre(nuevoComponente);
 			String test = controller.getComponentes().get(controller.getComponentes().size()-1).getCodigo();
 			JOptionPane.showConfirmDialog(null, "Se guardo bien: " + test);
 			componenteView.updateTable();//Refreshes the table
