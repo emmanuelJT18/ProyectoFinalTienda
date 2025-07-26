@@ -18,6 +18,7 @@ import javax.swing.table.DefaultTableModel;
 
 import logic.Componente;
 import logic.DiscoDuro;
+import logic.MemoriaRam;
 import logic.Tienda;
 
 import java.awt.BorderLayout;
@@ -94,11 +95,9 @@ public class PComponenteView extends JPanel {
 				JDialog dg = new JDialog();
 				if(com instanceof DiscoDuro) {
 					 dg = new DGVerDiscoDuro((DiscoDuro) com);
+				} else if (com instanceof MemoriaRam) {
+					 dg = new DGVerMemoriaRam((MemoriaRam) com);
 				}
-				/*
-				 * 				verCliente.setLocationRelativeTo(null);
-				verCliente.setModal(true);
-				verCliente.setVisible(true);*/
 				dg.setLocationRelativeTo(null);
 				dg.setModal(true);
 				dg.setVisible(true);
