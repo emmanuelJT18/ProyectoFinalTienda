@@ -37,29 +37,65 @@ public class ComponenteDAO {
 				String conexionesDiscosDuros = rs.getString("conexiones_discos_duros");
 				//LocalDateTime createdAt = rs.getTimestamp("created_at").toLocalDateTime();
 				
-				addToComponentesList(id, codigo, numeroSerie, marca, modelo, precio, cantDisponible, cantMemoria, tipoConexion, velocidadProcesamiento, conexionesDiscosDuros, tipoMemoriaRAM);
+				//addToComponentesList(id, codigo, numeroSerie, marca, modelo, precio, cantDisponible, cantMemoria, tipoConexion, velocidadProcesamiento, conexionesDiscosDuros, tipoMemoriaRAM);
+				Componente componente = createComponentesFromTableData(id, codigo, numeroSerie, marca, modelo, precio, cantDisponible, cantMemoria, tipoConexion, velocidadProcesamiento, conexionesDiscosDuros, tipoMemoriaRAM);
+				componentes.add(componente);
+				//controller.addComponente(componente);
 			}
 		}catch(Exception ex) {
-			System.out.println("Ha ocurrido un error: "+ex.getStackTrace());
+			System.out.println("Ha ocurrido un error: ");
+			ex.printStackTrace();
 		}
 		return componentes;
 	}
 	
-	private static void addToComponentesList(int id, String codigo, String numeroSerie, String marca, String modelo, Double precio, int cantDisponible, String cantMemoria, String tipoConexion, String velocidadProcesamiento, String conexionesDiscosDuros, String tipoMemoriaRAM) {
+	public static void insertDiscoDuro(String codigo, String numeroSerie, String marca, String modelo,
+		Double precio, int cantDisponible, String tipoConexion, String cantMemoria) {
+		String query = "INSERT INTO componentes ()";
+		//try(PreparedStatement stmt = connection.prepareStatement(query))
+	}
+	
+	public static Componente createComponentesFromTableData(int id, String codigo, String numeroSerie, String marca, String modelo,
+			Double precio, int cantDisponible, String cantMemoria, String tipoConexion,
+	        String velocidadProcesamiento, String conexionesDiscosDuros, String tipoMemoriaRAM) {
+
+	        if (codigo.contains("DD")) {
+	            return new DiscoDuro(id, codigo, numeroSerie, marca, modelo, precio, cantDisponible, tipoConexion, cantMemoria);
+	        } else if (codigo.contains("RAM")) {
+	            return new MemoriaRam(id, codigo, numeroSerie, marca, modelo, precio, cantDisponible, cantMemoria, velocidadProcesamiento, tipoMemoriaRAM);
+	        } else if (codigo.contains("MP")) {
+	            return new MicroProcesador(id, codigo, numeroSerie, marca, modelo, precio, cantDisponible, tipoConexion, velocidadProcesamiento);
+	        } else if (codigo.contains("TM")) {
+	            return new TarjetaMadre(id, codigo, numeroSerie, marca, modelo, precio, cantDisponible, tipoConexion, tipoMemoriaRAM, conexionesDiscosDuros);
+	        } else {
+	            System.out.println("Tipo de componente desconocido: " + codigo);
+	            return null;
+	        }
+	    }
+	
+
+	
+	public static void addToComponentesList(int id, String codigo, String numeroSerie, String marca, String modelo, Double precio, int cantDisponible, String cantMemoria, String tipoConexion, String velocidadProcesamiento, String conexionesDiscosDuros, String tipoMemoriaRAM) {
 		if(codigo.contains("DD")) {
 			DiscoDuro dd = new DiscoDuro(id, codigo, numeroSerie, marca, modelo, precio, cantDisponible, tipoConexion, cantMemoria);
 			controller.getComponentes().add(dd);
 			System.out.println(DiscoDuro.class);
+			
 		} else if(codigo.contains("RAM")) {
 			MemoriaRam ram = new MemoriaRam(id, codigo, numeroSerie, marca, modelo, precio, cantDisponible, cantMemoria, velocidadProcesamiento, tipoMemoriaRAM);
 			controller.getComponentes().add(ram);
-			System.out.println();
+			System.out.println(MemoriaRam.class);
+			
 		} else if(codigo.contains("MP")) {
 			MicroProcesador mp = new MicroProcesador(id, codigo, numeroSerie, marca, modelo, precio, cantDisponible, tipoConexion, velocidadProcesamiento);
 			controller.getComponentes().add(mp);
+			System.out.println(MicroProcesador.class);
+			
 		} else if(codigo.contains("TM")) {
 			TarjetaMadre tm = new TarjetaMadre(id, codigo, numeroSerie, marca, modelo, precio, cantDisponible, tipoConexion, tipoMemoriaRAM, conexionesDiscosDuros);
 			controller.getComponentes().add(tm);
+			System.out.println(TarjetaMadre.class);
+
 		} else {
 			System.out.println("Codigo no para agregar al componente a la lista es desconocido");
 		}

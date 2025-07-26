@@ -3,11 +3,16 @@ package logic;
 import java.util.ArrayList;
 
 import connection.ClienteDAO;
+import connection.ComponenteDAO;
 
 public class Tienda {
 	private ArrayList<Componente> componentes;
 	private ArrayList<Cliente> clientes;
 	private static Tienda uniqueInstance;
+	private int cantMemoriasRam = 0;
+	private int cantTarjetasMadre = 0;
+	private int cantMicroProcesadores = 0;
+	private int cantDiscosDuros = 0;
 	
 	public static Tienda getInstance() {
 		if(uniqueInstance == null) {
@@ -21,9 +26,11 @@ public class Tienda {
 		componentes = new ArrayList<Componente>();
 		clientes = new ArrayList<Cliente>();
 		LOADdata();
+		getCountOfEachComponente();
 	}
 	
 	public ArrayList<Componente> getComponentes() {
+		componentes = ComponenteDAO.loadComponentesData();
 		return componentes;
 	}
 	public void setComponentes(ArrayList<Componente> componentes) {
@@ -39,7 +46,31 @@ public class Tienda {
 		this.clientes = clientes;
 	}
 	
+	public void getCountOfEachComponente() {
+		for(Componente componente : this.componentes) {
+			if(componente instanceof DiscoDuro) {
+				cantDiscosDuros++;
+			} else if(componente instanceof MemoriaRam) {
+				cantMemoriasRam++;
+			} else if(componente instanceof TarjetaMadre) {
+				cantTarjetasMadre++;
+			} else {
+				cantMicroProcesadores++;
+			}
+		}
+
+	}
+	
 	public void addComponente(Componente componente) {
+		if(componente instanceof DiscoDuro) {
+			cantDiscosDuros++;
+		} else if(componente instanceof MemoriaRam) {
+			cantMemoriasRam++;
+		} else if(componente instanceof TarjetaMadre) {
+			cantTarjetasMadre++;
+		} else {
+			cantMicroProcesadores++;
+		}
 		componentes.add(componente);
 	}
 	
@@ -66,17 +97,17 @@ public class Tienda {
 	}
 	
 	public void LOADdata() {
-		 DiscoDuro dd1 = new DiscoDuro("DD001", "SN1234", "Seagate", "Barracuda", 1200.0, 10, "SATA", "1TB");
+		    DiscoDuro dd1 = new DiscoDuro("DD001", "SN1234", "Seagate", "Barracuda", 1200.0, 10, "SATA", "1TB");
 	        DiscoDuro dd2 = new DiscoDuro("DD002", "SN5678", "Western Digital", "Blue", 1350.0, 3, "SATA", "2TB");
-
+	        
 	        // 2 memorias RAM
 	        MemoriaRam ram1 = new MemoriaRam("RAM001", "SN1111", "Corsair", "Vengeance", 850.0, 10, "8GB", "3200MHz", "DDR3");
 	        MemoriaRam ram2 = new MemoriaRam("RAM002", "SN2222", "Kingston", "Fury", 900.0, 7, "16GB", "3600MHz", "DDR4");
-
+	        
 	        // 2 microprocesadores
 	        MicroProcesador mp1 = new MicroProcesador("MP001", "SN3333", "Intel", "i5-10400F", 7500.0, 4, "LGA1200", "2.9GHz");
 	        MicroProcesador mp2 = new MicroProcesador("MP002", "SN4444", "AMD", "Ryzen 5 5600", 8200.0, 5, "AM4", "3.5GHz");
-
+	        
 	        // 2 tarjetas madre
 	        TarjetaMadre tm1 = new TarjetaMadre("TM001", "SN5555", "Asus", "Prime B460", 5600.0, 3, "LGA1200", "DDR4", "SATA/NVMe");
 	        TarjetaMadre tm2 = new TarjetaMadre("TM002", "SN6666", "Gigabyte", "B550 AORUS", 6400.0, 2, "AM4", "DDR4", "SATA/NVMe");
@@ -90,6 +121,7 @@ public class Tienda {
 	        componentes.add(mp2);
 	        componentes.add(tm1);
 	        componentes.add(tm2);
+	        
 	        /*
 	     // Creamos 6 clientes
 	        Cliente c1 = new Cliente("C001", "Juan Perez", "809-123-4567", "Santo Domingo");

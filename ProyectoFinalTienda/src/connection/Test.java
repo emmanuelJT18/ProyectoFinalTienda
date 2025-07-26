@@ -3,8 +3,11 @@ package connection;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import logic.Cliente;
+import logic.Componente;
+import logic.Tienda;
 
 public class Test {
 
@@ -26,7 +29,7 @@ public class Test {
 		//ClienteDAO.deleteCliente("test");
 		
 		int id = 1;
-		String codigo = "DD1";
+		String codigo = "001";
 		String numeroSerie = "numero_serie";
 		String marca = "marca";
 		String modelo = "modelo";
@@ -38,7 +41,13 @@ public class Test {
 		String velocidadProcesamiento = "velocidad_procesamiento";
 		String conexionesDiscosDuros = "conexiones_discos_duros";
 		
+		ComponenteDAO.addToComponentesList(id, codigo, numeroSerie, marca, modelo, precio, cantDisponible, cantMemoria, tipoConexion, velocidadProcesamiento, conexionesDiscosDuros, tipoMemoriaRAM);
+		Tienda.getInstance();
 		
+		ArrayList<Componente> comps = ComponenteDAO.loadComponentesData();
+		for(Componente c : comps) {
+			System.out.println(c.getCodigo());
+		}
 	}
 
 }
