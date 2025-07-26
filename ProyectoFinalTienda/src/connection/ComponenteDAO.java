@@ -51,8 +51,30 @@ public class ComponenteDAO {
 	
 	public static void insertDiscoDuro(String codigo, String numeroSerie, String marca, String modelo,
 		Double precio, int cantDisponible, String tipoConexion, String cantMemoria) {
-		String query = "INSERT INTO componentes ()";
-		//try(PreparedStatement stmt = connection.prepareStatement(query))
+		String query = "INSERT INTO componentes (codigo, numero_serie, marca, modelo, precio, cant_disponible, tipo_conexion, cant_memoria)"
+				+ " VALUES ()";
+		
+	}
+	
+	public static void insertMemoriaRam(MemoriaRam ram) {
+		String query = "INSERT INTO componentes(codigo, numero_serie, marca, modelo, precio, cant_disponible, tipo_memoria_ram, velocidad_procesamiento, cant_memoria)"
+				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		try(PreparedStatement stmt = connection.prepareStatement(query)){
+			stmt.setString(1, ram.getCodigo());
+			stmt.setString(2, ram.getNumeroSerie());
+			stmt.setString(3, ram.getMarca());
+			stmt.setString(4, ram.getModelo());
+			stmt.setDouble(5, ram.getPrecio());
+			stmt.setInt(6, ram.getCantDisponible());
+			stmt.setString(7, ram.getTipoMemoriaRAM());
+			stmt.setString(8, ram.getVelocidadProcesamiento());
+			stmt.setString(9, ram.getCantMemoria());
+			
+			int rowsInserted = stmt.executeUpdate();
+			if(rowsInserted > 0) System.out.println("Memoria Ram insertada");
+		}catch(Exception ex) {
+			ex.printStackTrace();
+		}
 	}
 	
 	public static Componente createComponentesFromTableData(int id, String codigo, String numeroSerie, String marca, String modelo,
