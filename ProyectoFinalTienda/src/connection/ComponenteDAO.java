@@ -126,6 +126,7 @@ public class ComponenteDAO {
 			stmt.setInt(6, mp.getCantDisponible());
 			stmt.setString(7, mp.getTipoConexion());
 			stmt.setString(8, mp.getVelocidadProcesamiento());
+			stmt.setString(9, mp.getCodigo());
 			
 			int rowsUpdated = stmt.executeUpdate();
 			if(rowsUpdated > 0) System.out.println("MicroProcesador actualizado");

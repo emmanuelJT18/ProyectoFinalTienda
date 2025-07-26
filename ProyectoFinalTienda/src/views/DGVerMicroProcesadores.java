@@ -16,6 +16,7 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import connection.ComponenteDAO;
 import logic.MicroProcesador;
 
 import java.awt.event.ActionListener;
@@ -37,13 +38,14 @@ public class DGVerMicroProcesadores extends JDialog {
 	private JTextField txtVelocidadProcesamiento;
 	private boolean editarLosValores;
 	private MicroProcesador mp;
+	private PComponenteView componenteView;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		try {
-			DGVerMicroProcesadores dialog = new DGVerMicroProcesadores(null);
+			DGVerMicroProcesadores dialog = new DGVerMicroProcesadores(null, null);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -54,9 +56,10 @@ public class DGVerMicroProcesadores extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public DGVerMicroProcesadores(MicroProcesador mp) {
+	public DGVerMicroProcesadores(MicroProcesador mp, PComponenteView componenteView) {
 		this.mp = mp;
 		this.editarLosValores = false;
+		this.componenteView = componenteView;
 		setTitle("Micro Procesador");
 		setBounds(100, 100, 450, 484);
 		getContentPane().setLayout(new BorderLayout());
@@ -192,7 +195,7 @@ public class DGVerMicroProcesadores extends JDialog {
 						
 						if(editarLosValores == false) {
 							editarValores.setText("editar valores");
-
+							updateInfo();
 						}
 						else {
 							if(editarLosValores == true) {
@@ -227,6 +230,32 @@ public class DGVerMicroProcesadores extends JDialog {
 		txtMarca.setText(mp.getMarca());                 
 		txtTipoConexion.setText(mp.getTipoConexion());         
 		txtVelocidadProcesamiento.setText(mp.getVelocidadProcesamiento());
+	}
+	
+	public void updateInfo() {
+		try {
+			String numeroSerie = txtNumSerie.getText();
+			Double precio = Double.parseDouble(txtPrecio.getText());
+			int cantDisponible = Integer.parseInt(txtCantidadDisponible.getText());
+			String modelo = txtModelo.getText();
+			String marca = txtMarca.getText();                      
+			String tipoConexion = txtTipoConexion.getText();               
+			String velocidadProcesamiento = txtVelocidadProcesamiento.getText();    
+			
+			mp.setNumeroSerie(numeroSerie);
+			mp.setPrecio(precio);
+			mp.setCantDisponible(cantDisponible);
+			mp.setModelo(modelo);
+			mp.setMarca(marca);
+			mp.setTipoConexion(tipoConexion);
+			mp.setVelocidadProcesamiento(velocidadProcesamiento);
+			
+			ComponenteDAO.updateMicroProcesador(mp);
+			componenteView.updateTable();
+			
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 	}
 	
 	private void switchModos() {
