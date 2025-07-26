@@ -19,6 +19,7 @@ import javax.swing.table.DefaultTableModel;
 import logic.Componente;
 import logic.DiscoDuro;
 import logic.MemoriaRam;
+import logic.MicroProcesador;
 import logic.Tienda;
 
 import java.awt.BorderLayout;
@@ -97,7 +98,9 @@ public class PComponenteView extends JPanel {
 					 dg = new DGVerDiscoDuro((DiscoDuro) com);
 				} else if (com instanceof MemoriaRam) {
 					 dg = new DGVerMemoriaRam((MemoriaRam) com);
-				}
+				} else if (com instanceof MicroProcesador) {
+					dg = new DGVerMicroProcesadores((MicroProcesador) com);
+				} 
 				dg.setLocationRelativeTo(null);
 				dg.setModal(true);
 				dg.setVisible(true);
