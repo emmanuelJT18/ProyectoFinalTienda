@@ -7,6 +7,9 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import logic.DiscoDuro;
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
@@ -24,13 +27,14 @@ public class DGVerDiscoDuro extends JDialog {
 	private JTextField txtMarca;
 	private JTextField txtTipoConexion;
 	private JTextField txtCantMemoria;
+	private DiscoDuro dd;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		try {
-			DGVerDiscoDuro dialog = new DGVerDiscoDuro();
+			DGVerDiscoDuro dialog = new DGVerDiscoDuro(null);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -41,7 +45,8 @@ public class DGVerDiscoDuro extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public DGVerDiscoDuro() {
+	public DGVerDiscoDuro(DiscoDuro dd) {
+		this.dd = dd;
 		setTitle("Carateristica");
 		setBounds(100, 100, 616, 480);
 		getContentPane().setLayout(new BorderLayout());
@@ -163,5 +168,17 @@ public class DGVerDiscoDuro extends JDialog {
 				buttonPane.add(cancelButton);
 			}
 		}
+		loadData();
+	}
+	
+	private void loadData() {
+		this.txtCantDisponible.setText(String.valueOf(dd.getCantDisponible()));
+		this.txtCantMemoria.setText(dd.getCantMemoria());
+		this.txtIDComponente.setText(dd.getCodigo());
+		this.txtMarca.setText(dd.getMarca());
+		this.txtModelo.setText(dd.getModelo());
+		this.txtNumeroSerie.setText(dd.getNumeroSerie());
+		this.txtPrecio.setText(String.valueOf(dd.getPrecio()));
+		this.txtTipoConexion.setText(dd.getTipoConexion());
 	}
 }

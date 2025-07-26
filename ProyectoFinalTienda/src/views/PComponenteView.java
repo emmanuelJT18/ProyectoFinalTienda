@@ -17,6 +17,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import logic.Componente;
+import logic.DiscoDuro;
 import logic.Tienda;
 
 import java.awt.BorderLayout;
@@ -89,6 +90,19 @@ public class PComponenteView extends JPanel {
 
 			@Override
 			public void onView(int row) {
+				Componente com = controller.getComponentes().get(row);
+				JDialog dg = new JDialog();
+				if(com instanceof DiscoDuro) {
+					 dg = new DGVerDiscoDuro((DiscoDuro) com);
+				}
+				/*
+				 * 				verCliente.setLocationRelativeTo(null);
+				verCliente.setModal(true);
+				verCliente.setVisible(true);*/
+				dg.setLocationRelativeTo(null);
+				dg.setModal(true);
+				dg.setVisible(true);
+				
 				System.out.println("View Componente on row: "+row);
 
 				// TODO Auto-generated method stub
