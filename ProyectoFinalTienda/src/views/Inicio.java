@@ -143,7 +143,7 @@ public class Inicio extends JFrame {
 		
 		lblLogo.setBounds(0, 0, 300, 178);
 		Utilidad.fitImageInsideLabel(
-				"D:\\PUCMM7\\Cam Clim\\Practicas\\Practica 5\\WhatsApp Image 2025-07-06 at 14.44.25_2f7d1c76.jpg", 
+				"img/logo.jpg", 
 				lblLogo
 	    );
 		lblLogo.setHorizontalAlignment(JLabel.CENTER);

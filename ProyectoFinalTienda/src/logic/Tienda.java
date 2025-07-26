@@ -122,7 +122,7 @@ public class Tienda {
 	        componentes.add(tm1);
 	        componentes.add(tm2);
 	        
-	        /*
+	        
 	     // Creamos 6 clientes
 	        Cliente c1 = new Cliente("C001", "Juan Perez", "809-123-4567", "Santo Domingo");
 	        Cliente c2 = new Cliente("C002", "María Gomez", "809-234-5678", "Santiago");
@@ -138,7 +138,7 @@ public class Tienda {
 	        clientes.add(c4);
 	        clientes.add(c5);
 	        clientes.add(c6);
-	        */
+	        
 	}
 
 }

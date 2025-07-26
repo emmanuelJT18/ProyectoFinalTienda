@@ -21,12 +21,12 @@ public class PanelAction extends JPanel {
 		//btnEdit.setBounds(2, 5, 48, 25);
 		//add(btnEdit);
 		btnView = new ActionButton("V");
-		btnView.setIcon(new ImageIcon("C:\\Users\\tavar\\Downloads\\eye.png"));
+		btnView.setIcon(new ImageIcon("img/eye.png"));
 		btnView.setText("");
 		btnView.setBounds(12, 5, 55, 25);
 		add(btnView);
 		btnDelete = new ActionButton("D");
-		btnDelete.setIcon(new ImageIcon("C:\\Users\\tavar\\Downloads\\delete.png"));
+		btnDelete.setIcon(new ImageIcon("img/delete.png"));
 		btnDelete.setText("");
 		btnDelete.setBounds(83, 5, 55, 25);
 		add(btnDelete);
