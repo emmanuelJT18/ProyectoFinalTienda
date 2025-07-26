@@ -29,6 +29,8 @@ public class PComponenteView extends JPanel {
 	private Tienda controller = Tienda.getInstance();
 	private JTable table;
 	private JComboBox cbxTiposComponentes;
+	private TableActionEvent tableActionEvent;
+
 	/**
 	 * Create the panel.
 	 */
@@ -72,7 +74,7 @@ public class PComponenteView extends JPanel {
 		add(pShowData, BorderLayout.CENTER);
 		pShowData.setLayout(null);
 		
-		TableActionEvent event = new TableActionEvent() {
+	    tableActionEvent = new TableActionEvent() {
 			/*@Override
 			public void onEdit(int row) {
 				System.out.println("Edit row: "+row);
@@ -96,7 +98,7 @@ public class PComponenteView extends JPanel {
 		table = new JTable(getTableModel());
 		table.setRowHeight(33);
 		table.getColumnModel().getColumn(6).setCellRenderer(new TableActionCellRender());
-		table.getColumnModel().getColumn(6).setCellEditor(new TableActionCellEditor(event));
+		table.getColumnModel().getColumn(6).setCellEditor(new TableActionCellEditor(tableActionEvent));
 		JScrollPane scrollPane = new JScrollPane(table);
 		scrollPane.setBounds(30, 0, 1047, 400);
 		pShowData.add(scrollPane/*, BorderLayout.CENTER*/);
@@ -131,6 +133,8 @@ public class PComponenteView extends JPanel {
 	public void updateTable() {
 		DefaultTableModel updatedModel = getTableModel();
 		table.setModel(updatedModel);
+		table.getColumnModel().getColumn(6).setCellRenderer(new TableActionCellRender());
+		table.getColumnModel().getColumn(6).setCellEditor(new TableActionCellEditor(tableActionEvent));
 	}
 	
 	private void openViewForNewComponent() {
