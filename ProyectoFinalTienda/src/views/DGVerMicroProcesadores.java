@@ -15,6 +15,9 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import logic.MicroProcesador;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
@@ -33,13 +36,14 @@ public class DGVerMicroProcesadores extends JDialog {
 	private JTextField txtTipoConexion;
 	private JTextField txtVelocidadProcesamiento;
 	private boolean editarLosValores;
+	private MicroProcesador mp;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		try {
-			DGVerMicroProcesadores dialog = new DGVerMicroProcesadores();
+			DGVerMicroProcesadores dialog = new DGVerMicroProcesadores(null);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -50,7 +54,8 @@ public class DGVerMicroProcesadores extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public DGVerMicroProcesadores() {
+	public DGVerMicroProcesadores(MicroProcesador mp) {
+		this.mp = mp;
 		this.editarLosValores = false;
 		setTitle("Micro Procesador");
 		setBounds(100, 100, 450, 484);
@@ -211,6 +216,17 @@ public class DGVerMicroProcesadores extends JDialog {
 				buttonPane.add(cancelar);
 			}
 		}
+		loadData();
+	}
+	private void loadData() {
+		txtID.setText(mp.getCodigo());                   
+		txtNumSerie.setText(mp.getNumeroSerie());            
+		txtPrecio.setText(String.valueOf(mp.getPrecio()));                
+		txtCantidadDisponible.setText(String.valueOf(mp.getCantDisponible()));   
+		txtModelo.setText(mp.getModelo());               
+		txtMarca.setText(mp.getMarca());                 
+		txtTipoConexion.setText(mp.getTipoConexion());         
+		txtVelocidadProcesamiento.setText(mp.getVelocidadProcesamiento());
 	}
 	
 	private void switchModos() {
