@@ -186,11 +186,12 @@ public class DGVerMicroProcesadores extends JDialog {
 						txtVelocidadProcesamiento.setEditable(editarLosValores);
 						
 						if(editarLosValores == false) {
-							editarValores.setText("guardar cambios");
+							editarValores.setText("editar valores");
+
 						}
 						else {
 							if(editarLosValores == true) {
-								editarValores.setText("editar valores");
+								editarValores.setText("guardar cambios");
 							}
 						}
 					}
