@@ -20,6 +20,7 @@ import logic.Componente;
 import logic.DiscoDuro;
 import logic.MemoriaRam;
 import logic.MicroProcesador;
+import logic.TarjetaMadre;
 import logic.Tienda;
 
 import java.awt.BorderLayout;
@@ -100,7 +101,9 @@ public class PComponenteView extends JPanel {
 					 dg = new DGVerMemoriaRam((MemoriaRam) com);
 				} else if (com instanceof MicroProcesador) {
 					dg = new DGVerMicroProcesadores((MicroProcesador) com);
-				} 
+				} else if (com instanceof TarjetaMadre) {
+					dg = new DGVerTarjetaMadre((TarjetaMadre) com);
+				}
 				dg.setLocationRelativeTo(null);
 				dg.setModal(true);
 				dg.setVisible(true);
