@@ -9,6 +9,7 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import connection.ComponenteDAO;
 import logic.Componente;
 import logic.MemoriaRam;
 import logic.MicroProcesador;
@@ -197,13 +198,14 @@ public class DGCrearMemoriaRAM extends JDialog {
 			String tipoMemoriaRAM = txtTipoMemoriaRam.getText();
 			
 			MemoriaRam nuevoComponente = new MemoriaRam(codigo, numeroSerie, marca, modelo, precio, cantDisponible, cantMemoria, velocidadProcesamiento, tipoMemoriaRAM);
+			ComponenteDAO.insertMemoriaRam(nuevoComponente);
 			controller.addComponente(nuevoComponente);
 			
-			String test = controller.getComponentes().get(controller.getComponentes().size()-1).getCodigo();
-			JOptionPane.showConfirmDialog(null, "Se guardo bien: " + test);
+			//String test = controller.getComponentes().get(controller.getComponentes().size()-1).getCodigo();
+			JOptionPane.showConfirmDialog(null, "Se guardo bien: " + nuevoComponente.getCodigo());
 			componenteView.updateTable();//Refreshes the table
 		}catch(Exception ex) {
-			JOptionPane.showConfirmDialog(null, "Description: " + ex);
+			ex.printStackTrace();
 		}
 	}
 }

@@ -50,7 +50,7 @@ public class ClienteDAO {
 			int rowsInserted = preparedStatement.executeUpdate();
 			if(rowsInserted > 0) System.out.println("Cliente insertado WEPAAA");
 		}catch(Exception ex) {
-			System.out.println("Ha ocurrido un error: "+ex.getStackTrace());
+			ex.printStackTrace();
 		}
 	}
 	
