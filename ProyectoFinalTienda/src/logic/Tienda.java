@@ -28,17 +28,17 @@ public class Tienda {
 		LOADdata();
 		getCountOfEachComponente();
 	}
-	
 	public ArrayList<Componente> getComponentes() {
-		componentes = ComponenteDAO.loadComponentesData();
+		//componentes = ComponenteDAO.loadComponentesData();		
 		return componentes;
 	}
+	
 	public void setComponentes(ArrayList<Componente> componentes) {
 		this.componentes = componentes;
 	}
 
 	public ArrayList<Cliente> getClientes() {
-		clientes = ClienteDAO.loadClientesData();
+		//clientes = ClienteDAO.loadClientesData();				
 		return clientes;
 	}
 
