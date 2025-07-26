@@ -9,6 +9,7 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import connection.ComponenteDAO;
 import logic.Componente;
 import logic.DiscoDuro;
 import logic.MicroProcesador;
@@ -157,7 +158,7 @@ public class DGCrearDiscoDuro extends JDialog {
 				JButton btnCreate = new JButton("Crear Componente");
 				btnCreate.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						newMicroProcesador();
+						newDiscoDuro();
 					}
 				});
 				btnCreate.setActionCommand("OK");
@@ -172,7 +173,7 @@ public class DGCrearDiscoDuro extends JDialog {
 		}
 	}
 	
-	private void newMicroProcesador() {
+	private void newDiscoDuro() {
 		try {
 			
 			String codigo = txtId.getText();                      
@@ -186,9 +187,9 @@ public class DGCrearDiscoDuro extends JDialog {
 			
 			DiscoDuro newComponente = new DiscoDuro(codigo, numeroSerie, marca, modelo, precio, cantDisponible, tipoConexion, cantMemoria);
 			controller.addComponente(newComponente);
-			
-			String test = controller.getComponentes().get(controller.getComponentes().size()-1).getCodigo();
-			JOptionPane.showConfirmDialog(null, "Se guardo bien: " + test);
+			ComponenteDAO.insertDiscoDuro(newComponente);
+			//String test = controller.getComponentes().get(controller.getComponentes().size()-1).getCodigo();
+			JOptionPane.showConfirmDialog(null, "Se guardo bien ");
 			componenteView.updateTable();//Refreshes the table
 		}catch(Exception ex) {
 			JOptionPane.showConfirmDialog(null, "Description: " + ex);
