@@ -48,8 +48,7 @@ public class ComponenteDAO {
 		}
 		return componentes;
 	}
-	public void updateComponente(Componente comp) {
-	}
+
 	public static void insertDiscoDuro(DiscoDuro dd) {
 		String query = "INSERT INTO componentes (codigo, numero_serie, marca, modelo, precio, cant_disponible, tipo_conexion, tipo_memoria_ram)"
 				+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
@@ -68,7 +67,31 @@ public class ComponenteDAO {
 		}catch(Exception ex) {
 			ex.printStackTrace();
 		}
-		
+	}
+	
+	public static void updateDiscoDuro(DiscoDuro dd) {
+		String query = "UPDATE componentes SET codigo = ?, numero_serie = ?, marca = ?, modelo = ?, precio = ?, cant_disponible = ?, tipo_conexion = ?, tipo_memoria_ram = ?"
+				+ "WHERE codigo = ?";
+
+		try(PreparedStatement stmt = connection.prepareStatement(query)){
+			stmt.setString(1, dd.getCodigo());
+			stmt.setString(2, dd.getNumeroSerie());
+			stmt.setString(3, dd.getMarca());
+			stmt.setString(4, dd.getModelo());
+			stmt.setDouble(5, dd.getPrecio());
+			stmt.setInt(6, dd.getCantDisponible());
+			stmt.setString(7, dd.getTipoConexion());
+			stmt.setString(8, dd.getCantMemoria());
+			stmt.setString(9, dd.getCodigo());
+
+			int rowsUpdated = stmt.executeUpdate();
+			if(rowsUpdated > 0) {
+				System.out.println("DiscoDuro actualizado WEPAAA");
+			} else {
+				System.out.println("DiscoDuro con el codigo: "+dd.getCodigo()+" no ha sido encontrado");
+			}		}catch(Exception ex) {
+			ex.printStackTrace();
+		}
 	}
 	
 	public static void insertMicroProcesador(MicroProcesador mp) {
@@ -91,6 +114,26 @@ public class ComponenteDAO {
 		}
 	}
 	
+	public static void updateMicroProcesador(MicroProcesador mp) {
+		String query = "UPDATE componentes SET codigo = ?, numero_serie = ?, marca = ?, modelo = ?, precio = ?, cant_disponible = ?, tipo_conexion = ?, velocidad_procesamiento = ?"
+				+ "WHERE codigo = ?";
+		try(PreparedStatement stmt = connection.prepareStatement(query)){
+			stmt.setString(1, mp.getCodigo());
+			stmt.setString(2, mp.getNumeroSerie());
+			stmt.setString(3, mp.getMarca());
+			stmt.setString(4, mp.getModelo());
+			stmt.setDouble(5, mp.getPrecio());
+			stmt.setInt(6, mp.getCantDisponible());
+			stmt.setString(7, mp.getTipoConexion());
+			stmt.setString(8, mp.getVelocidadProcesamiento());
+			
+			int rowsUpdated = stmt.executeUpdate();
+			if(rowsUpdated > 0) System.out.println("MicroProcesador actualizado");
+		}catch(Exception ex) {
+			ex.printStackTrace();
+		}
+
+	}
 	public static void insertTarjetaMadre(TarjetaMadre tm) {
 		String query = "INSERT INTO componentes (codigo, numero_serie, marca, modelo, precio, cant_disponible, tipo_conexion, tipo_memoria_ram, conexiones_discos_duros)"
 				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";

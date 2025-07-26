@@ -96,7 +96,7 @@ public class PComponenteView extends JPanel {
 				Componente com = controller.getComponentes().get(row);
 				JDialog dg = new JDialog();
 				if(com instanceof DiscoDuro) {
-					 dg = new DGVerDiscoDuro((DiscoDuro) com);
+					 dg = new DGVerDiscoDuro((DiscoDuro) com, PComponenteView.this);
 				} else if (com instanceof MemoriaRam) {
 					 dg = new DGVerMemoriaRam((MemoriaRam) com);
 				} else if (com instanceof MicroProcesador) {

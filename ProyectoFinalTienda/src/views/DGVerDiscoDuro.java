@@ -8,6 +8,7 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import connection.ComponenteDAO;
 import logic.DiscoDuro;
 
 import javax.swing.GroupLayout;
@@ -15,6 +16,8 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JTextField;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class DGVerDiscoDuro extends JDialog {
 
@@ -28,13 +31,15 @@ public class DGVerDiscoDuro extends JDialog {
 	private JTextField txtTipoConexion;
 	private JTextField txtCantMemoria;
 	private DiscoDuro dd;
+	private boolean editable = false;
+	private PComponenteView componenteView;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		try {
-			DGVerDiscoDuro dialog = new DGVerDiscoDuro(null);
+			DGVerDiscoDuro dialog = new DGVerDiscoDuro(null, null);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -45,8 +50,9 @@ public class DGVerDiscoDuro extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public DGVerDiscoDuro(DiscoDuro dd) {
+	public DGVerDiscoDuro(DiscoDuro dd, PComponenteView componenteView) {
 		this.dd = dd;
+		this.componenteView = componenteView;
 		setTitle("Carateristica");
 		setBounds(100, 100, 616, 480);
 		getContentPane().setLayout(new BorderLayout());
@@ -158,6 +164,20 @@ public class DGVerDiscoDuro extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton btnEdit = new JButton("Editar");
+				btnEdit.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						editable = !editable;
+						
+						if(editable) {
+							btnEdit.setText("Guardar Cambios");
+						} else {
+							btnEdit.setText("Editar");
+							updateInfo();
+						}
+						setCamposEditable(editable);
+
+					}
+				});
 				btnEdit.setActionCommand("OK");
 				buttonPane.add(btnEdit);
 				getRootPane().setDefaultButton(btnEdit);
@@ -168,8 +188,45 @@ public class DGVerDiscoDuro extends JDialog {
 				buttonPane.add(cancelButton);
 			}
 		}
+		setCamposEditable(false);
 		loadData();
 	}
+	
+	private void updateInfo() {
+		try {
+			   String numeroSerie = txtNumeroSerie.getText();
+			   Double precio = Double.parseDouble(txtPrecio.getText());
+			   int cantDisponible = Integer.parseInt(txtCantDisponible.getText());
+			   String modelo = txtModelo.getText();
+			   String marca = txtMarca.getText();
+			   String tipoConexion = txtTipoConexion.getText();
+			   String cantMemoria = txtCantMemoria.getText();
+			   
+			   dd.setNumeroSerie(numeroSerie);
+			   dd.setPrecio(precio);
+			   dd.setCantDisponible(cantDisponible);
+			   dd.setModelo(modelo);
+			   dd.setMarca(marca);
+			   dd.setTipoConexion(tipoConexion);
+			   dd.setCantMemoria(cantMemoria);
+			   
+			   ComponenteDAO.updateDiscoDuro(dd);
+			   componenteView.updateTable();
+		}catch(Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+	private void setCamposEditable(boolean editable) {
+	    txtIDComponente.setEditable(editable);
+	    txtNumeroSerie.setEditable(editable);
+	    txtPrecio.setEditable(editable);
+	    txtCantDisponible.setEditable(editable);
+	    txtModelo.setEditable(editable);
+	    txtMarca.setEditable(editable);
+	    txtTipoConexion.setEditable(editable);
+	    txtCantMemoria.setEditable(editable);
+	}
+
 	
 	private void loadData() {
 		this.txtCantDisponible.setText(String.valueOf(dd.getCantDisponible()));
