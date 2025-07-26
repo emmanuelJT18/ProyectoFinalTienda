@@ -49,12 +49,47 @@ public class ComponenteDAO {
 		return componentes;
 	}
 	
-	public static void insertDiscoDuro(String codigo, String numeroSerie, String marca, String modelo,
-		Double precio, int cantDisponible, String tipoConexion, String cantMemoria) {
+	public static void insertDiscoDuro(DiscoDuro dd) {
 		String query = "INSERT INTO componentes (codigo, numero_serie, marca, modelo, precio, cant_disponible, tipo_conexion, cant_memoria)"
-				+ " VALUES ()";
+				+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+		try(PreparedStatement stmt = connection.prepareStatement(query)){
+			stmt.setString(1, dd.getCodigo());
+			stmt.setString(2, dd.getNumeroSerie());
+			stmt.setString(3, dd.getMarca());
+			stmt.setString(4, dd.getModelo());
+			stmt.setDouble(5, dd.getPrecio());
+			stmt.setInt(6, dd.getCantDisponible());
+			stmt.setString(7, dd.getTipoConexion());
+			stmt.setString(8, dd.getCantMemoria());
+			
+			int rowsInserted = stmt.executeUpdate();
+			if(rowsInserted > 0) System.out.println("Disco Duro insertado");
+		}catch(Exception ex) {
+			ex.printStackTrace();
+		}
 		
 	}
+	
+	public static void insertMicroProcesador(MicroProcesador mp) {
+		String query = "INSERT INTO componentes(codigo, numero_serie, marca, modelo, precio, cant_disponible, tipo_conexion, velocidad_procesamiento)"
+				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+		try(PreparedStatement stmt = connection.prepareStatement(query)){
+			stmt.setString(1, mp.getCodigo());
+			stmt.setString(2, mp.getNumeroSerie());
+			stmt.setString(3, mp.getMarca());
+			stmt.setString(4, mp.getModelo());
+			stmt.setDouble(5, mp.getPrecio());
+			stmt.setInt(6, mp.getCantDisponible());
+			stmt.setString(7, mp.getTipoConexion());
+			stmt.setString(8, mp.getVelocidadProcesamiento());
+			
+			int rowsInserted = stmt.executeUpdate();
+			if(rowsInserted > 0) System.out.println("MicroProcesador insertado");
+		}catch(Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+
 	
 	public static void insertMemoriaRam(MemoriaRam ram) {
 		String query = "INSERT INTO componentes(codigo, numero_serie, marca, modelo, precio, cant_disponible, tipo_memoria_ram, velocidad_procesamiento, cant_memoria)"

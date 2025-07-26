@@ -9,6 +9,7 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import connection.ComponenteDAO;
 import logic.Componente;
 import logic.MicroProcesador;
 import logic.Tienda;
@@ -184,10 +185,11 @@ public class DGCrearMicroProcesador extends JDialog {
 			String velocidadProcesamiento = txtVelocidadProcesamiento.getText();      
 			
 			MicroProcesador newComponente = new MicroProcesador(codigo, numeroSerie, marca, modelo, precio, cantDisponible, tipoConexion, velocidadProcesamiento);
-			controller.addComponente(newComponente);
+			ComponenteDAO.insertMicroProcesador(newComponente);
+			//controller.addComponente(newComponente);
 			
-			String test = controller.getComponentes().get(controller.getComponentes().size()-1).getCodigo();
-			JOptionPane.showConfirmDialog(null, "Se guardo bien: " + test);
+			//String test = controller.getComponentes().get(controller.getComponentes().size()-1).getCodigo();
+			JOptionPane.showConfirmDialog(null, "Se guardo bien ");
 			componenteView.updateTable();//Refreshes the table
 		}catch(Exception ex) {
 			JOptionPane.showConfirmDialog(null, "Description: " + ex);
