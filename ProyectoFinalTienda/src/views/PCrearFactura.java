@@ -144,10 +144,17 @@ public class PCrearFactura extends JPanel {
 					JOptionPane.showConfirmDialog(null, "La cantidad a vender es mayor a la disponible.");
 					return;
 				}else{
+					if(cantVender < 1) {
+						JOptionPane.showConfirmDialog(null, "Ingresa un numero mayor a cero.");
+						txtCantidadVender.setText("1");
+						return;
+					}
 					codigoAndIndex.put(componenteBuscado.getCodigo(), tblDetalleFactura.getRowCount());
 					detalleFactura.add(componenteBuscado);
 					updateTable();
 				}
+				
+
 				updateTotalFactura();
 				txtNombre.setText(null);
 				txtPrecio.setText(null);
