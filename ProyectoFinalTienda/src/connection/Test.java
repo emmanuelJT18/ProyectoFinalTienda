@@ -41,13 +41,15 @@ public class Test {
 		String velocidadProcesamiento = "velocidad_procesamiento";
 		String conexionesDiscosDuros = "conexiones_discos_duros";
 		
-		ComponenteDAO.addToComponentesList(id, codigo, numeroSerie, marca, modelo, precio, cantDisponible, cantMemoria, tipoConexion, velocidadProcesamiento, conexionesDiscosDuros, tipoMemoriaRAM);
 		Tienda.getInstance();
 		
 		ArrayList<Componente> comps = ComponenteDAO.loadComponentesData();
 		for(Componente c : comps) {
 			System.out.println(c.getCodigo());
 		}
+		
+		ComponenteDAO.searchComponenteById(1);
+		System.out.println(ClienteDAO.searchClientebyId(10).getNombre());
 	}
 
 }
