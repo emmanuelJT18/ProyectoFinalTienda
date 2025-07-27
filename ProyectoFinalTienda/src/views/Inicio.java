@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import connection.ConnectToDB;
 import views.compVisuales.BtnForSideMenu;
 
 import java.awt.GridLayout;
@@ -53,7 +54,6 @@ public class Inicio extends JFrame {
 					Inicio frame = new Inicio();
 					frame.setVisible(true);
 					frame.setLocationRelativeTo(null);
-					
 					System.out.println(pParentContainer.getLocationOnScreen());
 					System.out.println("Ancho: " + pParentContainer.getWidth());
 					System.out.println("Alto: " + pParentContainer.getHeight());
@@ -152,5 +152,6 @@ public class Inicio extends JFrame {
 		pParentContainer.setBackground(Color.BLUE);
 		pParentContainer.add(new PInicioView());
 		contentPane.add(pParentContainer, BorderLayout.CENTER);
+		ConnectToDB.getInstance();
 	}
 }
