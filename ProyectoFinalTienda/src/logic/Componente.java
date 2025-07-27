@@ -31,6 +31,10 @@ public abstract class Componente {
 		this.cantDisponible = cantDisponible;
 	}
 
+	public int getId() {
+		return id;
+	}
+
 	public String getNumeroSerie() {
 		return numeroSerie;
 	}
