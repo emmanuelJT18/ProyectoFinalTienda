@@ -17,7 +17,6 @@ public class Factura {
 		this.codigo = codigo;
 		this.cliente = cliente;
 		this.detalles = new ArrayList<DetalleFactura>();
-		this.fecha = LocalDateTime.now();
 		this.totalPagar = totalPagar;
 	}
 
@@ -26,7 +25,6 @@ public class Factura {
 		this.codigo = codigo;
 		this.cliente = cliente;
 		this.detalles = new ArrayList<DetalleFactura>();
-		this.fecha = LocalDateTime.now();
 		this.totalPagar = totalPagar;
 	}
 
