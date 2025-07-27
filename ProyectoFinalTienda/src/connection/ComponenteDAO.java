@@ -283,31 +283,34 @@ public class ComponenteDAO {
 	            return null;
 	        }
 	    }
-	
-	public static void addToComponentesList(int id, String codigo, String numeroSerie, String marca, String modelo, Double precio, int cantDisponible, String cantMemoria, String tipoConexion, String velocidadProcesamiento, String conexionesDiscosDuros, String tipoMemoriaRAM) {
-		if(codigo.contains("DD")) {
-			DiscoDuro dd = new DiscoDuro(id, codigo, numeroSerie, marca, modelo, precio, cantDisponible, tipoConexion, cantMemoria);
-			controller.getComponentes().add(dd);
-			System.out.println(DiscoDuro.class);
-			
-		} else if(codigo.contains("RAM")) {
-			MemoriaRam ram = new MemoriaRam(id, codigo, numeroSerie, marca, modelo, precio, cantDisponible, cantMemoria, velocidadProcesamiento, tipoMemoriaRAM);
-			controller.getComponentes().add(ram);
-			System.out.println(MemoriaRam.class);
-			
-		} else if(codigo.contains("MP")) {
-			MicroProcesador mp = new MicroProcesador(id, codigo, numeroSerie, marca, modelo, precio, cantDisponible, tipoConexion, velocidadProcesamiento);
-			controller.getComponentes().add(mp);
-			System.out.println(MicroProcesador.class);
-			
-		} else if(codigo.contains("TM")) {
-			TarjetaMadre tm = new TarjetaMadre(id, codigo, numeroSerie, marca, modelo, precio, cantDisponible, tipoConexion, tipoMemoriaRAM, conexionesDiscosDuros);
-			controller.getComponentes().add(tm);
-			System.out.println(TarjetaMadre.class);
-
-		} else {
-			System.out.println("Codigo no para agregar al componente a la lista es desconocido");
+	public static Componente searchComponenteById(int id) {
+		Componente componente = null;
+		String query = "SELECT * FROM componentes WHERE id = ?";
+		try (PreparedStatement stmt = connection.prepareStatement(query)){
+			stmt.setInt(1, id);
+			try(ResultSet rs = stmt.executeQuery()) {
+				if(rs.next()) {
+					String numeroSerie = rs.getString("numero_serie");
+					String codigo = rs.getString("codigo");
+					String marca = rs.getString("marca");
+					String modelo = rs.getString("modelo");
+					Double precio = rs.getDouble("precio");
+					int cantDisponible = rs.getInt("cant_disponible");
+					String cantMemoria = rs.getString("cant_memoria");
+					String tipoConexion = rs.getString("tipo_conexion");
+					String tipoMemoriaRAM = rs.getString("tipo_memoria_ram");
+					String velocidadProcesamiento = rs.getString("velocidad_procesamiento");
+					String conexionesDiscosDuros = rs.getString("conexiones_discos_duros");
+					
+					componente = createComponentesFromTableData(id, codigo, numeroSerie, marca, modelo, precio, cantDisponible, cantMemoria, tipoConexion, velocidadProcesamiento, conexionesDiscosDuros, tipoMemoriaRAM);
+					System.out.println(componente.getMarca());
+				}
+			}
+					
+		} catch (Exception ex) {
+			ex.printStackTrace();
 		}
-		
+		return componente;
 	}
+
 }
