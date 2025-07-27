@@ -60,6 +60,28 @@ public class ClienteDAO {
 		return cliente;
 	}
 	
+	public static Cliente searchClientebyId(int id) {
+		Cliente cliente = null;
+		String query = "SELECT * FROM clientes WHERE id = ?";
+		
+		try(PreparedStatement stmt = connection.prepareStatement(query)){
+			stmt.setInt(1, id);
+			try(ResultSet resultSet = stmt.executeQuery()){
+				if(resultSet.next()) {
+					String codigo = resultSet.getString("codigo");
+					String nombre = resultSet.getString("nombre");
+					String direccion = resultSet.getString("direccion");
+					String telefono = resultSet.getString("telefono");
+					cliente = new Cliente(id, codigo, nombre, telefono, direccion);
+				}
+			}
+			
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		return cliente;
+	}
+	
 	public static void createCliente(Cliente cliente) {
 		String query = "INSERT INTO clientes (codigo, nombre, direccion, telefono) VALUES (?, ?, ?, ?)";
 		
