@@ -102,7 +102,7 @@ public class PComponenteView extends JPanel {
 				} else if (com instanceof MicroProcesador) {
 					dg = new DGVerMicroProcesadores((MicroProcesador) com,PComponenteView.this);
 				} else if (com instanceof TarjetaMadre) {
-					dg = new DGVerTarjetaMadre((TarjetaMadre) com);
+					dg = new DGVerTarjetaMadre((TarjetaMadre) com, PComponenteView.this);
 				}
 				dg.setLocationRelativeTo(null);
 				dg.setModal(true);
