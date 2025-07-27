@@ -98,7 +98,7 @@ public class PComponenteView extends JPanel {
 				if(com instanceof DiscoDuro) {
 					 dg = new DGVerDiscoDuro((DiscoDuro) com, PComponenteView.this);
 				} else if (com instanceof MemoriaRam) {
-					 dg = new DGVerMemoriaRam((MemoriaRam) com);
+					 dg = new DGVerMemoriaRam((MemoriaRam) com, PComponenteView.this);
 				} else if (com instanceof MicroProcesador) {
 					dg = new DGVerMicroProcesadores((MicroProcesador) com,PComponenteView.this);
 				} else if (com instanceof TarjetaMadre) {

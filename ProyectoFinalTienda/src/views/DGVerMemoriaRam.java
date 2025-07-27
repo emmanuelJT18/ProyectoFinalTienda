@@ -8,6 +8,7 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import connection.ComponenteDAO;
 import logic.MemoriaRam;
 
 import javax.swing.JLabel;
@@ -30,14 +31,17 @@ public class DGVerMemoriaRam extends JDialog {
 	private JTextField txtMarca;
 	private JTextField txtCantMemoria;
 	private JTextField txtVelocidadProcesamiento;
+	private JTextField txtTipoRam;
 	private MemoriaRam ram;
+	private PComponenteView componenteView;
+	private boolean editable = false;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		try {
-			DGVerMemoriaRam dialog = new DGVerMemoriaRam(null);
+			DGVerMemoriaRam dialog = new DGVerMemoriaRam(null, null);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -48,9 +52,10 @@ public class DGVerMemoriaRam extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public DGVerMemoriaRam(MemoriaRam ram) {
+	public DGVerMemoriaRam(MemoriaRam ram, PComponenteView componenteView) {
+		this.componenteView = componenteView;
 		this.ram = ram;
-		setBounds(100, 100, 598, 433);
+		setBounds(100, 100, 676, 487);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -139,26 +144,38 @@ public class DGVerMemoriaRam extends JDialog {
 			{
 				JLabel lblCantMemoria = new JLabel("Cant. Memoria");
 				lblCantMemoria.setFont(new Font("Tahoma", Font.BOLD, 15));
-				lblCantMemoria.setBounds(15, 233, 109, 16);
+				lblCantMemoria.setBounds(12, 274, 109, 16);
 				pParentPanel.add(lblCantMemoria);
 			}
 			{
 				txtCantMemoria = new JTextField();
 				txtCantMemoria.setColumns(10);
-				txtCantMemoria.setBounds(139, 228, 201, 22);
+				txtCantMemoria.setBounds(136, 269, 201, 22);
 				pParentPanel.add(txtCantMemoria);
 			}
 			{
 				JLabel lblVelocidad_Prose = new JLabel("Velocidad de Procesamiento");
 				lblVelocidad_Prose.setFont(new Font("Tahoma", Font.BOLD, 15));
-				lblVelocidad_Prose.setBounds(15, 266, 221, 16);
+				lblVelocidad_Prose.setBounds(12, 307, 221, 16);
 				pParentPanel.add(lblVelocidad_Prose);
 			}
 			{
 				txtVelocidadProcesamiento = new JTextField();
 				txtVelocidadProcesamiento.setColumns(10);
-				txtVelocidadProcesamiento.setBounds(251, 261, 89, 22);
+				txtVelocidadProcesamiento.setBounds(248, 302, 89, 22);
 				pParentPanel.add(txtVelocidadProcesamiento);
+			}
+			{
+				JLabel label = new JLabel("Tipo de RAM");
+				label.setFont(new Font("Tahoma", Font.BOLD, 15));
+				label.setBounds(15, 232, 101, 16);
+				pParentPanel.add(label);
+			}
+			{
+				txtTipoRam = new JTextField();
+				txtTipoRam.setColumns(10);
+				txtTipoRam.setBounds(136, 234, 77, 22);
+				pParentPanel.add(txtTipoRam);
 			}
 		}
 		{
@@ -169,8 +186,14 @@ public class DGVerMemoriaRam extends JDialog {
 				JButton btnEdit = new JButton("Editar ");
 				btnEdit.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
-						
-						
+						editable = !editable;
+						if(editable) {
+							btnEdit.setText("Guardar Cambios");
+						} else {
+							btnEdit.setText("Editar");
+							updateInfo();
+						}
+						setCamposEditable(editable);
 					}
 				});
 				btnEdit.setActionCommand("OK");
@@ -183,9 +206,48 @@ public class DGVerMemoriaRam extends JDialog {
 				buttonPane.add(cancelButton);
 			}
 		}
+		setCamposEditable(false);
 		loadData();
 	}
 	
+	private void setCamposEditable(boolean editable) {
+		txtIDComponente.setEditable(editable);
+		txtNumeroSerie.setEditable(editable);           
+		txtPrecio.setEditable(editable);                 
+		txtCantDisponible.setEditable(editable);         
+		txtModelo.setEditable(editable);                 
+		txtMarca.setEditable(editable);                  
+		txtCantMemoria.setEditable(editable);            
+		txtVelocidadProcesamiento.setEditable(editable); 
+		txtTipoRam.setEditable(editable);                
+	}
+	
+	private void updateInfo() {
+		try {
+			String numeroSerie = txtNumeroSerie.getText();             
+			Double precio = Double.parseDouble(txtPrecio.getText());                   
+			int cantDisponible = Integer.parseInt(txtCantDisponible.getText());           
+			String modelo = txtModelo.getText();                 
+			String marca = txtMarca.getText();                   
+			String cantMemoria = txtCantMemoria.getText();              
+			String velocidadProcesamiento = txtVelocidadProcesamiento.getText(); 
+			String tipoRam = txtTipoRam.getText();
+			
+			ram.setNumeroSerie(numeroSerie);
+			ram.setPrecio(precio);
+			ram.setCantDisponible(cantDisponible);
+			ram.setModelo(modelo);
+			ram.setMarca(marca);
+			ram.setCantMemoria(cantMemoria);
+			ram.setVelocidadProcesamiento(velocidadProcesamiento);
+			ram.setTipoMemoriaRAM(tipoRam);
+			
+			ComponenteDAO.updateMemoriaRam(ram);
+			componenteView.updateTable();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
 	private void loadData() {
 		this.txtCantDisponible.setText(String.valueOf(ram.getCantDisponible()));
 		this.txtCantMemoria.setText(ram.getCantMemoria());
@@ -195,6 +257,7 @@ public class DGVerMemoriaRam extends JDialog {
 		this.txtNumeroSerie.setText(ram.getNumeroSerie());
 		this.txtPrecio.setText(String.valueOf(ram.getPrecio()));
 		this.txtVelocidadProcesamiento.setText(ram.getVelocidadProcesamiento());
+		this.txtTipoRam.setText(ram.getTipoMemoriaRAM());
 	}
 }
 

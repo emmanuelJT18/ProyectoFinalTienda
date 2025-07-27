@@ -199,6 +199,28 @@ public class ComponenteDAO {
 		}
 	}
 	
+	public static void updateMemoriaRam(MemoriaRam ram) {
+		String query = "UPDATE componentes SET codigo = ?, numero_serie = ?, marca = ?, modelo = ?, precio = ?, cant_disponible = ?, tipo_memoria_ram = ?, velocidad_procesamiento = ?, cant_memoria = ?"
+				+ "WHERE codigo = ?";
+		try(PreparedStatement stmt = connection.prepareStatement(query)){
+			stmt.setString(1, ram.getCodigo());
+			stmt.setString(2, ram.getNumeroSerie());
+			stmt.setString(3, ram.getMarca());
+			stmt.setString(4, ram.getModelo());
+			stmt.setDouble(5, ram.getPrecio());
+			stmt.setInt(6, ram.getCantDisponible());
+			stmt.setString(7, ram.getTipoMemoriaRAM());
+			stmt.setString(8, ram.getVelocidadProcesamiento());
+			stmt.setString(9, ram.getCantMemoria());
+			stmt.setString(10, ram.getCodigo());
+			
+			int rowsUpdated = stmt.executeUpdate();
+			if(rowsUpdated > 0) System.out.println("Memoria Ram actualizada");
+		}catch(Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+	
 	public static Componente createComponentesFromTableData(int id, String codigo, String numeroSerie, String marca, String modelo,
 			Double precio, int cantDisponible, String cantMemoria, String tipoConexion,
 	        String velocidadProcesamiento, String conexionesDiscosDuros, String tipoMemoriaRAM) {
@@ -216,8 +238,6 @@ public class ComponenteDAO {
 	            return null;
 	        }
 	    }
-	
-
 	
 	public static void addToComponentesList(int id, String codigo, String numeroSerie, String marca, String modelo, Double precio, int cantDisponible, String cantMemoria, String tipoConexion, String velocidadProcesamiento, String conexionesDiscosDuros, String tipoMemoriaRAM) {
 		if(codigo.contains("DD")) {
