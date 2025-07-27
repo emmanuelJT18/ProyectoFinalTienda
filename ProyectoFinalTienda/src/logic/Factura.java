@@ -1,0 +1,75 @@
+package logic;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+
+public class Factura {
+	private int id;
+	private String codigo;
+	private Cliente cliente;
+	private ArrayList<DetalleFactura> detalles;
+	private LocalDateTime fecha;
+	private double totalPagar;
+	
+	public Factura(int id, String codigo, Cliente cliente, double totalPagar) {
+		super();
+		this.id = id;
+		this.codigo = codigo;
+		this.cliente = cliente;
+		this.detalles = new ArrayList<DetalleFactura>();
+		this.fecha = LocalDateTime.now();
+		this.totalPagar = totalPagar;
+	}
+
+	public Factura(String codigo, Cliente cliente, double totalPagar) {
+		super();
+		this.codigo = codigo;
+		this.cliente = cliente;
+		this.detalles = new ArrayList<DetalleFactura>();
+		this.fecha = LocalDateTime.now();
+		this.totalPagar = totalPagar;
+	}
+
+	public Cliente getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
+	}
+
+	public ArrayList<DetalleFactura> getDetalles() {
+		return detalles;
+	}
+
+	public void setDetalles(ArrayList<DetalleFactura> detalles) {
+		this.detalles = detalles;
+	}
+
+	public LocalDateTime getFecha() {
+		return fecha;
+	}
+
+	public void setFecha(LocalDateTime fecha) {
+		this.fecha = fecha;
+	}
+
+	public double getTotalPagar() {
+		return totalPagar;
+	}
+
+	public void setTotalPagar(double totalPagar) {
+		this.totalPagar = totalPagar;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public String getCodigo() {
+		return codigo;
+	}
+	
+	
+
+}
