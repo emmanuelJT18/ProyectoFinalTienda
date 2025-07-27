@@ -25,7 +25,7 @@ public class Tienda {
 	private Tienda() {
 		componentes = new ArrayList<Componente>();
 		clientes = new ArrayList<Cliente>();
-		LOADdata();
+		//LOADdata();
 		getCountOfEachComponente();
 	}
 	
@@ -75,12 +75,9 @@ public class Tienda {
 	}
 	
 	public Componente searchComponente(String codigo) {
-		for(Componente componente : this.componentes) {
-			if(componente.getCodigo().equalsIgnoreCase(codigo)) {
-				return componente;
-			}
-		}
-		return null;
+		Componente componente = ComponenteDAO.searchComponente(codigo.toUpperCase());
+		if(componente == null) return null;
+		return componente;
 	}
 	
 	public void addCliente(Cliente cliente) {

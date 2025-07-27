@@ -49,6 +49,35 @@ public class ComponenteDAO {
 		return componentes;
 	}
 
+	public static Componente searchComponente(String codigo) {
+		Componente componente = null;
+		String query = "SELECT * FROM componentes WHERE codigo = ?";
+		try (PreparedStatement stmt = connection.prepareStatement(query)){
+			stmt.setString(1, codigo);
+			try(ResultSet rs = stmt.executeQuery()) {
+				if(rs.next()) {
+					int id = rs.getInt("id");
+					String numeroSerie = rs.getString("numero_serie");
+					String marca = rs.getString("marca");
+					String modelo = rs.getString("modelo");
+					Double precio = rs.getDouble("precio");
+					int cantDisponible = rs.getInt("cant_disponible");
+					String cantMemoria = rs.getString("cant_memoria");
+					String tipoConexion = rs.getString("tipo_conexion");
+					String tipoMemoriaRAM = rs.getString("tipo_memoria_ram");
+					String velocidadProcesamiento = rs.getString("velocidad_procesamiento");
+					String conexionesDiscosDuros = rs.getString("conexiones_discos_duros");
+					
+					componente = createComponentesFromTableData(id, codigo, numeroSerie, marca, modelo, precio, cantDisponible, cantMemoria, tipoConexion, velocidadProcesamiento, conexionesDiscosDuros, tipoMemoriaRAM);
+				}
+			}
+					
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		return componente;
+	}
+	
 	public static void insertDiscoDuro(DiscoDuro dd) {
 		String query = "INSERT INTO componentes (codigo, numero_serie, marca, modelo, precio, cant_disponible, tipo_conexion, tipo_memoria_ram)"
 				+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
