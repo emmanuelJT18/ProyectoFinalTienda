@@ -16,6 +16,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import connection.ComponenteDAO;
 import logic.Componente;
 import logic.DiscoDuro;
 import logic.MemoriaRam;
@@ -27,6 +28,7 @@ import java.awt.BorderLayout;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.DefaultComboBoxModel;
 
 public class PComponenteView extends JPanel {
@@ -86,6 +88,15 @@ public class PComponenteView extends JPanel {
 
 			@Override
 			public void onDelete(int row) {
+				DefaultTableModel model = (DefaultTableModel) getTableModel();
+				if(row != -1) {
+					model.removeRow(row);
+				}else {
+				    JOptionPane.showMessageDialog(null, "Por favor seleciona correctamente la fila que deseas eliminar.");
+				}
+				String codigo = (String) table.getValueAt(row, 0);
+				ComponenteDAO.deleteComponente(codigo);
+				updateTable();
 				System.out.println("Delete Componente on row: "+row);
 				// TODO Auto-generated method stub
 				

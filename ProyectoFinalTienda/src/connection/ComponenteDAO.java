@@ -221,6 +221,22 @@ public class ComponenteDAO {
 		}
 	}
 	
+	public static void deleteComponente(String codigo) {
+		String query = "DELETE FROM componentes WHERE codigo = ?";
+		try(PreparedStatement stmt = connection.prepareStatement(query)){
+			stmt.setString(1, codigo);
+			
+			int rowsDeleted = stmt.executeUpdate();
+			if(rowsDeleted > 0) {
+				System.out.println("Componente deleted WEPAA");
+			}else {
+				System.out.println("Componente con el codigo: "+codigo+" no ha sido encontrado");
+			}
+		}catch(Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+	
 	public static Componente createComponentesFromTableData(int id, String codigo, String numeroSerie, String marca, String modelo,
 			Double precio, int cantDisponible, String cantMemoria, String tipoConexion,
 	        String velocidadProcesamiento, String conexionesDiscosDuros, String tipoMemoriaRAM) {

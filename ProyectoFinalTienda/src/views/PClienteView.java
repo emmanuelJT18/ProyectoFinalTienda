@@ -101,7 +101,7 @@ public class PClienteView extends JPanel {
 				if (row != -1) { // -1 = there's no selected row 
 				    model.removeRow(row);
 				} else {
-				    JOptionPane.showMessageDialog(null, "Please select a row to delete.");
+				    JOptionPane.showMessageDialog(null, "Por favor seleciona correctamente la fila que deseas eliminar.");
 				}
 				String codigo = (String) tblClientes.getValueAt(row, 0);
 				ClienteDAO.deleteCliente(codigo);
