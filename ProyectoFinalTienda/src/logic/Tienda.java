@@ -85,12 +85,9 @@ public class Tienda {
 	}
 	
 	public Cliente searchCliente(String codigo) {
-		for(Cliente cliente : this.clientes) {
-			if(cliente.getCodigo().equalsIgnoreCase(codigo)) {
-				return cliente;
-			}
-		}
-		return null;
+		Cliente cliente = ClienteDAO.searchCliente(codigo.toUpperCase());
+		if(cliente == null) return null;
+		return cliente;
 	}
 	
 	public void LOADdata() {
