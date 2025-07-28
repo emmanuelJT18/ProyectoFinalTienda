@@ -352,7 +352,7 @@ public class PCrearFactura extends JPanel {
 			JOptionPane.showConfirmDialog(null, "Inserta los datos requeridos para facturar");
 			return;
 		}
-		Factura factura = new Factura(controller.generateCodigo(), clienteBuscado, totalFactura);
+		Factura factura = new Factura(controller.genCodigoFactura(), clienteBuscado, totalFactura);
 		controller.createFactura(factura);
 		cleanFields();
 	}

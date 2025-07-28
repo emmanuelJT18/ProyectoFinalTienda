@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import logic.Cliente;
 import logic.Componente;
+import logic.DetalleFactura;
 import logic.Factura;
 import logic.Tienda;
 
@@ -24,6 +25,29 @@ public class Test {
 		//cd.loadClientesData();
 		
 		Cliente cliente = ClienteDAO.searchClientebyId(2);
+		Factura factura = FacturaDAO.searchFacturaById(7);
+		System.out.println(factura.getId());
+		System.out.println(factura.getCodigo());
+		System.out.println(factura.getCliente().getNombre());
+		System.out.println(factura.getTotalPagar());
+		/*
+		Componente componente = ComponenteDAO.searchComponenteById(1);
+		DetalleFactura df = new DetalleFactura(factura.getId(), componente, 0.1, 5, 1000.0);
+		DetalleFacuraDAO.insertDetalleFactura(df);
+		DetalleFacuraDAO.insertDetalleFactura(df);
+		DetalleFacuraDAO.insertDetalleFactura(df);
+		ArrayList<DetalleFactura> detalles = DetalleFacuraDAO.loadDetalleFacturasData(7);
+		for(DetalleFactura detalle : detalles) {
+			System.out.println();
+			System.out.println(detalle.getId());
+			System.out.println(detalle.getFacturaId());
+			System.out.println(detalle.getComponente().getCodigo());
+			System.out.println(detalle.getDescuento()*100);
+			System.out.println(detalle.getCantidadVendida());
+			System.out.println(detalle.getTotal());
+			System.out.println();
+		}*/
+		
 		//ClienteDAO.createCliente(cliente);
 		//cliente.setNombre("Juanito Pedro");
 		//ClienteDAO.updateCliente(cliente);

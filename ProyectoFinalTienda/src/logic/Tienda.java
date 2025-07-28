@@ -93,9 +93,10 @@ public class Tienda {
 	
 	public void createFactura(Factura factura) {
 		FacturaDAO.insertFactura(factura);
+		factura.setId(FacturaDAO.getLastId());
 	}
 	
-	public String generateCodigo() {
+	public String genCodigoFactura() {
 		return Factura.getPrefix()+(FacturaDAO.getLastId() + 1);
 	}
 	public void LOADdata() {
