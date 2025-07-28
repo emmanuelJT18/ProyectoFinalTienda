@@ -150,8 +150,9 @@ public class DGCrearCliente extends JDialog {
 			ClienteDAO.createCliente(newCliente);
 			controller.addCliente(newCliente);
 			//String test = controller.getClientes().get(controller.getClientes().size()-1).getId();
-			clienteView.updateTable();
 			JOptionPane.showConfirmDialog(null, "El cliente se ha creado correctamente.");
+			clienteView.updateTable();
+
 		}catch(Exception ex) {
 			JOptionPane.showConfirmDialog(null, ex.getStackTrace());
 		}
