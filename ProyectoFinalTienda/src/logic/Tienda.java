@@ -9,6 +9,8 @@ import connection.FacturaDAO;
 public class Tienda {
 	private ArrayList<Componente> componentes;
 	private ArrayList<Cliente> clientes;
+	private ArrayList<Factura> facturas;
+	private ArrayList<DetalleFactura> detalles;
 	private static Tienda uniqueInstance;
 	private int cantMemoriasRam = 0;
 	private int cantTarjetasMadre = 0;
@@ -26,10 +28,30 @@ public class Tienda {
 	private Tienda() {
 		componentes = new ArrayList<Componente>();
 		clientes = new ArrayList<Cliente>();
+		facturas = new ArrayList<Factura>();
+		detalles = new ArrayList<DetalleFactura>();
 		//LOADdata();
 		getCountOfEachComponente();
 	}
 	
+	
+	
+	public ArrayList<Factura> getFacturas() {
+		return facturas;
+	}
+
+	public void setFacturas(ArrayList<Factura> facturas) {
+		this.facturas = facturas;
+	}
+
+	public ArrayList<DetalleFactura> getDetalles() {
+		return detalles;
+	}
+
+	public void setDetalles(ArrayList<DetalleFactura> detalles) {
+		this.detalles = detalles;
+	}
+
 	public ArrayList<Componente> getComponentes() {
 		componentes = ComponenteDAO.loadComponentesData();
 		return componentes;
