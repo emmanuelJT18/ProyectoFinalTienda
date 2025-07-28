@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import logic.Cliente;
 import logic.Componente;
+import logic.Factura;
 import logic.Tienda;
 
 public class Test {
@@ -22,12 +23,12 @@ public class Test {
 		//ConnectToDB conn = ConnectToDB.getInstance();
 		//cd.loadClientesData();
 		
-		Cliente cliente = new Cliente(5,"test", "test", "test", "test");
+		Cliente cliente = ClienteDAO.searchClientebyId(2);
 		//ClienteDAO.createCliente(cliente);
 		//cliente.setNombre("Juanito Pedro");
 		//ClienteDAO.updateCliente(cliente);
 		//ClienteDAO.deleteCliente("test");
-		
+		/*
 		int id = 1;
 		String codigo = "001";
 		String numeroSerie = "numero_serie";
@@ -50,6 +51,12 @@ public class Test {
 		
 		ComponenteDAO.searchComponenteById(1);
 		System.out.println(ClienteDAO.searchClientebyId(10).getNombre());
+		*/
+		/*
+		Factura factura = new Factura(Tienda.generateCodigo(), cliente, 12000);
+		FacturaDAO.insertFactura(factura);
+		System.out.println("MaxID ===========> "+FacturaDAO.getLastId());
+		*/
 	}
 
 }

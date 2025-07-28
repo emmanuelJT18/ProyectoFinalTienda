@@ -35,4 +35,36 @@ public class FacturaDAO {
 		
 		return facturas;
 	}
+	
+	
+	public static void insertFactura(Factura factura) {
+		String query = "INSERT INTO facturas (codigo, cliente_id, total) VALUES (?, ?, ?)";
+		try(PreparedStatement stmt = connection.prepareStatement(query)){
+			stmt.setString(1, factura.getCodigo());
+			stmt.setInt(2, factura.getCliente().getId());
+			stmt.setDouble(3, factura.getTotalPagar());
+			
+			int rowsInserted = stmt.executeUpdate();
+			if(rowsInserted > 0) System.out.println("Factura insertada WEPAAA");
+		}catch(Exception ex) {
+			ex.printStackTrace();
+		}
+
+	}
+	
+	public static int getLastId() {
+		String query = "SELECT MAX(id) FROM facturas";
+		int id = 0;
+		try(PreparedStatement stmt = connection.prepareStatement(query);
+			ResultSet rs = stmt.executeQuery();
+		){
+			if(rs.next()) {
+				id = rs.getInt(1);
+			}
+		} catch(Exception ex) {
+			ex.printStackTrace();
+		}
+		
+		return id;
+	}
 }

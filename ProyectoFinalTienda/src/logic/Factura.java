@@ -3,7 +3,10 @@ package logic;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+import connection.FacturaDAO;
+
 public class Factura {
+	private final static String prefix = "F-";
 	private int id;
 	private String codigo;
 	private Cliente cliente;
@@ -27,7 +30,11 @@ public class Factura {
 		this.detalles = new ArrayList<DetalleFactura>();
 		this.totalPagar = totalPagar;
 	}
-
+	
+	public static String getPrefix() {
+		return prefix;
+	}
+	
 	public Cliente getCliente() {
 		return cliente;
 	}
@@ -68,6 +75,4 @@ public class Factura {
 		return codigo;
 	}
 	
-	
-
 }

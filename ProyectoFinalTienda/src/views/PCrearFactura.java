@@ -6,6 +6,7 @@ import javax.swing.JScrollPane;
 import logic.Cliente;
 import logic.Componente;
 import logic.DiscoDuro;
+import logic.Factura;
 import logic.Tienda;
 import logic.Utilidad;
 import views.compVisuales.LblMenuTab;
@@ -51,6 +52,8 @@ public class PCrearFactura extends JPanel {
 	/**
 	 * Create the panel.
 	 */
+	
+
 	
 	public PCrearFactura() {
 		totalFactura = 0.0;
@@ -268,6 +271,11 @@ public class PCrearFactura extends JPanel {
 		add(lblTotalValue);
 		
 		JButton btnFacturar = new JButton("Facturar");
+		btnFacturar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				createFactura();
+			}
+		});
 		btnFacturar.setBackground(Color.GREEN);
 		btnFacturar.setBounds(755, 633, 313, 54);
 		add(btnFacturar);
@@ -304,6 +312,7 @@ public class PCrearFactura extends JPanel {
 		for(int rowIndex = 0; rowIndex < tblDetalleFactura.getRowCount(); rowIndex++) {
 			total += (double) tblDetalleFactura.getValueAt(rowIndex, colIndex);
 		}
+		totalFactura = total;
 		lblTotalValue.setText(String.valueOf(total));
 	}
 	/*
@@ -336,6 +345,30 @@ public class PCrearFactura extends JPanel {
 			model.addRow(row);
 		}*/
 		return model;
+	}
+	
+	private void createFactura() {
+		if(tblDetalleFactura.getRowCount() < 1 || clienteBuscado == null) {
+			JOptionPane.showConfirmDialog(null, "Inserta los datos requeridos para facturar");
+			return;
+		}
+		Factura factura = new Factura(controller.generateCodigo(), clienteBuscado, totalFactura);
+		controller.createFactura(factura);
+		cleanFields();
+	}
+	
+	public void cleanFields() {
+		txtIdComponente.setText("");     
+		txtNombreCliente.setText("");      
+		txtClienteDireccion.setText("");
+		txtCantidadVender.setText("0");
+		txtIdCliente.setText("");
+		detalleFactura = new ArrayList<Componente>();
+		codigoAndIndex = new HashMap<String, Integer>();
+		clienteBuscado = null;
+		totalFactura = 0.0;
+		lblTotalValue.setText("$0.00");
+		tblDetalleFactura.setModel(getTableModel());
 	}
 	
 	private void updateTable() {

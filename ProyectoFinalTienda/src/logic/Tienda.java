@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import connection.ClienteDAO;
 import connection.ComponenteDAO;
+import connection.FacturaDAO;
 
 public class Tienda {
 	private ArrayList<Componente> componentes;
@@ -79,7 +80,7 @@ public class Tienda {
 		if(componente == null) return null;
 		return componente;
 	}
-	
+
 	public void addCliente(Cliente cliente) {
 		clientes.add(cliente);
 	}
@@ -90,6 +91,13 @@ public class Tienda {
 		return cliente;
 	}
 	
+	public void createFactura(Factura factura) {
+		FacturaDAO.insertFactura(factura);
+	}
+	
+	public String generateCodigo() {
+		return Factura.getPrefix()+(FacturaDAO.getLastId() + 1);
+	}
 	public void LOADdata() {
 		    DiscoDuro dd1 = new DiscoDuro("DD001", "SN1234", "Seagate", "Barracuda", 1200.0, 10, "SATA", "1TB");
 	        DiscoDuro dd2 = new DiscoDuro("DD002", "SN5678", "Western Digital", "Blue", 1350.0, 3, "SATA", "2TB");
@@ -134,5 +142,7 @@ public class Tienda {
 	        clientes.add(c6);
 	        
 	}
+	
+	
 
 }
