@@ -14,12 +14,13 @@ public class Factura {
 	private LocalDateTime fecha;
 	private double totalPagar;
 	
-	public Factura(int id, String codigo, Cliente cliente, double totalPagar) {
+	public Factura(int id, String codigo, Cliente cliente, double totalPagar, LocalDateTime fecha) {
 		super();
 		this.id = id;
 		this.codigo = codigo;
 		this.cliente = cliente;
 		this.detalles = new ArrayList<DetalleFactura>();
+		this.fecha = fecha;
 		this.totalPagar = totalPagar;
 	}
 
