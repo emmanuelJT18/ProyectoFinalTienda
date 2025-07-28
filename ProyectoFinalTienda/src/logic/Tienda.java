@@ -37,6 +37,7 @@ public class Tienda {
 	
 	
 	public ArrayList<Factura> getFacturas() {
+		facturas = FacturaDAO.loadFacturasData();
 		return facturas;
 	}
 
