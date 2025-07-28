@@ -1,8 +1,12 @@
 package connection;
 
+import java.sql.Timestamp;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import logic.Cliente;
@@ -22,11 +26,12 @@ public class FacturaDAO {
 			while(rs.next()) {
 				int id = rs.getInt("id");
 				String codigo = rs.getString("codigo");
-				String clienteId = rs.getString("cliente_id");
-				Cliente cliente = ClienteDAO.searchCliente(clienteId);
-				Double totalPagar = rs.getDouble("total_pagar");
-
-				Factura factura = new Factura(id, codigo, cliente, totalPagar);
+				int clienteId = rs.getInt("cliente_id");
+				Cliente cliente = ClienteDAO.searchClientebyId(clienteId);
+				Double totalPagar = rs.getDouble("total");
+				Timestamp ts = rs.getTimestamp("created_at");
+				LocalDateTime fecha = ts.toLocalDateTime();
+				Factura factura = new Factura(id, codigo, cliente, totalPagar, fecha);
 				facturas.add(factura);
 			}
 		}catch (Exception ex) {
@@ -47,7 +52,9 @@ public class FacturaDAO {
 					int cliente_id = rs.getInt("cliente_id");
 					Cliente cliente = ClienteDAO.searchClientebyId(cliente_id);
 					double totalPagar = rs.getDouble("total");
-					return new Factura(id, codigo, cliente, totalPagar);
+					Timestamp ts = rs.getTimestamp("created_at");
+					LocalDateTime fecha = ts.toLocalDateTime();
+					return new Factura(id, codigo, cliente, totalPagar, fecha);
 				}
 			}
 		} catch (Exception ex) {
