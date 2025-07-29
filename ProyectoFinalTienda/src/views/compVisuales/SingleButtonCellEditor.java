@@ -9,6 +9,7 @@ import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JTable;
+import javax.swing.SwingUtilities;
 
 public class SingleButtonCellEditor extends DefaultCellEditor {
 	private JButton button;
@@ -37,9 +38,8 @@ public class SingleButtonCellEditor extends DefaultCellEditor {
 	
 	@Override
 	public Object getCellEditorValue() {
-		if(onClick != null) {
-			onClick.accept(row);
-		}
+		final int currentRow = row;
+		SwingUtilities.invokeLater(() -> onClick.accept(currentRow));
 		return null;
 	}
 	

@@ -397,11 +397,18 @@ public class PCrearFactura extends JPanel {
 		};
 		tblDetalleFactura.getColumnModel().getColumn(btnCol).setCellRenderer(new SingleButtonCellRenderer("eliminar"));
 		tblDetalleFactura.getColumnModel().getColumn(btnCol).setCellEditor(
-				new SingleButtonCellEditor("eliminar", row -> {
-					System.out.println("Botón presionado en la fila: " + row);
-				})
+				new SingleButtonCellEditor("Eliminar", row -> {
+			        DefaultTableModel model = (DefaultTableModel) tblDetalleFactura.getModel();
+			        if (row >= 0 && row < model.getRowCount()) {
+						String codigoComponente = (String) tblDetalleFactura.getValueAt(row, 0);
+						codigoAndIndex.remove(codigoComponente);
+			            model.removeRow(row);
+			        }
+			    })
 		);
 		updatedModel.addRow(rowData);
 		tblDetalleFactura.setModel(updatedModel);
 	}
+	
+	private void eliminateRow(int row) {}
 }
