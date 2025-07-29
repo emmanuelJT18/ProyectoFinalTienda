@@ -13,6 +13,7 @@ import javax.swing.table.DefaultTableModel;
 
 import logic.DetalleFactura;
 import connection.DetalleFacturaDAO;
+import connection.FacturaDAO;
 import logic.Factura;
 
 import javax.swing.JLabel;
@@ -56,7 +57,7 @@ public class DGVerDetalleFactura extends JDialog {
 		
 		JPanel pData = new JPanel();
 		pData.setLayout(null);
-		pData.setBounds(28, 33, 639, 191);
+		pData.setBounds(28, 33, 639, 152);
 		contentPanel.add(pData);
 		
 		JLabel lblFacturaId = new JLabel("Cod. Factura");
@@ -78,17 +79,6 @@ public class DGVerDetalleFactura extends JDialog {
 		txtClienteNombre.setColumns(10);
 		txtClienteNombre.setBounds(69, 69, 239, 22);
 		pData.add(txtClienteNombre);
-		
-		JLabel lblTotal = new JLabel("Total");
-		lblTotal.setBounds(13, 114, 111, 16);
-		pData.add(lblTotal);
-		
-		txtTotal = new JTextField();
-		txtTotal.setEnabled(true);
-		txtTotal.setEditable(false);
-		txtTotal.setColumns(10);
-		txtTotal.setBounds(69, 111, 160, 22);
-		pData.add(txtTotal);
 		
 		txtFecha = new JTextField();
 		txtFecha.setBounds(431, 28, 196, 22);
@@ -113,9 +103,20 @@ public class DGVerDetalleFactura extends JDialog {
 		
 		tblDetalleFactura = new JTable(getTableModel());
 		JScrollPane scrollPane = new JScrollPane(tblDetalleFactura);
-		scrollPane.setBounds(28, 264, 874, 259);
+		scrollPane.setBounds(28, 198, 874, 259);
 		
 		contentPanel.add(scrollPane);
+		
+		JLabel lblTotal = new JLabel("Total");
+		lblTotal.setBounds(28, 495, 111, 16);
+		contentPanel.add(lblTotal);
+		
+		txtTotal = new JTextField();
+		txtTotal.setBounds(84, 492, 160, 22);
+		contentPanel.add(txtTotal);
+		txtTotal.setEnabled(true);
+		txtTotal.setEditable(false);
+		txtTotal.setColumns(10);
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -126,6 +127,8 @@ public class DGVerDetalleFactura extends JDialog {
 				buttonPane.add(cancelButton);
 			}
 		}
+		
+		fillFields();
 	}
 	
 	public ArrayList<DetalleFactura> getDetalles() {
@@ -143,14 +146,21 @@ public class DGVerDetalleFactura extends JDialog {
 	public void setFactura(Factura factura) {
 		this.factura = factura;
 	}
-
+	
+	private void fillFields() {
+		txtCodigoFactura.setText(factura.getCodigo());    
+		txtClienteNombre.setText(factura.getCliente().getNombre());    
+		txtTotal.setText(String.valueOf(factura.getTotalPagar()));             
+		txtClienteContacto.setText(factura.getCliente().getTelefono()); 
+		txtFecha.setText(String.valueOf(factura.getFecha()));            
+	}
 	
 	private DefaultTableModel getTableModel() {
-		//detalles = DetalleFacturaDAO.loadDetalleFacturasData(0);
+		factura = FacturaDAO.searchFacturaById(7);
 		String[] columns = {"Cod.", "Marca", "Precio", "Desc.", "Cant.","Total Por Comp."};
 		DefaultTableModel model = new DefaultTableModel(columns, 0);
 		
-		for(DetalleFactura d : detalles) {
+		for(DetalleFactura d : factura.getDetalles()) {
 			Object[] row = {
 					d.getComponente().getCodigo(),
 					d.getComponente().getMarca(),

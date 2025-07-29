@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import logic.Cliente;
+import logic.DetalleFactura;
 import logic.Factura;
 
 public class FacturaDAO {
@@ -32,6 +33,10 @@ public class FacturaDAO {
 				Timestamp ts = rs.getTimestamp("created_at");
 				LocalDateTime fecha = ts.toLocalDateTime();
 				Factura factura = new Factura(id, codigo, cliente, totalPagar, fecha);
+				//Here Detalle Factura data from the database will be store to present it later on.
+				ArrayList<DetalleFactura> detalles = new ArrayList<DetalleFactura>();
+				detalles = DetalleFacturaDAO.loadDetalleFacturasData(id);
+				factura.setDetalles(detalles);
 				facturas.add(factura);
 			}
 		}catch (Exception ex) {
@@ -54,7 +59,11 @@ public class FacturaDAO {
 					double totalPagar = rs.getDouble("total");
 					Timestamp ts = rs.getTimestamp("created_at");
 					LocalDateTime fecha = ts.toLocalDateTime();
-					return new Factura(id, codigo, cliente, totalPagar, fecha);
+					Factura factura = new Factura(id, codigo, cliente, totalPagar, fecha);
+					ArrayList<DetalleFactura> detalles = new ArrayList<DetalleFactura>();
+					detalles = DetalleFacturaDAO.loadDetalleFacturasData(id);
+					factura.setDetalles(detalles);
+					return factura;
 				}
 			}
 		} catch (Exception ex) {
