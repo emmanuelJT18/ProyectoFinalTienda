@@ -93,6 +93,7 @@ public class PComponenteView extends JPanel {
 					model.removeRow(row);
 				}else {
 				    JOptionPane.showMessageDialog(null, "Por favor seleciona correctamente la fila que deseas eliminar.");
+				    return;
 				}
 				String codigo = (String) table.getValueAt(row, 0);
 				ComponenteDAO.deleteComponente(codigo);
