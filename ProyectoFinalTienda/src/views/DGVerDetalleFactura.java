@@ -38,7 +38,7 @@ public class DGVerDetalleFactura extends JDialog {
 	 */
 	public static void main(String[] args) {
 		try {
-			DGVerDetalleFactura dialog = new DGVerDetalleFactura();
+			DGVerDetalleFactura dialog = new DGVerDetalleFactura(null);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -48,7 +48,8 @@ public class DGVerDetalleFactura extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public DGVerDetalleFactura() {
+	public DGVerDetalleFactura(Factura factura) {
+		this.factura = factura;
 		setBounds(100, 100, 951, 630);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -156,15 +157,16 @@ public class DGVerDetalleFactura extends JDialog {
 	}
 	
 	private DefaultTableModel getTableModel() {
-		factura = FacturaDAO.searchFacturaById(7);
 		String[] columns = {"Cod.", "Marca", "Precio", "Desc.", "Cant.","Total Por Comp."};
 		DefaultTableModel model = new DefaultTableModel(columns, 0) {
 			@Override
 			public boolean isCellEditable(int row, int column) {
 				return false;
 			}
-		};		
-		for(DetalleFactura d : factura.getDetalles()) {
+		};
+		System.out.println("Id: ==================> "+factura.getId());
+		detalles = DetalleFacturaDAO.loadDetalleFacturasData(factura.getId());
+		for(DetalleFactura d : detalles) {
 			Object[] row = {
 					d.getComponente().getCodigo(),
 					d.getComponente().getMarca(),

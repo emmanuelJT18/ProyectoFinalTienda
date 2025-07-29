@@ -2,21 +2,34 @@ package views;
 
 import java.awt.BorderLayout;
 
+import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import connection.ComponenteDAO;
+import logic.Componente;
+import logic.DiscoDuro;
 import logic.Factura;
+import logic.MemoriaRam;
+import logic.MicroProcesador;
+import logic.TarjetaMadre;
 import logic.Tienda;
 import logic.Utilidad;
+import views.compVisuales.SingleBtnCellEditor;
 import views.compVisuales.SingleButtonCellEditor;
 import views.compVisuales.SingleButtonCellRenderer;
+import views.compVisuales.TableActionCellEditor;
+import views.compVisuales.TableActionCellRender;
+import views.compVisuales.TableActionEvent;
 
 public class PReporteFactura extends JPanel {
 	private Tienda controller = Tienda.getInstance();
 	private JTable tblFacturas;
+	private TableActionEvent tableActionEvent;
 	/**
 	 * Create the panel.
 	 */
@@ -42,7 +55,23 @@ public class PReporteFactura extends JPanel {
 		add(pActions);
 		pDataTable.setLayout(null);
 		
+	    tableActionEvent = new TableActionEvent() {
+
+			@Override
+			public void onDelete(int row) {
+				System.out.println("Delete Componente on row: "+row);
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onView(int row) {
+				showDetalleFactura(row);
+				System.out.println("View Componente on row: "+row);				
+			}
+		};		
 		tblFacturas = new JTable(getTableModel());	
+		tblFacturas.setRowHeight(33);
 		JScrollPane scrollPane = new JScrollPane(tblFacturas);
 		scrollPane.setBounds(85, 10, 927, 335);
 		pDataTable.add(scrollPane);	
@@ -73,11 +102,25 @@ public class PReporteFactura extends JPanel {
 	
 	public void updateTable() {
 		tblFacturas.setModel(getTableModel());
-		tblFacturas.getColumnModel().getColumn(4).setCellRenderer(new SingleButtonCellRenderer("ver detalles"));
-		tblFacturas.getColumnModel().getColumn(4).setCellEditor(new SingleButtonCellEditor("Ver Detalles", row -> {
+		/*tblFacturas.getColumnModel().getColumn(4).setCellRenderer(new SingleButtonCellRenderer("ver detalles"));
+		tblFacturas.getColumnModel().getColumn(4).setCellEditor(new SingleBtnCellEditor("Ver Detalles", row -> {
 	        System.out.println("Botón presionado en la fila: " + row);
-		}));
+	        showDetalleFactura(row);
+		}));*/
+		tblFacturas.getColumnModel().getColumn(4).setCellRenderer(new TableActionCellRender());
+		tblFacturas.getColumnModel().getColumn(4).setCellEditor(new TableActionCellEditor(tableActionEvent));
 	}
 	
-	
+	private void showDetalleFactura(int row) {
+		Factura factura = controller.getFacturas().get(row);
+		System.out.println("FACTURA ID=====> "+factura.getId());
+		//System.out.println("FACTURA ID=====> "+factura.getDetalles().get(0).getComponente().getMarca());
+		
+		 DGVerDetalleFactura df = new DGVerDetalleFactura(factura);
+
+		//df.setFactura(factura);
+		df.setModal(true);
+		df.setVisible(true);
+		df.setLocationRelativeTo(null);
+	}
 }
