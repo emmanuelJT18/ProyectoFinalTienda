@@ -11,6 +11,8 @@ import javax.swing.table.DefaultTableModel;
 import logic.Factura;
 import logic.Tienda;
 import logic.Utilidad;
+import views.compVisuales.SingleButtonCellEditor;
+import views.compVisuales.SingleButtonCellRenderer;
 
 public class PReporteFactura extends JPanel {
 	private Tienda controller = Tienda.getInstance();
@@ -40,11 +42,11 @@ public class PReporteFactura extends JPanel {
 		add(pActions);
 		pDataTable.setLayout(null);
 		
-		tblFacturas = new JTable(getTableModel());
+		tblFacturas = new JTable(getTableModel());	
 		JScrollPane scrollPane = new JScrollPane(tblFacturas);
 		scrollPane.setBounds(85, 10, 927, 335);
 		pDataTable.add(scrollPane);	
-		
+
 	}
 	
 	private DefaultTableModel getTableModel() {
@@ -71,5 +73,11 @@ public class PReporteFactura extends JPanel {
 	
 	public void updateTable() {
 		tblFacturas.setModel(getTableModel());
+		tblFacturas.getColumnModel().getColumn(4).setCellRenderer(new SingleButtonCellRenderer("ver detalles"));
+		tblFacturas.getColumnModel().getColumn(4).setCellEditor(new SingleButtonCellEditor("Ver Detalles", row -> {
+	        System.out.println("Botón presionado en la fila: " + row);
+		}));
 	}
+	
+	
 }
