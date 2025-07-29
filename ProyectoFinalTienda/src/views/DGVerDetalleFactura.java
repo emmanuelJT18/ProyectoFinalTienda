@@ -158,8 +158,12 @@ public class DGVerDetalleFactura extends JDialog {
 	private DefaultTableModel getTableModel() {
 		factura = FacturaDAO.searchFacturaById(7);
 		String[] columns = {"Cod.", "Marca", "Precio", "Desc.", "Cant.","Total Por Comp."};
-		DefaultTableModel model = new DefaultTableModel(columns, 0);
-		
+		DefaultTableModel model = new DefaultTableModel(columns, 0) {
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+		};		
 		for(DetalleFactura d : factura.getDetalles()) {
 			Object[] row = {
 					d.getComponente().getCodigo(),
