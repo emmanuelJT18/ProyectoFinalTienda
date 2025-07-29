@@ -68,4 +68,8 @@ public class PReporteFactura extends JPanel {
 		
 		return model;
 	}
+	
+	public void updateTable() {
+		tblFacturas.setModel(getTableModel());
+	}
 }
