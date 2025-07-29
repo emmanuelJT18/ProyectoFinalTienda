@@ -9,7 +9,7 @@ import logic.Componente;
 import logic.DetalleFactura;
 import logic.Factura;
 
-public class DetalleFacuraDAO {
+public class DetalleFacturaDAO {
 	private static Connection connection = ConnectToDB.getInstance().getConnection();
 	
 	public static ArrayList<DetalleFactura> loadDetalleFacturasData(int facturaId){
