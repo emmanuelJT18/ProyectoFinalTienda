@@ -2,14 +2,23 @@ package views;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+
+import logic.DetalleFactura;
+import connection.DetalleFacturaDAO;
+import logic.Factura;
+
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
+import javax.swing.JTable;
 
 public class DGVerDetalleFactura extends JDialog {
 
@@ -19,6 +28,9 @@ public class DGVerDetalleFactura extends JDialog {
 	private JTextField txtTotal;
 	private JTextField txtClienteContacto;
 	private JTextField txtFecha;
+	private JTable tblDetalleFactura;
+	private ArrayList<DetalleFactura> detalles;
+	private Factura factura;
 
 	/**
 	 * Launch the application.
@@ -32,12 +44,11 @@ public class DGVerDetalleFactura extends JDialog {
 			e.printStackTrace();
 		}
 	}
-
 	/**
 	 * Create the dialog.
 	 */
 	public DGVerDetalleFactura() {
-		setBounds(100, 100, 1069, 630);
+		setBounds(100, 100, 951, 630);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -45,7 +56,7 @@ public class DGVerDetalleFactura extends JDialog {
 		
 		JPanel pData = new JPanel();
 		pData.setLayout(null);
-		pData.setBounds(12, 33, 639, 191);
+		pData.setBounds(28, 33, 639, 191);
 		contentPanel.add(pData);
 		
 		JLabel lblFacturaId = new JLabel("Cod. Factura");
@@ -99,21 +110,58 @@ public class DGVerDetalleFactura extends JDialog {
 		JLabel lblContacto = new JLabel("Contacto");
 		lblContacto.setBounds(332, 72, 101, 16);
 		pData.add(lblContacto);
+		
+		tblDetalleFactura = new JTable(getTableModel());
+		JScrollPane scrollPane = new JScrollPane(tblDetalleFactura);
+		scrollPane.setBounds(28, 264, 874, 259);
+		
+		contentPanel.add(scrollPane);
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton okButton = new JButton("OK");
-				okButton.setActionCommand("OK");
-				buttonPane.add(okButton);
-				getRootPane().setDefaultButton(okButton);
-			}
-			{
-				JButton cancelButton = new JButton("Cancel");
+				JButton cancelButton = new JButton("Cerrar");
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}
 		}
+	}
+	
+	public ArrayList<DetalleFactura> getDetalles() {
+		return detalles;
+	}
+
+	public void setDetalles(ArrayList<DetalleFactura> detalles) {
+		this.detalles = detalles;
+	}
+
+	public Factura getFactura() {
+		return factura;
+	}
+
+	public void setFactura(Factura factura) {
+		this.factura = factura;
+	}
+
+	
+	private DefaultTableModel getTableModel() {
+		//detalles = DetalleFacturaDAO.loadDetalleFacturasData(0);
+		String[] columns = {"Cod.", "Marca", "Precio", "Desc.", "Cant.","Total Por Comp."};
+		DefaultTableModel model = new DefaultTableModel(columns, 0);
+		
+		for(DetalleFactura d : detalles) {
+			Object[] row = {
+					d.getComponente().getCodigo(),
+					d.getComponente().getMarca(),
+					d.getComponente().getPrecio(),
+					d.getDescuento(),
+					d.getCantidadVendida(),
+					d.getTotal()
+			};
+			model.addRow(row);
+		}
+		
+		return model;
 	}
 }
