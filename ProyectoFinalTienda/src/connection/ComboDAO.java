@@ -135,5 +135,18 @@ public class ComboDAO {
 		return null;
 	}
 	
-	
+	public static void deleteCombo(int id) {
+		String query = "DELETE FROM combos WHERE id = ?";
+		try (PreparedStatement stmt = connection.prepareStatement(query)){
+			stmt.setInt(1, id);
+			int rowsDeleted = stmt.executeUpdate();
+			if(rowsDeleted > 0) {
+				System.out.println("Componente deleted WEPAA");
+			}else {
+				System.out.println("Componente con el codigo: "+id+" no ha sido encontrado");
+			}
+		} catch (Exception ex) {
+	        ex.printStackTrace();
+		}
+	}
 }
