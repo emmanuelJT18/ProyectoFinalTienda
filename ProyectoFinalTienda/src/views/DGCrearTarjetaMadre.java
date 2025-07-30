@@ -10,6 +10,7 @@ import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
 import connection.ComponenteDAO;
+import logic.MicroProcesador;
 import logic.TarjetaMadre;
 import logic.Tienda;
 import logic.Utilidad;
@@ -75,6 +76,8 @@ public class DGCrearTarjetaMadre extends JDialog {
 			}
 			{
 				txtId = new JTextField();
+				txtId.setEditable(false);
+				txtId.setText(controller.genCodigoComponente(new TarjetaMadre()));
 				txtId.setColumns(10);
 				txtId.setBounds(160, 14, 218, 22);
 				pCenterPanel.add(txtId);

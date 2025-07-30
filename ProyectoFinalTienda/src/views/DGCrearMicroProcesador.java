@@ -75,6 +75,8 @@ public class DGCrearMicroProcesador extends JDialog {
 			}
 			
 			txtId = new JTextField();
+			txtId.setEditable(false);
+			txtId.setText(controller.genCodigoComponente(new MicroProcesador()));
 			txtId.setBounds(177, 25, 163, 22);
 			pParentContainer.add(txtId);
 			txtId.setColumns(10);

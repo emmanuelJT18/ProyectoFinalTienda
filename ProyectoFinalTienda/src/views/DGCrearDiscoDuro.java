@@ -36,7 +36,7 @@ public class DGCrearDiscoDuro extends JDialog {
 	private Tienda controller = Tienda.getInstance();
 	private PComponenteView componenteView;
 	private int fontSize = 15;
-	
+	/*
 	public static void main(String[] args) {
 		try {
 			DGCrearDiscoDuro dialog = new DGCrearDiscoDuro(null);
@@ -45,7 +45,7 @@ public class DGCrearDiscoDuro extends JDialog {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
+	}*/
 	/**
 	 * Create the dialog.
 	 */
@@ -76,6 +76,8 @@ public class DGCrearDiscoDuro extends JDialog {
 			}
 			
 			txtId = new JTextField();
+			txtId.setEditable(false);
+			txtId.setText(controller.genCodigoComponente(new DiscoDuro()));
 			txtId.setBounds(177, 25, 163, 22);
 			pParentContainer.add(txtId);
 			txtId.setColumns(10);

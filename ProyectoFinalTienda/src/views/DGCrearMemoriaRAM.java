@@ -37,7 +37,7 @@ public class DGCrearMemoriaRAM extends JDialog {
 	private PComponenteView componenteView;
 	private int fontSize = 15;
 	private JTextField txtTipoMemoriaRam;
-	
+	/*
 	public static void main(String[] args) {
 		try {
 			DGCrearMemoriaRAM dialog = new DGCrearMemoriaRAM(null);
@@ -46,7 +46,7 @@ public class DGCrearMemoriaRAM extends JDialog {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
+	}*/
 	/**
 	 * Create the dialog.
 	 */
@@ -77,6 +77,8 @@ public class DGCrearMemoriaRAM extends JDialog {
 			}
 			
 			txtId = new JTextField();
+			txtId.setText(controller.genCodigoComponente(new MemoriaRam()));
+			txtId.setEditable(false);
 			txtId.setBounds(177, 25, 163, 22);
 			pParentContainer.add(txtId);
 			txtId.setColumns(10);
