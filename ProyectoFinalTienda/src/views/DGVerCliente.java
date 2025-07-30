@@ -31,6 +31,10 @@ public class DGVerCliente extends JDialog {
 	private JTextField txtDireccion;
 	private Tienda controller;
 	private Cliente cliente;
+	private JButton btnGuardar;
+	private JButton btnCancel;
+	private boolean editMode = false; 
+
 
 	/**
 	 * Launch the application.
@@ -123,22 +127,34 @@ public class DGVerCliente extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton btnGuardar = new JButton("Guardar");
+				btnGuardar = new JButton("Editar");
 				btnGuardar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
-						updateCliente();
+						setupEditableMode();
 					}
 				});
+				btnGuardar.setActionCommand("OK");
+				buttonPane.add(btnGuardar);
+
 				btnGuardar.setActionCommand("OK");
 				buttonPane.add(btnGuardar);
 				getRootPane().setDefaultButton(btnGuardar);
 			}
 			{
-				JButton btnCancel = new JButton("Cancelar");
+				btnCancel = new JButton("Cancelar");
+				btnCancel.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						dispose();
+					}
+				});
 				btnCancel.setActionCommand("Cancel");
 				buttonPane.add(btnCancel);
 			}
 		}
+		txtNombre.setEditable(false);
+		txtTelefono.setEditable(false);
+		txtDireccion.setEditable(false);
+		txtId.setEditable(false);
 		loadData();
 	}
 	
@@ -148,6 +164,26 @@ public class DGVerCliente extends JDialog {
 		txtDireccion.setText(cliente.getDireccion());
 		txtTelefono.setText(cliente.getTelefono());
 	}
+	
+	private void setupEditableMode() {
+		if (!editMode) {
+			// Habilita los campos para edición
+			txtNombre.setEditable(true);
+			txtTelefono.setEditable(true);
+			txtDireccion.setEditable(true);
+			btnGuardar.setText("Guardar cambios");
+			editMode = true;
+		} else {
+			// Guarda y desactiva los campos
+			updateCliente();
+			txtNombre.setEditable(false);
+			txtTelefono.setEditable(false);
+			txtDireccion.setEditable(false);
+			btnGuardar.setText("Editar");
+			editMode = false;
+		}
+	}
+
 	
 	private void updateCliente() {
 		try {
@@ -162,7 +198,6 @@ public class DGVerCliente extends JDialog {
 			//String test = controller.getClientes().get(controller.getClientes().size()-1).getId();
 			ClienteDAO.updateCliente(cliente);
 			clienteView.updateTable();
-			JOptionPane.showConfirmDialog(null, "El cliente se ha editado correctamente.");
 		}catch(Exception ex) {
 			JOptionPane.showConfirmDialog(null, ex.getStackTrace());
 		}
