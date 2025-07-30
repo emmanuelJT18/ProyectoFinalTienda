@@ -420,6 +420,20 @@ public class PCrearFactura extends JPanel {
         }
 	}
 	
+	private void deleteCombosOnCascade() {
+		
+		DefaultTableModel model = (DefaultTableModel) tblDetalleFactura.getModel();
+		String identifier = "0%"; 
+
+		for (int i = model.getRowCount() - 1; i >= 0; i--) {
+		    Object valor = model.getValueAt(i, 3); 
+		    if (valor != null && valor.toString() != identifier) {
+		        model.removeRow(i);
+		    }
+		}
+		updateTotalFactura();
+	}
+	
 	private void fillDetalleFacturas(Factura factura) {
 		//String[] columns = {"Cod.", "Marca", "Precio", "Desc.", "Cant.","Total Por Comp.", "Quitar Comp."};
 		for(int row = 0; row < tblDetalleFactura.getRowCount(); row++) {
@@ -449,6 +463,7 @@ public class PCrearFactura extends JPanel {
 			cbxCombos.addItem(c);
 		}
 	}
+	
 	private void updateTable(Combo combo) {
 		DefaultTableModel updatedModel = (DefaultTableModel) tblDetalleFactura.getModel();
 		int btnCol = tblDetalleFactura.getColumnCount()-1;
@@ -473,20 +488,6 @@ public class PCrearFactura extends JPanel {
 					deleteCombosOnCascade();
 			    })
 		);
-		updateTotalFactura();
-	}
-
-	private void deleteCombosOnCascade() {
-		
-		DefaultTableModel model = (DefaultTableModel) tblDetalleFactura.getModel();
-		String identifier = "0%"; 
-
-		for (int i = model.getRowCount() - 1; i >= 0; i--) {
-		    Object valor = model.getValueAt(i, 3); 
-		    if (valor != null && valor.toString() != identifier) {
-		        model.removeRow(i);
-		    }
-		}
 		updateTotalFactura();
 	}
 }
