@@ -464,6 +464,7 @@ public class PCrearFactura extends JPanel {
 					controller.componenteTotalNeto(c.getPrecio(), combo.getDescuento()),
 			};
 			updatedModel.addRow(rowData);
+			
 		}
 		tblDetalleFactura.getColumnModel().getColumn(btnCol).setCellRenderer(new SingleButtonCellRenderer("eliminar"));
 		tblDetalleFactura.getColumnModel().getColumn(btnCol).setCellEditor(
@@ -476,6 +477,7 @@ public class PCrearFactura extends JPanel {
 	}
 
 	private void deleteCombosOnCascade() {
+		
 		DefaultTableModel model = (DefaultTableModel) tblDetalleFactura.getModel();
 		String identifier = "0%"; 
 
