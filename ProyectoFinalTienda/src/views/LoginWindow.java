@@ -10,6 +10,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import java.awt.Color;
+import java.awt.EventQueue;
+
 import javax.swing.border.LineBorder;
 import javax.swing.UIManager;
 import javax.swing.JLabel;
@@ -21,6 +23,7 @@ import javax.swing.border.BevelBorder;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
+import javax.swing.JPasswordField;
 
 public class LoginWindow extends JDialog {
 
@@ -32,7 +35,7 @@ public class LoginWindow extends JDialog {
 	private String username;
     private String password;
     private JTextField txtUser;
-    private JTextField txtpasswordField;
+    private JPasswordField txtpasswordField;
 
 	/**
 	 * Launch the application.
@@ -41,6 +44,7 @@ public class LoginWindow extends JDialog {
 		try {
 			LoginWindow dialog = new LoginWindow();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			dialog.setLocationRelativeTo(null);
 			dialog.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -87,12 +91,10 @@ public class LoginWindow extends JDialog {
 			txtUser.setBounds(228, 59, 191, 26);
 			panel.add(txtUser);
 			txtUser.setColumns(10);
-			{
-				txtpasswordField = new JTextField();
-				txtpasswordField.setBounds(228, 141, 191, 26);
-				panel.add(txtpasswordField);
-				txtpasswordField.setColumns(10);
-			}
+			
+			txtpasswordField = new JPasswordField();
+			txtpasswordField.setBounds(225, 144, 181, 22);
+			panel.add(txtpasswordField);
 		}
 		{
 			JPanel buttonPane = new JPanel();
@@ -139,13 +141,25 @@ public class LoginWindow extends JDialog {
             
             if (!validarCredenciales(username, password)) {
                 throw new LoginException("Usuario o contraseña incorrectos");
+            }else {
+            	EventQueue.invokeLater(new Runnable() {
+        			public void run() {
+        				try {
+        					Inicio frame = new Inicio();
+        					frame.setVisible(true);
+        					frame.setLocationRelativeTo(null);
+        					frame.setResizable(false);
+        				} catch (Exception e) {
+        					e.printStackTrace();
+        				}
+        			}
+        		});
+                JOptionPane.showMessageDialog(this, 
+                        "Login exitoso para: " + username, 
+                        "Éxito", 
+                        JOptionPane.INFORMATION_MESSAGE);
+            	dispose();
             }
-            
-           
-            JOptionPane.showMessageDialog(this, 
-                "Login exitoso para: " + username, 
-                "Éxito", 
-                JOptionPane.INFORMATION_MESSAGE);
             
         } catch (LoginException e) {
             JOptionPane.showMessageDialog(this, 
@@ -156,8 +170,9 @@ public class LoginWindow extends JDialog {
     }
 
 	private boolean validarCredenciales(String username2, String password2) {
-		// TODO Auto-generated method stub
+		if(username2.equalsIgnoreCase("admin") && password2.equalsIgnoreCase("admin")) {
+			return true;
+		}
 		return false;
 	}
-
 }
