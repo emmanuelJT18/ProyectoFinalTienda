@@ -111,7 +111,8 @@ public class PClienteView extends JPanel {
 
 			@Override
 			public void onView(int row) {
-				Cliente cliente = controller.getClientes().get(row);
+				String codigo = (String) tblClientes.getValueAt(row, 0);
+				Cliente cliente = ClienteDAO.searchCliente(codigo);
 				DGVerCliente verCliente = new DGVerCliente(PClienteView.this, cliente);
 				verCliente.setLocationRelativeTo(null);
 				verCliente.setModal(true);
