@@ -135,7 +135,46 @@ public class ComboDAO {
 		return null;
 	}
 	
-	public static void deleteCombo(int id) {
+	public static Combo searchCombo(String codigo) {
+		String queryCombo = "SELECT * FROM combos WHERE codigo = ?";
+	    String queryComponentes = "SELECT componente_id FROM combos_componentes WHERE combo_id = ?";
+		
+		try(
+			PreparedStatement stmtCombo = connection.prepareStatement(queryCombo);
+			){
+			stmtCombo.setString(1, codigo);
+			ResultSet rsCombos = stmtCombo.executeQuery();
+			if(rsCombos.next()) {
+				int id = rsCombos.getInt("id");
+	            String nombre = rsCombos.getString("nombre");
+	            Double descuento = rsCombos.getDouble("descuento");
+	            Combo combo = new Combo(id, codigo, nombre, descuento);
+
+	            try (
+	                PreparedStatement stmtComponentes = connection.prepareStatement(queryComponentes);
+	            ) {
+	                stmtComponentes.setInt(1, id);  
+	                try (ResultSet rsComponentes = stmtComponentes.executeQuery()) {
+	                    while (rsComponentes.next()) {
+	                        int compId = rsComponentes.getInt("componente_id");
+	                        Componente comp = ComponenteDAO.searchComponenteById(compId);
+	                        if (comp != null) {
+	                            combo.getComponentes().add(comp);
+	                        }
+	                    }
+	                }
+	            }
+	            return combo;
+			}
+			
+		}catch (Exception ex) {
+	        ex.printStackTrace();
+		}
+		return null;
+	}
+
+	
+	public static void deleteComboById(int id) {
 		String query = "DELETE FROM combos WHERE id = ?";
 		try (PreparedStatement stmt = connection.prepareStatement(query)){
 			stmt.setInt(1, id);
@@ -147,6 +186,20 @@ public class ComboDAO {
 			}
 		} catch (Exception ex) {
 	        ex.printStackTrace();
+		}
+	}
+	public static void deleteCombo(String codigo) {
+		String query = "DELETE FROM combos WHERE codigo = ?";
+		try (PreparedStatement stmt = connection.prepareStatement(query)){
+			stmt.setString(1, codigo);
+			int rowsDeleted = stmt.executeUpdate();
+			if(rowsDeleted > 0) {
+				System.out.println("Componente deleted WEPAA");
+			}else {
+				System.out.println("Componente con el codigo: "+codigo+" no ha sido encontrado");
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
 		}
 	}
 }
