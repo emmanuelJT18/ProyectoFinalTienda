@@ -21,24 +21,28 @@ public class Test {
 		Connection con = DriverManager.getConnection(url, "root", "admin");
 		System.out.println("Connection created");
 		con.close();*/
-		
+
 		//ConnectToDB conn = ConnectToDB.getInstance();
 		//cd.loadClientesData();
-		
+
 		Cliente cliente = ClienteDAO.searchClientebyId(2);
 		Factura factura = FacturaDAO.searchFacturaById(7);
 		/*System.out.println(factura.getId());
 		System.out.println(factura.getCodigo());
 		System.out.println(factura.getCliente().getNombre());
 		System.out.println(factura.getTotalPagar());*/
-		
-		Combo cb = new Combo("CB-1", "Combo 1", 0.1);
-		ComboDAO.insertCombo(cb);
-		cb = ComboDAO.searchComboeById(1);
-		System.out.println(cb.getCodigo()+" - "+cb.getNombre());
+
+		//ComboDAO.insertCombo(cb);
+		Combo cb = ComboDAO.searchCombo("CB-1");
+		try {
+			System.out.println(cb.getCodigo()+" - "+cb.getNombre());
+
+		} catch (Exception e) {
+			e.printStackTrace();		}
 		for(Componente c : cb.getComponentes()) {
 			System.out.println(c.getCodigo()+" - "+c.getMarca());
 		}
+		//ComboDAO.deleteCombo(cb.getId());
 		/*
 		Componente componente = ComponenteDAO.searchComponenteById(1);
 		DetalleFactura df = new DetalleFactura(factura.getId(), componente, 0.1, 5, 1000.0);
@@ -56,7 +60,7 @@ public class Test {
 			System.out.println(detalle.getTotal());
 			System.out.println();
 		}*/
-		
+
 		//ClienteDAO.createCliente(cliente);
 		//cliente.setNombre("Juanito Pedro");
 		//ClienteDAO.updateCliente(cliente);
@@ -74,22 +78,22 @@ public class Test {
 		String tipoMemoriaRAM = "tipo_memoria_ram";
 		String velocidadProcesamiento = "velocidad_procesamiento";
 		String conexionesDiscosDuros = "conexiones_discos_duros";
-		
+
 		Tienda.getInstance();
-		
+
 		ArrayList<Componente> comps = ComponenteDAO.loadComponentesData();
 		for(Componente c : comps) {
 			System.out.println(c.getCodigo());
 		}
-		
+
 		ComponenteDAO.searchComponenteById(1);
 		System.out.println(ClienteDAO.searchClientebyId(10).getNombre());
-		*/
+		 */
 		/*
 		Factura factura = new Factura(Tienda.generateCodigo(), cliente, 12000);
 		FacturaDAO.insertFactura(factura);
 		System.out.println("MaxID ===========> "+FacturaDAO.getLastId());
-		*/
+		 */
 	}
 
 }
