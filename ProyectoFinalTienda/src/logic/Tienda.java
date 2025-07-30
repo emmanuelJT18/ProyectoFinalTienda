@@ -11,6 +11,7 @@ public class Tienda {
 	private ArrayList<Cliente> clientes;
 	private ArrayList<Factura> facturas;
 	private ArrayList<DetalleFactura> detalles;
+	private ArrayList<Combo> combos;
 	private static Tienda uniqueInstance;
 	private int cantMemoriasRam = 0;
 	private int cantTarjetasMadre = 0;
@@ -30,6 +31,7 @@ public class Tienda {
 		clientes = new ArrayList<Cliente>();
 		facturas = new ArrayList<Factura>();
 		detalles = new ArrayList<DetalleFactura>();
+		combos = new ArrayList<Combo>();
 		//LOADdata();
 		getCountOfEachComponente();
 	}
