@@ -37,8 +37,22 @@ public class Tienda {
 		getCountOfEachComponente();
 	}
 	
-	
-	
+	public int getCantMemoriasRam() {
+		return cantMemoriasRam;
+	}
+
+	public int getCantTarjetasMadre() {
+		return cantTarjetasMadre;
+	}
+
+	public int getCantMicroProcesadores() {
+		return cantMicroProcesadores;
+	}
+
+	public int getCantDiscosDuros() {
+		return cantDiscosDuros;
+	}
+
 	public ArrayList<Factura> getFacturas() {
 		facturas = FacturaDAO.loadFacturasData();
 		return facturas;
@@ -83,7 +97,11 @@ public class Tienda {
 	}
 	
 	public void getCountOfEachComponente() {
-		for(Componente componente : this.componentes) {
+		cantMemoriasRam = 0;      
+		cantTarjetasMadre = 0;    
+		cantMicroProcesadores = 0;
+		cantDiscosDuros = 0;      
+		for(Componente componente : getComponentes()) {
 			if(componente instanceof DiscoDuro) {
 				cantDiscosDuros++;
 			} else if(componente instanceof MemoriaRam) {
@@ -94,7 +112,6 @@ public class Tienda {
 				cantMicroProcesadores++;
 			}
 		}
-
 	}
 	
 	public void addComponente(Componente componente) {
@@ -137,6 +154,18 @@ public class Tienda {
 	
 	public String genCodigoCombo() {
 		return Combo.getPrefix() + (ComboDAO.getLastId() + 1);
+	}
+	
+	public String genCodigoComponente(Componente componente) {
+		if(componente instanceof DiscoDuro) {
+			return "DD-"+(cantDiscosDuros+1);
+		} else if(componente instanceof MemoriaRam) {
+			return "RAM-"+(cantMemoriasRam+1);
+		} else if(componente instanceof TarjetaMadre) {
+			return "TM-"+(cantTarjetasMadre+1);
+		} else {
+			return "MP-"+(cantMicroProcesadores+1);
+		}
 	}
 	
 	public double comboTotalNeto(Combo combo) {

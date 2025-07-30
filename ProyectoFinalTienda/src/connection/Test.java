@@ -10,6 +10,8 @@ import logic.Combo;
 import logic.Componente;
 import logic.DetalleFactura;
 import logic.Factura;
+import logic.MicroProcesador;
+import logic.TarjetaMadre;
 import logic.Tienda;
 
 public class Test {
@@ -24,7 +26,7 @@ public class Test {
 
 		//ConnectToDB conn = ConnectToDB.getInstance();
 		//cd.loadClientesData();
-
+/*
 		Cliente cliente = ClienteDAO.searchClientebyId(2);
 		Factura factura = FacturaDAO.searchFacturaById(7);
 		/*System.out.println(factura.getId());
@@ -33,6 +35,7 @@ public class Test {
 		System.out.println(factura.getTotalPagar());*/
 
 		//ComboDAO.insertCombo(cb);
+		/*
 		Combo cb = ComboDAO.searchCombo("CB-1");
 		try {
 			System.out.println(cb.getCodigo()+" - "+cb.getNombre());
@@ -41,7 +44,7 @@ public class Test {
 			e.printStackTrace();		}
 		for(Componente c : cb.getComponentes()) {
 			System.out.println(c.getCodigo()+" - "+c.getMarca());
-		}
+		}*/
 		//ComboDAO.deleteCombo(cb.getId());
 		/*
 		Componente componente = ComponenteDAO.searchComponenteById(1);
@@ -94,6 +97,12 @@ public class Test {
 		FacturaDAO.insertFactura(factura);
 		System.out.println("MaxID ===========> "+FacturaDAO.getLastId());
 		 */
+		/*
+		Tienda.getInstance().addComponente(new MicroProcesador());
+		Tienda.getInstance().addComponente(new MicroProcesador());
+		Tienda.getInstance().addComponente(new MicroProcesador());
+		Tienda.getInstance().addComponente(new MicroProcesador());
+		System.out.println(Tienda.getInstance().genCodigoComponente(new MicroProcesador()));;*/
 	}
 
 }
