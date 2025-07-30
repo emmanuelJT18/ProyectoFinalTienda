@@ -81,6 +81,7 @@ public class DGVerMemoriaRam extends JDialog {
 			pParentPanel.add(lblIDComponente);
 			
 			txtIDComponente = new JTextField();
+			txtIDComponente.setEditable(false);
 			txtIDComponente.setColumns(10);
 			txtIDComponente.setBounds(177, 11, 163, 22);
 			pParentPanel.add(txtIDComponente);
@@ -216,7 +217,6 @@ public class DGVerMemoriaRam extends JDialog {
 	}
 	
 	private void setCamposEditable(boolean editable) {
-		txtIDComponente.setEditable(editable);
 		txtNumeroSerie.setEditable(editable);           
 		txtPrecio.setEditable(editable);                 
 		txtCantDisponible.setEditable(editable);         

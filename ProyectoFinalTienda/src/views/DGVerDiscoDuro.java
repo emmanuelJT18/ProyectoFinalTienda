@@ -37,6 +37,7 @@ public class DGVerDiscoDuro extends JDialog {
 	/**
 	 * Launch the application.
 	 */
+	/*
 	public static void main(String[] args) {
 		try {
 			DGVerDiscoDuro dialog = new DGVerDiscoDuro(null, null);
@@ -45,7 +46,7 @@ public class DGVerDiscoDuro extends JDialog {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
+	}*/
 
 	/**
 	 * Create the dialog.
@@ -80,6 +81,7 @@ public class DGVerDiscoDuro extends JDialog {
 			pParentConteiner.add(lblIDComponente);
 			
 			txtIDComponente = new JTextField();
+			txtIDComponente.setEditable(false);
 			txtIDComponente.setColumns(10);
 			txtIDComponente.setBounds(177, 16, 163, 29);
 			pParentConteiner.add(txtIDComponente);
@@ -222,7 +224,6 @@ public class DGVerDiscoDuro extends JDialog {
 		}
 	}
 	private void setCamposEditable(boolean editable) {
-	    txtIDComponente.setEditable(editable);
 	    txtNumeroSerie.setEditable(editable);
 	    txtPrecio.setEditable(editable);
 	    txtCantDisponible.setEditable(editable);

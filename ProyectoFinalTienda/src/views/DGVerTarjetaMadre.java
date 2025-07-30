@@ -183,7 +183,6 @@ public class DGVerTarjetaMadre extends JDialog {
 					public void actionPerformed(ActionEvent e) {
 						activarDesactivarEditMode();
 						txtCantDisp.setEditable(editMode);
-						txtID.setEditable(editMode);
 						txtMarca.setEditable(editMode);
 						txtModelo.setEditable(editMode);
 						txtNumSerie.setEditable(editMode);

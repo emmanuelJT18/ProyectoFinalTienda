@@ -184,7 +184,6 @@ public class DGVerMicroProcesadores extends JDialog {
 				editarValores.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						switchModos();
-						txtID.setEditable(editarLosValores);
 						txtModelo.setEditable(editarLosValores);
 						txtMarca.setEditable(editarLosValores);
 						txtNumSerie.setEditable(editarLosValores);
