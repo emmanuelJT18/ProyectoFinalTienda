@@ -153,12 +153,76 @@ public class Tienda {
 		}
 		return r;
 	}
+	
 	public double componenteTotalNeto(double precio, double descuento) {
 		return precio - (precio*descuento);
 	}
+	
 	public double componenteTotalPrecio(double precio, int cant) {
 		return (double) precio * cant;
 	}
+	
+	public void restarCantidadVender(Componente componente, int cantVender) {
+		componente.setCantDisponible(componente.getCantDisponible()-cantVender);
+		
+		if(componente instanceof DiscoDuro) {
+			ComponenteDAO.updateDiscoDuro((DiscoDuro) componente);
+		} else if(componente instanceof MemoriaRam) {
+			ComponenteDAO.updateMemoriaRam((MemoriaRam) componente);
+		} else if(componente instanceof TarjetaMadre) {
+			ComponenteDAO.updateTarjetaMadre((TarjetaMadre) componente);	
+		} else {
+			ComponenteDAO.updateMicroProcesador((MicroProcesador) componente);
+		}
+		
+	}
+	
+	public void restarCantidadVender(ArrayList<Componente> comps, int cantVender) {
+		
+		for(Componente componente : comps) {
+			componente.setCantDisponible(componente.getCantDisponible()-cantVender);
+			if(componente instanceof DiscoDuro) {
+				ComponenteDAO.updateDiscoDuro((DiscoDuro) componente);
+			} else if(componente instanceof MemoriaRam) {
+				ComponenteDAO.updateMemoriaRam((MemoriaRam) componente);
+			} else if(componente instanceof TarjetaMadre) {
+				ComponenteDAO.updateTarjetaMadre((TarjetaMadre) componente);	
+			} else {
+				ComponenteDAO.updateMicroProcesador((MicroProcesador) componente);
+			}
+		}
+	}
+	
+	public void sumarCantidadVender(Componente componente, int cantVender) {
+		componente.setCantDisponible(componente.getCantDisponible()+cantVender);
+		
+		if(componente instanceof DiscoDuro) {
+			ComponenteDAO.updateDiscoDuro((DiscoDuro) componente);
+		} else if(componente instanceof MemoriaRam) {
+			ComponenteDAO.updateMemoriaRam((MemoriaRam) componente);
+		} else if(componente instanceof TarjetaMadre) {
+			ComponenteDAO.updateTarjetaMadre((TarjetaMadre) componente);	
+		} else {
+			ComponenteDAO.updateMicroProcesador((MicroProcesador) componente);
+		}
+	}
+	
+	public void sumarCantidadVender(ArrayList<Componente> comps, int cantVender) {
+		
+		for(Componente componente : comps) {
+			componente.setCantDisponible(componente.getCantDisponible()+cantVender);
+			if(componente instanceof DiscoDuro) {
+				ComponenteDAO.updateDiscoDuro((DiscoDuro) componente);
+			} else if(componente instanceof MemoriaRam) {
+				ComponenteDAO.updateMemoriaRam((MemoriaRam) componente);
+			} else if(componente instanceof TarjetaMadre) {
+				ComponenteDAO.updateTarjetaMadre((TarjetaMadre) componente);	
+			} else {
+				ComponenteDAO.updateMicroProcesador((MicroProcesador) componente);
+			}
+		}
+	}
+	
 	public void LOADdata() {
 		    DiscoDuro dd1 = new DiscoDuro("DD001", "SN1234", "Seagate", "Barracuda", 1200.0, 10, "SATA", "1TB");
 	        DiscoDuro dd2 = new DiscoDuro("DD002", "SN5678", "Western Digital", "Blue", 1350.0, 3, "SATA", "2TB");

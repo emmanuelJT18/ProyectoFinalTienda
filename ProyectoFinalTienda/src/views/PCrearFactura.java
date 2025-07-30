@@ -31,6 +31,7 @@ import javax.swing.JTable;
 import javax.swing.JTree;
 import javax.swing.table.DefaultTableModel;
 
+import connection.ComponenteDAO;
 import connection.DetalleFacturaDAO;
 import connection.FacturaDAO;
 
@@ -313,6 +314,7 @@ public class PCrearFactura extends JPanel {
 		JButton btnCancel = new JButton("Cancelar");
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				cancelarFacturacion();
 				cleanFields();
 			}
 		});
@@ -333,7 +335,9 @@ public class PCrearFactura extends JPanel {
 
 		oldCant = (int) tblDetalleFactura.getValueAt(rowIndex, cantidadVenderColIndex);
 		precio = (double) tblDetalleFactura.getValueAt(rowIndex, precioColIndex);
-
+		String codigo = (String) tblDetalleFactura.getValueAt(rowIndex, 0);
+		Componente componente = ComponenteDAO.searchComponente(codigo);
+		controller.restarCantidadVender(componente, oldCant);
 		newCant += oldCant;
 		newTotal = newCant * precio;
 
@@ -391,7 +395,8 @@ public class PCrearFactura extends JPanel {
 		int btnCol = tblDetalleFactura.getColumnCount()-1;
 		int cantidadVender = Integer.parseInt(txtCantidadVender.getText());
 		double totalPorComponente = (double) cantidadVender * componenteBuscado.getPrecio();
-		
+		Componente compCopia = componenteBuscado;
+		controller.restarCantidadVender(compCopia, cantidadVender);
 		Object[] rowData = {
 				componenteBuscado.getCodigo(),
 				componenteBuscado.getMarca(),
@@ -405,6 +410,7 @@ public class PCrearFactura extends JPanel {
 				new SingleButtonCellEditor("Eliminar", row -> {
 					eliminateRow(row);
 					deleteCombosOnCascade();
+					controller.sumarCantidadVender(compCopia, cantidadVender);
 			    })
 		);
 		updatedModel.addRow(rowData);
@@ -432,6 +438,17 @@ public class PCrearFactura extends JPanel {
 		    }
 		}
 		updateTotalFactura();
+	}
+	
+	private void cancelarFacturacion() {
+		DefaultTableModel model = (DefaultTableModel) tblDetalleFactura.getModel();
+
+		for (int row = model.getRowCount() - 1; row >= 0; row--) {
+			String codigo = (String) tblDetalleFactura.getValueAt(row, 0);
+			int cantVender = (int) tblDetalleFactura.getValueAt(row, 4);
+			Componente componente = ComponenteDAO.searchComponente(codigo);
+			controller.sumarCantidadVender(componente, cantVender);
+		}
 	}
 	
 	private void fillDetalleFacturas(Factura factura) {
@@ -468,7 +485,7 @@ public class PCrearFactura extends JPanel {
 		DefaultTableModel updatedModel = (DefaultTableModel) tblDetalleFactura.getModel();
 		int btnCol = tblDetalleFactura.getColumnCount()-1;
 		int cantidadVender = 1;
-		
+		controller.restarCantidadVender(combo.getComponentes(), cantidadVender);
 		for(Componente c : combo.getComponentes()) {
 			Object[] rowData = {
 					c.getCodigo(),
@@ -486,8 +503,11 @@ public class PCrearFactura extends JPanel {
 				new SingleButtonCellEditor("Eliminar", row -> {
 					eliminateRow(row);
 					deleteCombosOnCascade();
+					controller.sumarCantidadVender(combo.getComponentes(), cantidadVender);
 			    })
 		);
 		updateTotalFactura();
 	}
+	
+
 }
