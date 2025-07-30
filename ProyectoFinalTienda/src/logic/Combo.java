@@ -3,18 +3,30 @@ package logic;
 import java.util.ArrayList;
 
 public class Combo {
-	private String id;
+	private final static String prefix = "CB-";
+	private int id;
 	private String codigo;
 	private String  nombre;
 	private ArrayList<Componente> componentes;
 	private Double descuento;
-	
-	public Combo(String id,String codigo, String nombre, Double descuento) {
+	public Combo() {
+		
+	}
+	public Combo(int id,String codigo, String nombre, Double descuento) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
 		this.descuento = descuento;
 		this.codigo = codigo;
+		componentes = new ArrayList<Componente>();
+	}
+	
+	public Combo(String codigo, String nombre, Double descuento) {
+		super();
+		this.nombre = nombre;
+		this.descuento = descuento;
+		this.codigo = codigo;
+		componentes = new ArrayList<Componente>();
 	}
 	
 	public String getCodigo() {
@@ -25,11 +37,11 @@ public class Combo {
 		this.codigo = codigo;
 	}
 
-	public String getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -57,5 +69,13 @@ public class Combo {
 		this.descuento = descuento;
 	}
 	
+	public static String getPrefix() {
+		return prefix;
+	}
 	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return getCodigo() +" - "+getNombre();
+	}
 }

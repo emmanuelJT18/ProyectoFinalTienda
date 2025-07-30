@@ -5,6 +5,8 @@ import java.awt.Dimension;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import logic.Combo;
+import logic.Tienda;
 import logic.Utilidad;
 import javax.swing.JLabel;
 import javax.swing.JButton;
@@ -15,6 +17,7 @@ import java.awt.event.ActionEvent;
 
 public class PComboView extends JPanel {
 	private JTable tblCombo;
+	private Tienda controller = Tienda.getInstance();
 
 	/**
 	 * Create the panel.
@@ -41,6 +44,10 @@ public class PComboView extends JPanel {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
+				DGCrearCombo comboView = new DGCrearCombo(PComboView.this);
+				comboView.setLocationRelativeTo(null);
+				comboView.setModal(true);
+				comboView.setVisible(true);
 			}
 		});
 		btnNewButton.setBounds(204, 44, 118, 25);
@@ -65,7 +72,21 @@ public class PComboView extends JPanel {
 		        return column == 3; 
 		    }
 		};
+		for(Combo c : controller.getCombos()) {
+			
+			Object[] row = {
+				c.getCodigo(),
+				c.getNombre(),
+				(c.getDescuento()*100)+"%",
+			};
+			model.addRow(row);
+		}
 		
 		return model;
+	}
+	
+	public void updateTable() {
+		DefaultTableModel updatedModel = getTableModel();
+		tblCombo.setModel(updatedModel);
 	}
 }

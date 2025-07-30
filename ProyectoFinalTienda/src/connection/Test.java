@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import logic.Cliente;
+import logic.Combo;
 import logic.Componente;
 import logic.DetalleFactura;
 import logic.Factura;
@@ -30,6 +31,9 @@ public class Test {
 		System.out.println(factura.getCodigo());
 		System.out.println(factura.getCliente().getNombre());
 		System.out.println(factura.getTotalPagar());
+		
+		Combo cb = new Combo("CB-1", "Combo 1", 0.1);
+		ComboDAO.insertCombo(cb);
 		/*
 		Componente componente = ComponenteDAO.searchComponenteById(1);
 		DetalleFactura df = new DetalleFactura(factura.getId(), componente, 0.1, 5, 1000.0);

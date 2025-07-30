@@ -4,6 +4,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import logic.Cliente;
+import logic.Combo;
 import logic.Componente;
 import logic.DetalleFactura;
 import logic.DiscoDuro;
@@ -57,6 +58,7 @@ public class PCrearFactura extends JPanel {
 	private Map<String, Integer> codigoAndIndex; //This will store the component's codigo and its rowIndex
 	private double totalFactura;
 	private JLabel lblTotalValue;
+	private JComboBox<Combo> cbxCombos;
 
 	/**
 	 * Create the panel.
@@ -212,7 +214,7 @@ public class PCrearFactura extends JPanel {
 		txtCantidadVender.setBounds(338, 90, 111, 22);
 		pComponente.add(txtCantidadVender);
 
-		JComboBox cbxCombos = new JComboBox();
+		cbxCombos = new JComboBox();
 		cbxCombos.setBounds(338, 140, 185, 22);
 		pComponente.add(cbxCombos);
 
@@ -302,6 +304,7 @@ public class PCrearFactura extends JPanel {
 		btnCancel.setBackground(Color.RED);
 		btnCancel.setBounds(430, 633, 313, 54);
 		add(btnCancel);
+		fillCbxCombos();
 
 	}
 
@@ -444,6 +447,19 @@ public class PCrearFactura extends JPanel {
 			DetalleFactura detalle = new DetalleFactura(factura.getId(), componente, descuento, cantidadVender, totalPorComponente);
 			DetalleFacturaDAO.insertDetalleFactura(detalle);
 			detalles.add(detalle);	
+		}
+	}
+	
+	private void fillCbxCombos() {
+		cbxCombos.addItem(new Combo() {
+			@Override
+			public String toString() {
+				// TODO Auto-generated method stub
+				return "Seleccione un combo";
+			}
+		});
+		for(Combo c : controller.getCombos()) {
+			cbxCombos.addItem(c);
 		}
 	}
 }

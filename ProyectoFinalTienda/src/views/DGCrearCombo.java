@@ -8,6 +8,8 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import connection.ComboDAO;
+import logic.Combo;
 import logic.Componente;
 import logic.DiscoDuro;
 import logic.MemoriaRam;
@@ -37,13 +39,16 @@ public class DGCrearCombo extends JDialog {
 	private Tienda controller = Tienda.getInstance();
 	private JSpinner spinner;
 	private ArrayList<Componente> componentes;
+	private JTextField txtNombre;
+	private JLabel lblCodigo;
+	private PComboView comboView;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		try {
-			DGCrearCombo dialog = new DGCrearCombo();
+			DGCrearCombo dialog = new DGCrearCombo(null);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -54,7 +59,8 @@ public class DGCrearCombo extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public DGCrearCombo() {
+	public DGCrearCombo(PComboView comboView) {
+		this.comboView = comboView;
 		componentes = new ArrayList<Componente>();
 		setBounds(100, 100, 595, 502);
 		getContentPane().setLayout(new BorderLayout());
@@ -63,35 +69,35 @@ public class DGCrearCombo extends JDialog {
 		contentPanel.setLayout(null);
 		
 		cbxDiscoDuro = new JComboBox();
-		cbxDiscoDuro.setBounds(240, 129, 287, 22);
+		cbxDiscoDuro.setBounds(236, 168, 287, 22);
 		contentPanel.add(cbxDiscoDuro);
 		
 		cbxTarjetasMadre = new JComboBox();
-		cbxTarjetasMadre.setBounds(240, 177, 287, 22);
+		cbxTarjetasMadre.setBounds(236, 216, 287, 22);
 		contentPanel.add(cbxTarjetasMadre);
 		
 		cbxMicroProcesador = new JComboBox();
-		cbxMicroProcesador.setBounds(240, 222, 287, 22);
+		cbxMicroProcesador.setBounds(236, 261, 287, 22);
 		contentPanel.add(cbxMicroProcesador);
 		
 		cbxMemoriaRam = new JComboBox();
-		cbxMemoriaRam.setBounds(240, 273, 287, 22);
+		cbxMemoriaRam.setBounds(236, 312, 287, 22);
 		contentPanel.add(cbxMemoriaRam);
 		
 		JLabel lblNewLabel = new JLabel("Discos Duros");
-		lblNewLabel.setBounds(71, 132, 84, 16);
+		lblNewLabel.setBounds(67, 171, 84, 16);
 		contentPanel.add(lblNewLabel);
 		
 		JLabel lblTarjetasMadre = new JLabel("Tarjetas Madre");
-		lblTarjetasMadre.setBounds(71, 180, 121, 16);
+		lblTarjetasMadre.setBounds(67, 219, 121, 16);
 		contentPanel.add(lblTarjetasMadre);
 		
 		JLabel lblMicroProcesadores = new JLabel("Micro Procesadores");
-		lblMicroProcesadores.setBounds(71, 225, 121, 16);
+		lblMicroProcesadores.setBounds(67, 264, 121, 16);
 		contentPanel.add(lblMicroProcesadores);
 		
 		JLabel lblMemoriasRam = new JLabel("Memorias Ram");
-		lblMemoriasRam.setBounds(71, 276, 94, 16);
+		lblMemoriasRam.setBounds(67, 315, 94, 16);
 		contentPanel.add(lblMemoriasRam);
 		
 		JLabel lblNewLabel_1 = new JLabel("Crear Combo");
@@ -100,7 +106,7 @@ public class DGCrearCombo extends JDialog {
 		contentPanel.add(lblNewLabel_1);
 		
 		JLabel lblDescuento = new JLabel("Descuento");
-		lblDescuento.setBounds(71, 85, 84, 16);
+		lblDescuento.setBounds(67, 124, 84, 16);
 		contentPanel.add(lblDescuento);
 		
 		spinner = new JSpinner();
@@ -108,13 +114,27 @@ public class DGCrearCombo extends JDialog {
         if (spinner.getEditor() instanceof JSpinner.DefaultEditor) {
             ((JSpinner.DefaultEditor) spinner.getEditor()).getTextField().setEditable(false);
         }
-		spinner.setBounds(240, 82, 57, 22);
+		spinner.setBounds(236, 121, 57, 22);
 		contentPanel.add(spinner);
 		
 		JLabel label = new JLabel("%");
 		label.setFont(new Font("Tahoma", Font.BOLD, 16));
-		label.setBounds(309, 85, 84, 16);
+		label.setBounds(305, 124, 84, 16);
 		contentPanel.add(label);
+		
+		JLabel lblNewLabel_2 = new JLabel("Nombre ");
+		lblNewLabel_2.setBounds(67, 79, 56, 16);
+		contentPanel.add(lblNewLabel_2);
+		
+		txtNombre = new JTextField();
+		txtNombre.setBounds(236, 76, 153, 22);
+		contentPanel.add(txtNombre);
+		txtNombre.setColumns(10);
+		
+		lblCodigo = new JLabel("New label");
+		lblCodigo.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblCodigo.setBounds(425, 79, 73, 16);
+		contentPanel.add(lblCodigo);
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -136,12 +156,18 @@ public class DGCrearCombo extends JDialog {
 				buttonPane.add(cancelButton);
 			}
 		}
+		lblCodigo.setText(controller.genCodigoCombo());
 		loadDataToCbx();
 	}
 	
 	private void createCombo() {
 		if(!hayAlMenosDosSeleccionados()) {
 			JOptionPane.showConfirmDialog(null, "Selecciona al menos dos componentes.");
+			return;
+		}
+		
+		if(txtNombre.getText() == null || txtNombre.getText().length() < 4) {
+			JOptionPane.showConfirmDialog(null, "Escribe un nombre adecuado para el combo.\nMayor a 4 caracteres");
 			return;
 		}
 	    if (cbxDiscoDuro.getSelectedIndex() > 0) componentes.add((DiscoDuro) cbxDiscoDuro.getSelectedItem());
@@ -151,7 +177,12 @@ public class DGCrearCombo extends JDialog {
 	    
 		int value = (int) spinner.getValue();
 		Double descuento = (double) (value/100.0);
+		String nombre = (String) txtNombre.getText();
+		Combo cb = new Combo(lblCodigo.getText(), nombre, descuento);
+		cb.setComponentes(componentes);
+		ComboDAO.insertCombo(cb);
 		resetFields();
+		comboView.updateTable();
 		JOptionPane.showConfirmDialog(null, "Componente Creado!.");
 
 	}
@@ -161,6 +192,7 @@ public class DGCrearCombo extends JDialog {
 		cbxMemoriaRam.setSelectedIndex(0);
 		cbxMicroProcesador.setSelectedIndex(0);
 		cbxTarjetasMadre.setSelectedIndex(0);
+		txtNombre.setText("");
 		spinner.setValue(1);
 	}
 	

@@ -3,6 +3,7 @@ package logic;
 import java.util.ArrayList;
 
 import connection.ClienteDAO;
+import connection.ComboDAO;
 import connection.ComponenteDAO;
 import connection.FacturaDAO;
 
@@ -45,6 +46,15 @@ public class Tienda {
 
 	public void setFacturas(ArrayList<Factura> facturas) {
 		this.facturas = facturas;
+	}
+
+	public ArrayList<Combo> getCombos() {
+		combos = ComboDAO.loadCombosData();
+		return combos;
+	}
+
+	public void setCombos(ArrayList<Combo> combos) {
+		this.combos = combos;
 	}
 
 	public ArrayList<DetalleFactura> getDetalles() {
@@ -123,6 +133,10 @@ public class Tienda {
 	
 	public String genCodigoFactura() {
 		return Factura.getPrefix()+(FacturaDAO.getLastId() + 1);
+	}
+	
+	public String genCodigoCombo() {
+		return Combo.getPrefix() + (ComboDAO.getLastId() + 1);
 	}
 	public void LOADdata() {
 		    DiscoDuro dd1 = new DiscoDuro("DD001", "SN1234", "Seagate", "Barracuda", 1200.0, 10, "SATA", "1TB");
