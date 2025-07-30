@@ -133,6 +133,11 @@ public class DGCrearCliente extends JDialog {
 			}
 			{
 				JButton btnCancel = new JButton("Cancelar");
+				btnCancel.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						dispose();
+					}
+				});
 				btnCancel.setActionCommand("Cancel");
 				buttonPane.add(btnCancel);
 			}
