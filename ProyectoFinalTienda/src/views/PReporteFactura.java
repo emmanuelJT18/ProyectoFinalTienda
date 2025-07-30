@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 import connection.ComponenteDAO;
 import logic.Componente;
@@ -25,11 +26,17 @@ import views.compVisuales.SingleButtonCellRenderer;
 import views.compVisuales.TableActionCellEditor;
 import views.compVisuales.TableActionCellRender;
 import views.compVisuales.TableActionEvent;
+import javax.swing.JTextField;
+import javax.swing.RowFilter;
+
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class PReporteFactura extends JPanel {
 	private Tienda controller = Tienda.getInstance();
 	private JTable tblFacturas;
 	private TableActionEvent tableActionEvent;
+	private JTextField txtParameter;
 	/**
 	 * Create the panel.
 	 */
@@ -53,6 +60,25 @@ public class PReporteFactura extends JPanel {
 		JPanel pActions = new JPanel();
 		pActions.setBounds(0, 83, 1100, 144);
 		add(pActions);
+		pActions.setLayout(null);
+		
+		JLabel lblNewLabel = new JLabel("Buscador");
+		lblNewLabel.setBounds(105, 48, 142, 16);
+		pActions.add(lblNewLabel);
+		
+		txtParameter = new JTextField();
+		txtParameter.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				DefaultTableModel tableModel = (DefaultTableModel) tblFacturas.getModel();
+				TableRowSorter<DefaultTableModel> rowSorter = new TableRowSorter<>(tableModel);
+				tblFacturas.setRowSorter(rowSorter);
+				rowSorter.setRowFilter(RowFilter.regexFilter(txtParameter.getText()));
+			}
+		});
+		txtParameter.setBounds(197, 45, 306, 22);
+		pActions.add(txtParameter);
+		txtParameter.setColumns(10);
 		pDataTable.setLayout(null);
 		
 	    tableActionEvent = new TableActionEvent() {

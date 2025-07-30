@@ -18,17 +18,24 @@ import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 import connection.ClienteDAO;
 import connection.ComboDAO;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JTextField;
+import javax.swing.RowFilter;
+
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class PComboView extends JPanel {
 	private JTable tblCombo;
 	private Tienda controller = Tienda.getInstance();
 	private TableActionEvent tableActionEvent;
+	private JTextField txtParameter;
 
 	/**
 	 * Create the panel.
@@ -43,12 +50,12 @@ public class PComboView extends JPanel {
 		setLayout(null);
 		
 		JPanel pActions = new JPanel();
-		pActions.setBounds(165, 52, 616, 101);
+		pActions.setBounds(50, 64, 616, 101);
 		add(pActions);
 		pActions.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("Crear Combo");
-		lblNewLabel.setBounds(109, 48, 99, 16);
+		lblNewLabel.setBounds(12, 26, 99, 16);
 		pActions.add(lblNewLabel);
 		
 		JButton btnNewButton = new JButton("Nuevo");
@@ -61,8 +68,27 @@ public class PComboView extends JPanel {
 				comboView.setVisible(true);
 			}
 		});
-		btnNewButton.setBounds(204, 44, 118, 25);
+		btnNewButton.setBounds(123, 22, 118, 25);
 		pActions.add(btnNewButton);
+		
+		JLabel lblBuscarCompo = new JLabel("Buscar Combo");
+		lblBuscarCompo.setBounds(12, 72, 99, 16);
+		pActions.add(lblBuscarCompo);
+		
+		txtParameter = new JTextField();
+		txtParameter.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				DefaultTableModel tableModel = (DefaultTableModel) tblCombo.getModel();
+				TableRowSorter<DefaultTableModel> rowSorter = new TableRowSorter<>(tableModel);
+				tblCombo.setRowSorter(rowSorter);
+				rowSorter.setRowFilter(RowFilter.regexFilter(txtParameter.getText()));
+			
+			}
+		});
+		txtParameter.setBounds(133, 69, 205, 22);
+		pActions.add(txtParameter);
+		txtParameter.setColumns(10);
 		
 		JPanel pShowData = new JPanel();
 		pShowData.setBounds(50, 178, 947, 344);

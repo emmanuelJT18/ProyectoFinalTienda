@@ -15,6 +15,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 import connection.ComponenteDAO;
 import logic.Componente;
@@ -30,12 +31,18 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JTextField;
+import javax.swing.RowFilter;
+
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class PComponenteView extends JPanel {
 	private Tienda controller = Tienda.getInstance();
 	private JTable table;
 	private JComboBox cbxTiposComponentes;
 	private TableActionEvent tableActionEvent;
+	private JTextField txtParameter;
 
 	/**
 	 * Create the panel.
@@ -55,7 +62,7 @@ public class PComponenteView extends JPanel {
 		add(pActions, BorderLayout.NORTH);
 		
 		JButton btnNuevoComponente = new JButton("Nuevo Componente");
-		btnNuevoComponente.setBounds(392, 82, 143, 25);
+		btnNuevoComponente.setBounds(392, 82, 173, 25);
 		btnNuevoComponente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//DGCrearMicroProcesador crearMicroProcesadorView = new DGCrearMicroProcesador(PComponenteView.this);
@@ -75,6 +82,25 @@ public class PComponenteView extends JPanel {
 		JLabel lblNewLabel = new JLabel("Tipo de Componente");
 		lblNewLabel.setBounds(100, 86, 119, 16);
 		pActions.add(lblNewLabel);
+		
+		JLabel lblBuscarComponente = new JLabel("Buscar Componente");
+		lblBuscarComponente.setBounds(100, 139, 131, 16);
+		pActions.add(lblBuscarComponente);
+		
+		txtParameter = new JTextField();
+		txtParameter.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
+				TableRowSorter<DefaultTableModel> rowSorter = new TableRowSorter<>(tableModel);
+				table.setRowSorter(rowSorter);
+				rowSorter.setRowFilter(RowFilter.regexFilter(txtParameter.getText()));
+			
+			}
+		});
+		txtParameter.setColumns(10);
+		txtParameter.setBounds(223, 136, 270, 22);
+		pActions.add(txtParameter);
 		 
 		JPanel pShowData = new JPanel();
 		add(pShowData, BorderLayout.CENTER);
