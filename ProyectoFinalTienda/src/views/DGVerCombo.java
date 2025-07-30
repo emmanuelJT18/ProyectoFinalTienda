@@ -18,6 +18,7 @@ import logic.TarjetaMadre;
 import logic.Tienda;
 
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
@@ -28,6 +29,8 @@ import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
+import java.awt.Color;
+import java.awt.Component;
 
 public class DGVerCombo extends JDialog {
 
@@ -46,22 +49,23 @@ public class DGVerCombo extends JDialog {
 
 	/**
 	 * Launch the application.
-	 */
+	 
 	public static void main(String[] args) {
 		try {
-			DGVerCombo dialog = new DGVerCombo(null, null);
+			Combo cb = ComboDAO.searchComboeById(1);
+			DGVerCombo dialog = new DGVerCombo(cb);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
+	}*/
 
 	/**
 	 * Create the dialog.
 	 */
-	public DGVerCombo(PComboView comboView, Combo combo) {
-		this.comboView = comboView;
+	public DGVerCombo(Combo combo) {
+		this.combo = combo;
 		componentes = new ArrayList<Componente>();
 		setBounds(100, 100, 595, 502);
 		getContentPane().setLayout(new BorderLayout());
@@ -111,10 +115,9 @@ public class DGVerCombo extends JDialog {
 		contentPanel.add(lblDescuento);
 		
 		spinner = new JSpinner();
+		spinner.setFont(new Font("Tahoma", Font.BOLD, 14));
+		spinner.setForeground(Color.BLACK);
 		spinner.setModel(new SpinnerNumberModel(1, 1, 100, 1));
-        if (spinner.getEditor() instanceof JSpinner.DefaultEditor) {
-            ((JSpinner.DefaultEditor) spinner.getEditor()).getTextField().setEditable(false);
-        }
 		spinner.setBounds(236, 121, 57, 22);
 		contentPanel.add(spinner);
 		
@@ -128,6 +131,7 @@ public class DGVerCombo extends JDialog {
 		contentPanel.add(lblNewLabel_2);
 		
 		txtNombre = new JTextField();
+		txtNombre.setFont(new Font("Tahoma", Font.BOLD, 14));
 		txtNombre.setBounds(236, 76, 153, 22);
 		contentPanel.add(txtNombre);
 		txtNombre.setColumns(10);
@@ -141,103 +145,50 @@ public class DGVerCombo extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton btnCreateCombo = new JButton("Crear ");
-				btnCreateCombo.addActionListener(new ActionListener() {
+				JButton cancelButton = new JButton("Cancelar");
+				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
-						createCombo();
+						dispose();
 					}
 				});
-				btnCreateCombo.setActionCommand("OK");
-				buttonPane.add(btnCreateCombo);
-				getRootPane().setDefaultButton(btnCreateCombo);
-			}
-			{
-				JButton cancelButton = new JButton("Cancelar");
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}
 		}
 		lblCodigo.setText(combo.getCodigo());
 		loadDataToCbx();
+		disbleFields();
 	}
 	
-	private void createCombo() {
-		if(!hayAlMenosDosSeleccionados()) {
-			JOptionPane.showConfirmDialog(null, "Selecciona al menos dos componentes.");
-			return;
+
+	
+	private void disbleFields() {
+		// Desactivar el campo de texto (no editable)
+		JComponent editor = spinner.getEditor();
+		if (editor instanceof JSpinner.DefaultEditor) {
+		    JTextField textField = ((JSpinner.DefaultEditor) editor).getTextField();
+		    textField.setEditable(false);
+		    textField.setForeground(Color.BLACK); // Opcional: texto negro
+		    textField.setFont(new Font("Arial", Font.BOLD, 12)); // Opcional: texto en negrita
 		}
-		
-		if(txtNombre.getText() == null || txtNombre.getText().length() < 4) {
-			JOptionPane.showConfirmDialog(null, "Escribe un nombre adecuado para el combo.\nMayor a 4 caracteres");
-			return;
+
+		// Desactivar los botones 
+		for (Component comp : spinner.getComponents()) {
+		    if (comp instanceof JButton) {
+		        comp.setEnabled(false);
+		    }
 		}
-	    if (cbxDiscoDuro.getSelectedIndex() > 0) componentes.add((DiscoDuro) cbxDiscoDuro.getSelectedItem());
-	    if (cbxMemoriaRam.getSelectedIndex() > 0) componentes.add((MemoriaRam) cbxMemoriaRam.getSelectedItem());
-	    if (cbxMicroProcesador.getSelectedIndex() > 0) componentes.add((MicroProcesador) cbxMicroProcesador.getSelectedItem());
-	    if (cbxTarjetasMadre.getSelectedIndex() > 0)  componentes.add((TarjetaMadre) cbxTarjetasMadre.getSelectedItem());
-	    
-		int value = (int) spinner.getValue();
-		Double descuento = (double) (value/100.0);
-		String nombre = (String) txtNombre.getText();
-		Combo cb = new Combo(lblCodigo.getText(), nombre, descuento);
-		cb.setComponentes(componentes);
-		ComboDAO.insertCombo(cb);
-		resetFields();
-		comboView.updateTable();
-		JOptionPane.showConfirmDialog(null, "Componente Creado!.");
+	    txtNombre.setEditable(false);
 
 	}
+
 	
-	private void resetFields() {
-		cbxDiscoDuro.setSelectedIndex(0);
-		cbxMemoriaRam.setSelectedIndex(0);
-		cbxMicroProcesador.setSelectedIndex(0);
-		cbxTarjetasMadre.setSelectedIndex(0);
-		txtNombre.setText("");
-		spinner.setValue(1);
-	}
-	
-	private boolean hayAlMenosDosSeleccionados() {
-	    int contador = 0;
-
-	    if (cbxDiscoDuro.getSelectedIndex() > 0) contador++;
-	    if (cbxMemoriaRam.getSelectedIndex() > 0) contador++;
-	    if (cbxMicroProcesador.getSelectedIndex() > 0) contador++;
-	    if (cbxTarjetasMadre.getSelectedIndex() > 0) contador++;
-
-	    return contador >= 2;
-	}
 	
 	private void loadDataToCbx() {
-		cbxTarjetasMadre.addItem(new TarjetaMadre() {
-		    @Override
-		    public String toString() {
-		        return "-- Seleccione una opción --";
-		    }
-		});
-		
-		cbxDiscoDuro.addItem(new DiscoDuro() {
-		    @Override
-		    public String toString() {
-		        return "-- Seleccione una opción --";
-		    }
-		});
-		
-		cbxMicroProcesador.addItem(new MicroProcesador() {
-		    @Override
-		    public String toString() {
-		        return "-- Seleccione una opción --";
-		    }
-		});
-		
-		cbxMemoriaRam.addItem(new MemoriaRam() {
-		    @Override
-		    public String toString() {
-		        return "-- Seleccione una opción --";
-		    }
-		});
-
-		for (Componente c : controller.getComponentes()) {
+		txtNombre.setText(combo.getNombre());
+		lblCodigo.setText(combo.getCodigo());
+		spinner.setValue(combo.getDescuento()*100);
+		for (Componente c : combo.getComponentes()) {
 		    if (c instanceof TarjetaMadre) {
 		        cbxTarjetasMadre.addItem((TarjetaMadre) c); 
 		    } else if (c instanceof DiscoDuro) {
@@ -247,8 +198,6 @@ public class DGVerCombo extends JDialog {
 		    } else if (c instanceof MemoriaRam) {
 		        cbxMemoriaRam.addItem((MemoriaRam) c);
 		    }
-		    
 		}
-
 	}
 }
