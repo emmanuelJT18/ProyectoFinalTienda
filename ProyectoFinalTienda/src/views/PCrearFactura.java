@@ -215,6 +215,20 @@ public class PCrearFactura extends JPanel {
 		pComponente.add(txtCantidadVender);
 
 		cbxCombos = new JComboBox();
+		cbxCombos.addActionListener(new ActionListener() {
+		    @Override
+		    public void actionPerformed(ActionEvent e) {
+		        Combo comboSeleccionado = (cbxCombos.getSelectedIndex() > 0) ? (Combo) cbxCombos.getSelectedItem() : null;
+		        if (comboSeleccionado != null) {
+		        	updateTable(comboSeleccionado);
+		        	/*
+		            System.out.println("Combo seleccionado: " + comboSeleccionado.getNombre());
+		            for (Componente comp : comboSeleccionado.getComponentes()) {
+		                System.out.println("Componente: " + comp.getId());
+		            }*/
+		        }
+		    }
+		});
 		cbxCombos.setBounds(338, 140, 185, 22);
 		pComponente.add(cbxCombos);
 
@@ -301,6 +315,11 @@ public class PCrearFactura extends JPanel {
 		add(btnFacturar);
 
 		JButton btnCancel = new JButton("Cancelar");
+		btnCancel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				cleanFields();
+			}
+		});
 		btnCancel.setBackground(Color.RED);
 		btnCancel.setBounds(430, 633, 313, 54);
 		add(btnCancel);
@@ -390,6 +409,7 @@ public class PCrearFactura extends JPanel {
 		clienteBuscado = null;
 		totalFactura = 0.0;
 		lblTotalValue.setText("$0.00");
+		cbxCombos.setSelectedIndex(0);
 		tblDetalleFactura.setModel(getTableModel());
 	}
 
@@ -398,6 +418,7 @@ public class PCrearFactura extends JPanel {
 		int btnCol = tblDetalleFactura.getColumnCount()-1;
 		int cantidadVender = Integer.parseInt(txtCantidadVender.getText());
 		double totalPorComponente = (double) cantidadVender * componenteBuscado.getPrecio();
+		
 		Object[] rowData = {
 				componenteBuscado.getCodigo(),
 				componenteBuscado.getMarca(),
@@ -410,6 +431,7 @@ public class PCrearFactura extends JPanel {
 		tblDetalleFactura.getColumnModel().getColumn(btnCol).setCellEditor(
 				new SingleButtonCellEditor("Eliminar", row -> {
 					eliminateRow(row);
+					deleteCombosOnCascade();
 			    })
 		);
 		updatedModel.addRow(rowData);
@@ -454,12 +476,72 @@ public class PCrearFactura extends JPanel {
 		cbxCombos.addItem(new Combo() {
 			@Override
 			public String toString() {
-				// TODO Auto-generated method stub
 				return "Seleccione un combo";
 			}
 		});
 		for(Combo c : controller.getCombos()) {
 			cbxCombos.addItem(c);
 		}
+	}
+	private void updateTable(Combo combo) {
+		DefaultTableModel updatedModel = (DefaultTableModel) tblDetalleFactura.getModel();
+		int btnCol = tblDetalleFactura.getColumnCount()-1;
+		int cantidadVender = 1;
+		
+		for(Componente c : combo.getComponentes()) {
+			//double totalPorComponente = (double) cantidadVender * componenteBuscado.getPrecio();		
+			Object[] rowData = {
+					c.getCodigo(),
+					c.getMarca(),
+					c.getPrecio(),
+					(combo.getDescuento()*100)+"%",
+					cantidadVender,
+					controller.componenteTotalNeto(c.getPrecio(), combo.getDescuento()),
+			};
+			updatedModel.addRow(rowData);
+		}
+		tblDetalleFactura.getColumnModel().getColumn(btnCol).setCellRenderer(new SingleButtonCellRenderer("eliminar"));
+		tblDetalleFactura.getColumnModel().getColumn(btnCol).setCellEditor(
+				new SingleButtonCellEditor("Eliminar", row -> {
+					eliminateRow(row);
+					deleteCombosOnCascade();
+			    })
+		);
+	}
+
+	private void deleteCombosOnCascade() {
+		DefaultTableModel model = (DefaultTableModel) tblDetalleFactura.getModel();
+		String identifier = "0%"; 
+
+		for (int i = model.getRowCount() - 1; i >= 0; i--) {
+		    Object valor = model.getValueAt(i, 3); 
+		    if (valor != null && valor.toString() != identifier) {
+		        model.removeRow(i);
+		    }
+		}
+	}
+	private void fillTableWithCombo() {
+		String[] columns = {"Cod.", "Marca", "Precio", "Desc.", "Cant.","Total Por Comp.", "Quitar Comp."};
+		DefaultTableModel updatedModel = (DefaultTableModel) tblDetalleFactura.getModel();
+		int btnCol = tblDetalleFactura.getColumnCount()-1;
+
+		Combo combo = (Combo) cbxCombos.getSelectedItem();
+		Object[] rowData = {
+			combo.getCodigo(),
+			combo.getNombre(),
+			controller.comboTotalPrecio(combo),
+			(combo.getDescuento()*100)+"%",
+			combo.getComponentes().size(),
+			controller.comboTotalNeto(combo),
+		};
+		tblDetalleFactura.getColumnModel().getColumn(btnCol).setCellRenderer(new SingleButtonCellRenderer("eliminar"));
+		tblDetalleFactura.getColumnModel().getColumn(btnCol).setCellEditor(
+				new SingleButtonCellEditor("Eliminar", row -> {
+					eliminateRow(row);
+					deleteCombosOnCascade();
+			    })
+		);
+		updatedModel.addRow(rowData);
+		tblDetalleFactura.setModel(updatedModel);
 	}
 }

@@ -138,6 +138,27 @@ public class Tienda {
 	public String genCodigoCombo() {
 		return Combo.getPrefix() + (ComboDAO.getLastId() + 1);
 	}
+	
+	public double comboTotalNeto(Combo combo) {
+		double r = 0.0;
+		for(Componente c : combo.getComponentes()) {
+			r += c.getPrecio() - (c.getPrecio() * combo.getDescuento());
+		}
+		return r;
+	}
+	public double comboTotalPrecio(Combo combo) {
+		double r = 0.0;
+		for(Componente c : combo.getComponentes()) {
+			r += c.getPrecio();
+		}
+		return r;
+	}
+	public double componenteTotalNeto(double precio, double descuento) {
+		return precio - (precio*descuento);
+	}
+	public double componenteTotalPrecio(double precio, int cant) {
+		return (double) precio * cant;
+	}
 	public void LOADdata() {
 		    DiscoDuro dd1 = new DiscoDuro("DD001", "SN1234", "Seagate", "Barracuda", 1200.0, 10, "SATA", "1TB");
 	        DiscoDuro dd2 = new DiscoDuro("DD002", "SN5678", "Western Digital", "Blue", 1350.0, 3, "SATA", "2TB");
