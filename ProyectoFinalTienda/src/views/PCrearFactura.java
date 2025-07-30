@@ -5,6 +5,7 @@ import javax.swing.JScrollPane;
 
 import logic.Cliente;
 import logic.Componente;
+import logic.DetalleFactura;
 import logic.DiscoDuro;
 import logic.Factura;
 import logic.Tienda;
@@ -28,6 +29,9 @@ import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.JTree;
 import javax.swing.table.DefaultTableModel;
+
+import connection.FacturaDAO;
+
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.awt.event.ActionEvent;
@@ -44,6 +48,7 @@ public class PCrearFactura extends JPanel {
 	private JTextField txtIdCliente;
 	private JTable tblDetalleFactura;
 	private ArrayList<Componente> detalleFactura;
+	private ArrayList<DetalleFactura> detalles;
 	private Tienda controller = Tienda.getInstance();
 	private Componente componenteBuscado = null;
 	private Cliente clienteBuscado = null;
@@ -55,11 +60,11 @@ public class PCrearFactura extends JPanel {
 	 * Create the panel.
 	 */
 
-
-
 	public PCrearFactura() {
+		
 		totalFactura = 0.0;
 		detalleFactura = new ArrayList<Componente>();
+		detalles = new ArrayList<DetalleFactura>();
 		codigoAndIndex = new HashMap<String, Integer>();
 
 		setBounds(
@@ -398,17 +403,25 @@ public class PCrearFactura extends JPanel {
 		tblDetalleFactura.getColumnModel().getColumn(btnCol).setCellRenderer(new SingleButtonCellRenderer("eliminar"));
 		tblDetalleFactura.getColumnModel().getColumn(btnCol).setCellEditor(
 				new SingleButtonCellEditor("Eliminar", row -> {
-			        DefaultTableModel model = (DefaultTableModel) tblDetalleFactura.getModel();
-			        if (row >= 0 && row < model.getRowCount()) {
-						String codigoComponente = (String) tblDetalleFactura.getValueAt(row, 0);
-						codigoAndIndex.remove(codigoComponente);
-			            model.removeRow(row);
-			        }
+					eliminateRow(row);
 			    })
 		);
 		updatedModel.addRow(rowData);
 		tblDetalleFactura.setModel(updatedModel);
+		
+		int facturaId = FacturaDAO.getLastId()+1;
+		DetalleFactura detalle = new DetalleFactura(facturaId, componenteBuscado, 0.0, cantidadVender, totalPorComponente);
+		detalles.add(detalle);	
 	}
 	
-	private void eliminateRow(int row) {}
+	private void eliminateRow(int row) {
+		DefaultTableModel model = (DefaultTableModel) tblDetalleFactura.getModel();
+        if (row >= 0 && row < model.getRowCount()) {
+			String codigoComponente = (String) tblDetalleFactura.getValueAt(row, 0);
+			codigoAndIndex.remove(codigoComponente);
+            model.removeRow(row);
+        }
+	}
+	
+	
 }
