@@ -131,7 +131,7 @@ public class DGCrearCombo extends JDialog {
 		contentPanel.add(txtNombre);
 		txtNombre.setColumns(10);
 		
-		lblCodigo = new JLabel("New label");
+		lblCodigo = new JLabel(controller.genCodigoCombo());
 		lblCodigo.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblCodigo.setBounds(425, 79, 73, 16);
 		contentPanel.add(lblCodigo);
@@ -156,7 +156,7 @@ public class DGCrearCombo extends JDialog {
 				buttonPane.add(cancelButton);
 			}
 		}
-		lblCodigo.setText(controller.genCodigoCombo());
+		
 		loadDataToCbx();
 	}
 	
@@ -194,6 +194,7 @@ public class DGCrearCombo extends JDialog {
 		cbxTarjetasMadre.setSelectedIndex(0);
 		txtNombre.setText("");
 		spinner.setValue(1);
+		lblCodigo.setText(controller.genCodigoCombo());
 	}
 	
 	private boolean hayAlMenosDosSeleccionados() {
