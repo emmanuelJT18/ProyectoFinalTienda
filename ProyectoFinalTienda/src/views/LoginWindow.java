@@ -3,6 +3,7 @@ package views;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 
+import javax.security.auth.login.LoginException;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
@@ -12,17 +13,26 @@ import java.awt.Color;
 import javax.swing.border.LineBorder;
 import javax.swing.UIManager;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.BevelBorder;
-import javax.swing.JPasswordField;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JTextField;
 
 public class LoginWindow extends JDialog {
 
+	/**
+	 * 
+	 */
+	
 	private final JPanel contentPanel = new JPanel();
-	private JPasswordField passwordField;
+	private String username;
+    private String password;
+    private JTextField txtUser;
+    private JTextField txtpasswordField;
 
 	/**
 	 * Launch the application.
@@ -67,25 +77,22 @@ public class LoginWindow extends JDialog {
 				lblNewLabel_1.setBounds(12, 144, 201, 16);
 				panel.add(lblNewLabel_1);
 			}
-			{
-				JPanel panel_1 = new JPanel();
-				panel_1.setBackground(Color.WHITE);
-				panel_1.setBorder(new LineBorder(new Color(0, 0, 0)));
-				panel_1.setBounds(225, 62, 194, 25);
-				panel.add(panel_1);
-			}
-			{
-				passwordField = new JPasswordField();
-				passwordField.setToolTipText("");
-				passwordField.setBackground(new Color(255, 255, 255));
-				passwordField.setBounds(225, 144, 194, 22);
-				panel.add(passwordField);
-			}
 			
 			JLabel lblNewLabel_2 = new JLabel("login");
 			lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 19));
 			lblNewLabel_2.setBounds(192, 13, 56, 25);
 			panel.add(lblNewLabel_2);
+			
+			txtUser = new JTextField();
+			txtUser.setBounds(228, 59, 191, 26);
+			panel.add(txtUser);
+			txtUser.setColumns(10);
+			{
+				txtpasswordField = new JTextField();
+				txtpasswordField.setBounds(228, 141, 191, 26);
+				panel.add(txtpasswordField);
+				txtpasswordField.setColumns(10);
+			}
 		}
 		{
 			JPanel buttonPane = new JPanel();
@@ -93,15 +100,15 @@ public class LoginWindow extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton okButton = new JButton("iniciar seccion");
-				okButton.addActionListener(new ActionListener() {
+				JButton btnInicioSeccion = new JButton("iniciar seccion");
+				btnInicioSeccion.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						//@ TODO: Incertar en la base de datos una tabla para cuentas de usuario
+						login();
 					}
 				});
-				okButton.setActionCommand("OK");
-				buttonPane.add(okButton);
-				getRootPane().setDefaultButton(okButton);
+				btnInicioSeccion.setActionCommand("OK");
+				buttonPane.add(btnInicioSeccion);
+				getRootPane().setDefaultButton(btnInicioSeccion);
 			}
 			{
 				JButton cancelButton = new JButton("Cancelar");
@@ -113,6 +120,44 @@ public class LoginWindow extends JDialog {
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}
+			
 		}
+		
 	}
+	private void login() {
+        try {
+            username = txtUser.getText().trim();
+            password = txtpasswordField.getText().trim();
+
+            if (username.isEmpty() && password.isEmpty()) {
+                throw new LoginException("Usuario y contraseña son obligatorios");
+            } else if (username.isEmpty()) {
+                throw new LoginException("El usuario es obligatorio");
+            } else if (password.isEmpty()) {
+                throw new LoginException("La contraseña es obligatoria");
+            }
+            
+            if (!validarCredenciales(username, password)) {
+                throw new LoginException("Usuario o contraseña incorrectos");
+            }
+            
+           
+            JOptionPane.showMessageDialog(this, 
+                "Login exitoso para: " + username, 
+                "Éxito", 
+                JOptionPane.INFORMATION_MESSAGE);
+            
+        } catch (LoginException e) {
+            JOptionPane.showMessageDialog(this, 
+                e.getMessage(), 
+                "Error de Login", 
+                JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+	private boolean validarCredenciales(String username2, String password2) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }
