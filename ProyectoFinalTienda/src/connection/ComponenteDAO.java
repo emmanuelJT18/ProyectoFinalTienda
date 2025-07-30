@@ -3,6 +3,8 @@ import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 import logic.Componente;
 import logic.DiscoDuro;
 import logic.MemoriaRam;
@@ -261,6 +263,13 @@ public class ComponenteDAO {
 			}else {
 				System.out.println("Componente con el codigo: "+codigo+" no ha sido encontrado");
 			}
+		}catch (SQLException e) {
+			    if (e.getErrorCode() == 1451) {
+			        // Código de error 1451 = Cannot delete or update a parent row (foreign key fails)
+			    	JOptionPane.showConfirmDialog(null, "Este Componente posee Facturas o Combos asociados por lo cual no se puede eliminar.");
+			    } else {
+			        e.printStackTrace();
+			    }
 		}catch(Exception ex) {
 			ex.printStackTrace();
 		}
