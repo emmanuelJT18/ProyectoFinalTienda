@@ -134,9 +134,20 @@ public class Inicio extends JFrame {
 			}
 		});
 		btnGoToCliente.setBounds(0, 377, 300, 49);
+		
+		BtnForSideMenu btnGoToCombo = new BtnForSideMenu("Clientes");
+		btnGoToCombo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				PComboView comboView = new PComboView();
+				Utilidad.showMyPanel(pParentContainer, comboView);
+			}
+		});
+		btnGoToCombo.setText("Combos");
+		btnGoToCombo.setBounds(0, 439, 300, 49);
 
 		pWestContainer.setLayout(null);
 		pWestContainer.add(btnGoToInicio);
+		pWestContainer.add(btnGoToCombo);
 		pWestContainer.add(btnGoToFactura);
 		pWestContainer.add(btnGoToComponente);
 		pWestContainer.add(btnGoToCliente);
@@ -148,6 +159,8 @@ public class Inicio extends JFrame {
 	    );
 		lblLogo.setHorizontalAlignment(JLabel.CENTER);
 		pWestContainer.add(lblLogo);
+		
+
 	
 		pParentContainer.setBackground(Color.BLUE);
 		pParentContainer.add(new PInicioView());
