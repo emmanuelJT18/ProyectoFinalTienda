@@ -38,7 +38,7 @@ public class Utilidad {
 			parentPanel.revalidate();
 			parentPanel.repaint();
 		} catch (Exception e) {
-			JOptionPane.showConfirmDialog(null, "Error description: "+e.getStackTrace());
+			e.printStackTrace();
 		}
 	}
 }

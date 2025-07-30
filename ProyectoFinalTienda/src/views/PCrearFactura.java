@@ -249,6 +249,23 @@ public class PCrearFactura extends JPanel {
 		lblDate.setText(String.valueOf(LocalDate.now()));
 		lblDate.setBounds(514, 10, 82, 16);
 		pComponente.add(lblDate);
+		
+		JButton btnConsultarComponente = new JButton("\u00BFComponentes ?");
+		btnConsultarComponente.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new Thread(() -> {
+					DGConsultar dialog = new DGConsultar(null);
+				    dialog.setTitle("Componentes");
+				    dialog.setModal(true);
+				    dialog.setContentPane(new PComponenteView());
+				    dialog.pack();
+				    dialog.setLocationRelativeTo(null);
+				    dialog.setVisible(true);
+				}).start();
+			}
+		});
+		btnConsultarComponente.setBounds(461, 68, 143, 25);
+		pComponente.add(btnConsultarComponente);
 
 		JPanel pCliente = new JPanel();
 		pCliente.setBounds(696, 13, 372, 191);
@@ -299,6 +316,23 @@ public class PCrearFactura extends JPanel {
 		});
 		btnSearchCliente.setBounds(222, 8, 111, 33);
 		pCliente.add(btnSearchCliente);
+		
+		JButton btnConsultarClientes = new JButton("\u00BFClientes?");
+		btnConsultarClientes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new Thread(() -> {
+					DGConsultar dialog = new DGConsultar(null);
+				    dialog.setTitle("Componentes");
+				    dialog.setModal(true);
+				    dialog.setContentPane(new PClienteView());
+				    dialog.pack();
+				    dialog.setLocationRelativeTo(null);
+				    dialog.setVisible(true);
+				}).start();
+			}
+		});
+		btnConsultarClientes.setBounds(92, 127, 97, 25);
+		pCliente.add(btnConsultarClientes);
 
 		tblDetalleFactura = new JTable(getTableModel());
 		JScrollPane scrollPane = new JScrollPane(tblDetalleFactura);
@@ -522,6 +556,4 @@ public class PCrearFactura extends JPanel {
 		);
 		updateTotalFactura();
 	}
-	
-
 }
