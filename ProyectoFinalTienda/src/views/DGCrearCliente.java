@@ -20,6 +20,8 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class DGCrearCliente extends JDialog {
 	private int fontSize = 15;
@@ -95,6 +97,15 @@ public class DGCrearCliente extends JDialog {
 			pCenterPanel.add(txtNombre);
 			
 			txtTelefono = new JTextField();
+			txtTelefono.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyTyped(KeyEvent arg0) {
+					char c = arg0.getKeyChar();
+					if(!Character.isDigit(c)) {
+						arg0.consume();
+					}
+				}
+			});
 			txtTelefono.setColumns(10);
 			txtTelefono.setBounds(89, 155, 235, 22);
 			pCenterPanel.add(txtTelefono);

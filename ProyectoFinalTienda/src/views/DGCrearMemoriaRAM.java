@@ -21,6 +21,8 @@ import javax.swing.JOptionPane;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class DGCrearMemoriaRAM extends JDialog {
 
@@ -119,6 +121,15 @@ public class DGCrearMemoriaRAM extends JDialog {
 			pParentContainer.add(lblPrecio);
 			
 			txtPrecio = new JTextField();
+			txtPrecio.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyTyped(KeyEvent e) {
+					char c = e.getKeyChar();
+					if(!Character.isDigit(c)) {
+						e.consume();
+					}
+				}
+			});
 			txtPrecio.setColumns(10);
 			txtPrecio.setBounds(112, 100, 140, 22);
 			pParentContainer.add(txtPrecio);
@@ -129,6 +140,15 @@ public class DGCrearMemoriaRAM extends JDialog {
 			pParentContainer.add(lblCantidadDisponible);
 			
 			txtCantidadDisponible = new JTextField();
+			txtCantidadDisponible.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyTyped(KeyEvent e) {
+					char c = e.getKeyChar();
+					if(!Character.isDigit(c)) {
+						e.consume();
+					}
+				}
+			});
 			txtCantidadDisponible.setColumns(10);
 			txtCantidadDisponible.setBounds(166, 135, 174, 22);
 			pParentContainer.add(txtCantidadDisponible);

@@ -22,6 +22,8 @@ import java.awt.Font;
 import javax.swing.JTextArea;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class DGCrearTarjetaMadre extends JDialog {
 
@@ -126,6 +128,15 @@ public class DGCrearTarjetaMadre extends JDialog {
 			}
 			{
 				txtPrecio = new JTextField();
+				txtPrecio.addKeyListener(new KeyAdapter() {
+					@Override
+					public void keyTyped(KeyEvent e) {
+						char c = e.getKeyChar();
+						if(!Character.isDigit(c)) {
+							e.consume();
+						}
+					}
+				});
 				txtPrecio.setColumns(10);
 				txtPrecio.setBounds(83, 88, 295, 22);
 				pCenterPanel.add(txtPrecio);
@@ -138,6 +149,15 @@ public class DGCrearTarjetaMadre extends JDialog {
 			}
 			{
 				txtCantidadDisponible = new JTextField();
+				txtCantidadDisponible.addKeyListener(new KeyAdapter() {
+					@Override
+					public void keyTyped(KeyEvent e) {
+						char c = e.getKeyChar();
+						if(!Character.isDigit(c)) {
+							e.consume();
+						}
+					}
+				});
 				txtCantidadDisponible.setColumns(10);
 				txtCantidadDisponible.setBounds(148, 196, 230, 22);
 				pCenterPanel.add(txtCantidadDisponible);
