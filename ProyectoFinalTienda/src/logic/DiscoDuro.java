@@ -18,6 +18,11 @@ public class DiscoDuro extends Componente {
 		this.cantMemoria = cantMemoria;
 	}
 
+	public DiscoDuro() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 	public String getTipoConexion() {
 		return tipoConexion;
 	}

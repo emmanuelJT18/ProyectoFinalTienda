@@ -17,6 +17,10 @@ public class MicroProcesador extends Componente {
 		this.velocidadProcesamiento = velocidadProcesamiento;
 	}
 
+	public MicroProcesador() {
+		// TODO Auto-generated constructor stub
+		super();
+	}
 	public String getTipoConexion() {
 		return tipoConexion;
 	}

@@ -21,6 +21,11 @@ public class TarjetaMadre extends Componente {
 		this.conxionesDiscosDuros = conxionesDiscosDuros;
 	}
 
+	public TarjetaMadre() {
+		// TODO Auto-generated constructor stub
+		super();
+	}
+
 	public String getTipoConexion() {
 		return tipoConexion;
 	}

@@ -4,7 +4,7 @@ public class MemoriaRam extends Componente {
 	private String cantMemoria;
 	private String velocidadProcesamiento;
 	private String tipoMemoriaRAM;
-	
+
 	public MemoriaRam(String codigo, String numeroSerie, String marca, String modelo, double precio, int cantDisponible,
 			String cantMemoria, String velocidadProcesamiento, String tipoMemoriaRAM) {
 		super(codigo, numeroSerie, marca, modelo, precio, cantDisponible);
@@ -12,7 +12,7 @@ public class MemoriaRam extends Componente {
 		this.velocidadProcesamiento = velocidadProcesamiento;
 		this.tipoMemoriaRAM = tipoMemoriaRAM;
 	}
-	
+
 	public MemoriaRam(int id, String codigo, String numeroSerie, String marca, String modelo, double precio, int cantDisponible,
 			String cantMemoria, String velocidadProcesamiento, String tipoMemoriaRAM) {
 		super(id, codigo, numeroSerie, marca, modelo, precio, cantDisponible);
@@ -20,7 +20,11 @@ public class MemoriaRam extends Componente {
 		this.velocidadProcesamiento = velocidadProcesamiento;
 		this.tipoMemoriaRAM = tipoMemoriaRAM;
 	}
-	
+
+	public MemoriaRam() {
+		super();	
+	}
+
 	public String getTipoMemoriaRAM() {
 		return tipoMemoriaRAM;
 	}
@@ -45,6 +49,6 @@ public class MemoriaRam extends Componente {
 	public void setVelocidadProcesamiento(String velocidadProcesamiento) {
 		this.velocidadProcesamiento = velocidadProcesamiento;
 	}
-	
-	
+
+
 }

@@ -9,6 +9,8 @@ public abstract class Componente {
 	protected double precio;
 	protected int cantDisponible;
 	
+	public Componente() {}
+	
 	public Componente(String codigo, String numeroSerie, String marca, String modelo, double precio, int cantDisponible) {
 		super();
 		this.codigo = codigo;
@@ -79,5 +81,8 @@ public abstract class Componente {
 		return codigo;
 	}
 	
-	
+	@Override
+	public String toString() {
+	    return getCodigo() + " - " + getMarca()+" "+getModelo();
+	}
 }
