@@ -95,5 +95,45 @@ public class ComboDAO {
 
 		return id;
 	}
+	
+	public static Combo searchComboeById(int id) {
+		String queryCombo = "SELECT * FROM combos WHERE id = ?";
+	    String queryComponentes = "SELECT componente_id FROM combos_componentes WHERE combo_id = ?";
+		
+		try(
+			PreparedStatement stmtCombo = connection.prepareStatement(queryCombo);
+			){
+			stmtCombo.setInt(1, id);
+			ResultSet rsCombos = stmtCombo.executeQuery();
+			if(rsCombos.next()) {
+	            String codigo = rsCombos.getString("codigo");
+	            String nombre = rsCombos.getString("nombre");
+	            Double descuento = rsCombos.getDouble("descuento");
 
+	            Combo combo = new Combo(id, codigo, nombre, descuento);
+
+	            try (
+	                PreparedStatement stmtComponentes = connection.prepareStatement(queryComponentes);
+	            ) {
+	                stmtComponentes.setInt(1, id);  
+	                try (ResultSet rsComponentes = stmtComponentes.executeQuery()) {
+	                    while (rsComponentes.next()) {
+	                        int compId = rsComponentes.getInt("componente_id");
+	                        Componente comp = ComponenteDAO.searchComponenteById(compId);
+	                        if (comp != null) {
+	                            combo.getComponentes().add(comp);
+	                        }
+	                    }
+	                }
+	            }
+	            return combo;
+			}
+			
+		}catch (Exception ex) {
+	        ex.printStackTrace();
+		}
+		return null;
+	}
+	
+	
 }

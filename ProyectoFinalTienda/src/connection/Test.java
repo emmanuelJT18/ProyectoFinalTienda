@@ -27,13 +27,18 @@ public class Test {
 		
 		Cliente cliente = ClienteDAO.searchClientebyId(2);
 		Factura factura = FacturaDAO.searchFacturaById(7);
-		System.out.println(factura.getId());
+		/*System.out.println(factura.getId());
 		System.out.println(factura.getCodigo());
 		System.out.println(factura.getCliente().getNombre());
-		System.out.println(factura.getTotalPagar());
+		System.out.println(factura.getTotalPagar());*/
 		
 		Combo cb = new Combo("CB-1", "Combo 1", 0.1);
 		ComboDAO.insertCombo(cb);
+		cb = ComboDAO.searchComboeById(1);
+		System.out.println(cb.getCodigo()+" - "+cb.getNombre());
+		for(Componente c : cb.getComponentes()) {
+			System.out.println(c.getCodigo()+" - "+c.getMarca());
+		}
 		/*
 		Componente componente = ComponenteDAO.searchComponenteById(1);
 		DetalleFactura df = new DetalleFactura(factura.getId(), componente, 0.1, 5, 1000.0);
