@@ -221,11 +221,7 @@ public class PCrearFactura extends JPanel {
 		        Combo comboSeleccionado = (cbxCombos.getSelectedIndex() > 0) ? (Combo) cbxCombos.getSelectedItem() : null;
 		        if (comboSeleccionado != null) {
 		        	updateTable(comboSeleccionado);
-		        	/*
-		            System.out.println("Combo seleccionado: " + comboSeleccionado.getNombre());
-		            for (Componente comp : comboSeleccionado.getComponentes()) {
-		                System.out.println("Componente: " + comp.getId());
-		            }*/
+
 		        }
 		    }
 		});
@@ -301,7 +297,7 @@ public class PCrearFactura extends JPanel {
 		add(lblTotalName);
 
 		lblTotalValue = new JLabel("$0.00");
-		lblTotalValue.setBounds(850, 592, 56, 16);
+		lblTotalValue.setBounds(850, 592, 133, 16);
 		add(lblTotalValue);
 
 		JButton btnFacturar = new JButton("Facturar");
@@ -355,35 +351,12 @@ public class PCrearFactura extends JPanel {
 		totalFactura = total;
 		lblTotalValue.setText(String.valueOf(total));
 	}
-	/*
-	private int getRowIndexByCodigo(String codigoComponente) {
-		for(int rowIndex = 0; rowIndex < tblDetalleFactura.getRowCount(); rowIndex++) {
-			String codigoOnTable = String.valueOf(tblDetalleFactura.getValueAt(rowIndex, 0));
-			if(codigoOnTable.equalsIgnoreCase(codigoComponente)) {
-				return rowIndex;
-			}
-		}
-		return -1;
-	}*/
+
 
 	private DefaultTableModel getTableModel() {
 		String[] columns = {"Cod.", "Marca", "Precio", "Desc.", "Cant.","Total Por Comp.", "Quitar Comp."};
 		DefaultTableModel model = new DefaultTableModel(columns, 0);
 
-		/*for(Componente componente : detalleFactura) {
-			int cantidadVender = Integer.parseInt(txtCantidadVender.getText());
-			double totalPorComponente = (double) cantidadVender * componente.getPrecio();
-			Object[] row = {
-				componente.getCodigo(),
-				componente.getMarca(),
-				componente.getPrecio(),
-				"0%",
-				cantidadVender,
-				totalPorComponente,
-				"Eliminar"
-			};
-			model.addRow(row);
-		}*/
 		return model;
 	}
 
@@ -456,14 +429,7 @@ public class PCrearFactura extends JPanel {
 			double descuento = Double.parseDouble(descuentoStr.replace("%", ""));
 			Object valor = tblDetalleFactura.getValueAt(row, 4);
 			int cantidadVender = (int) tblDetalleFactura.getValueAt(row, 4);
-/*
-			if (valor instanceof Number) {
-			    cantidadVender = ((Number) valor).intValue();
-			} else if (valor instanceof String) {
-			    cantidadVender = Integer.parseInt((String) valor);
-			} else {
-			    System.out.println("Tipo inesperado en columna 4: " + valor.getClass().getSimpleName());
-			}	*/		
+	
 			double totalPorComponente = (double) tblDetalleFactura.getValueAt(row, 5);
 			
 			DetalleFactura detalle = new DetalleFactura(factura.getId(), componente, descuento, cantidadVender, totalPorComponente);
@@ -489,7 +455,6 @@ public class PCrearFactura extends JPanel {
 		int cantidadVender = 1;
 		
 		for(Componente c : combo.getComponentes()) {
-			//double totalPorComponente = (double) cantidadVender * componenteBuscado.getPrecio();		
 			Object[] rowData = {
 					c.getCodigo(),
 					c.getMarca(),
@@ -507,6 +472,7 @@ public class PCrearFactura extends JPanel {
 					deleteCombosOnCascade();
 			    })
 		);
+		updateTotalFactura();
 	}
 
 	private void deleteCombosOnCascade() {
@@ -519,29 +485,6 @@ public class PCrearFactura extends JPanel {
 		        model.removeRow(i);
 		    }
 		}
-	}
-	private void fillTableWithCombo() {
-		String[] columns = {"Cod.", "Marca", "Precio", "Desc.", "Cant.","Total Por Comp.", "Quitar Comp."};
-		DefaultTableModel updatedModel = (DefaultTableModel) tblDetalleFactura.getModel();
-		int btnCol = tblDetalleFactura.getColumnCount()-1;
-
-		Combo combo = (Combo) cbxCombos.getSelectedItem();
-		Object[] rowData = {
-			combo.getCodigo(),
-			combo.getNombre(),
-			controller.comboTotalPrecio(combo),
-			(combo.getDescuento()*100)+"%",
-			combo.getComponentes().size(),
-			controller.comboTotalNeto(combo),
-		};
-		tblDetalleFactura.getColumnModel().getColumn(btnCol).setCellRenderer(new SingleButtonCellRenderer("eliminar"));
-		tblDetalleFactura.getColumnModel().getColumn(btnCol).setCellEditor(
-				new SingleButtonCellEditor("Eliminar", row -> {
-					eliminateRow(row);
-					deleteCombosOnCascade();
-			    })
-		);
-		updatedModel.addRow(rowData);
-		tblDetalleFactura.setModel(updatedModel);
+		updateTotalFactura();
 	}
 }
