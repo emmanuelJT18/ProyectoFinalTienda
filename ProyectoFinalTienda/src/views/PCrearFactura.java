@@ -39,6 +39,8 @@ import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class PCrearFactura extends JPanel {
 	private JTextField txtIdComponente;
@@ -210,6 +212,15 @@ public class PCrearFactura extends JPanel {
 		pComponente.add(lblCantidadVender);
 
 		txtCantidadVender = new JTextField();
+		txtCantidadVender.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				char c = e.getKeyChar();
+				if(!Character.isDigit(c)) {
+					e.consume();
+				}
+			}
+		});
 		txtCantidadVender.setEditable(true);
 		txtCantidadVender.setColumns(10);
 		txtCantidadVender.setBounds(338, 90, 111, 22);

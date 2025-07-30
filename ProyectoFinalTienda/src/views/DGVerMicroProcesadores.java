@@ -24,6 +24,8 @@ import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JTextField;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class DGVerMicroProcesadores extends JDialog {
 
@@ -134,6 +136,15 @@ public class DGVerMicroProcesadores extends JDialog {
 			}
 			{
 				txtPrecio = new JTextField();
+				txtPrecio.addKeyListener(new KeyAdapter() {
+					@Override
+					public void keyTyped(KeyEvent e) {
+						char c = e.getKeyChar();
+						if(!Character.isDigit(c)) {
+							e.consume();
+						}
+					}
+				});
 				txtPrecio.setEditable(false);
 				txtPrecio.setBounds(271, 115, 116, 22);
 				panel.add(txtPrecio);
@@ -141,6 +152,15 @@ public class DGVerMicroProcesadores extends JDialog {
 			}
 			{
 				txtCantidadDisponible = new JTextField();
+				txtCantidadDisponible.addKeyListener(new KeyAdapter() {
+					@Override
+					public void keyTyped(KeyEvent e) {
+						char c = e.getKeyChar();
+						if(!Character.isDigit(c)) {
+							e.consume();
+						}
+					}
+				});
 				txtCantidadDisponible.setEditable(false);
 				txtCantidadDisponible.setBounds(271, 160, 116, 22);
 				panel.add(txtCantidadDisponible);

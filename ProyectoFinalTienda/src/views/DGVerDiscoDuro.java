@@ -18,6 +18,8 @@ import java.awt.Font;
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class DGVerDiscoDuro extends JDialog {
 
@@ -102,6 +104,15 @@ public class DGVerDiscoDuro extends JDialog {
 			pParentConteiner.add(lblPrecio);
 			
 			txtPrecio = new JTextField();
+			txtPrecio.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyTyped(KeyEvent e) {
+					char c = e.getKeyChar();
+					if(!Character.isDigit(c)) {
+						e.consume();
+					}
+				}
+			});
 			txtPrecio.setBounds(93, 95, 247, 26);
 			pParentConteiner.add(txtPrecio);
 			txtPrecio.setColumns(10);
@@ -112,6 +123,15 @@ public class DGVerDiscoDuro extends JDialog {
 			pParentConteiner.add(lblCantidadDisponible);
 			
 			txtCantDisponible = new JTextField();
+			txtCantDisponible.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyTyped(KeyEvent e) {
+					char c = e.getKeyChar();
+					if(!Character.isDigit(c)) {
+						e.consume();
+					}
+				}
+			});
 			txtCantDisponible.setBounds(177, 137, 163, 26);
 			pParentConteiner.add(txtCantDisponible);
 			txtCantDisponible.setColumns(10);

@@ -25,6 +25,8 @@ import java.awt.Font;
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class DGVerTarjetaMadre extends JDialog {
 
@@ -138,12 +140,30 @@ public class DGVerTarjetaMadre extends JDialog {
 			txtMarca.setColumns(10);
 
 			txtPrecio = new JTextField();
+			txtPrecio.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyTyped(KeyEvent e) {
+					char c = e.getKeyChar();
+					if(!Character.isDigit(c)) {
+						e.consume();
+					}
+				}
+			});
 			txtPrecio.setEditable(false);
 			txtPrecio.setBounds(307, 237, 116, 22);
 			panel.add(txtPrecio);
 			txtPrecio.setColumns(10);
 
 			txtCantDisp = new JTextField();
+			txtCantDisp.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyTyped(KeyEvent e) {
+					char c = e.getKeyChar();
+					if(!Character.isDigit(c)) {
+						e.consume();
+					}
+				}
+			});
 			txtCantDisp.setEditable(false);
 			txtCantDisp.setBounds(307, 282, 116, 22);
 			panel.add(txtCantDisp);

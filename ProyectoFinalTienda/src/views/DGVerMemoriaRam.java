@@ -19,6 +19,8 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class DGVerMemoriaRam extends JDialog {
 
@@ -102,6 +104,15 @@ public class DGVerMemoriaRam extends JDialog {
 			pParentPanel.add(lblPrecio);
 			{
 				txtPrecio = new JTextField();
+				txtPrecio.addKeyListener(new KeyAdapter() {
+					@Override
+					public void keyTyped(KeyEvent e) {
+						char c = e.getKeyChar();
+						if(!Character.isDigit(c)) {
+							e.consume();
+						}
+					}
+				});
 				txtPrecio.setColumns(10);
 				txtPrecio.setBounds(95, 87, 245, 22);
 				pParentPanel.add(txtPrecio);
@@ -114,6 +125,15 @@ public class DGVerMemoriaRam extends JDialog {
 			}
 			{
 				txtCantDisponible = new JTextField();
+				txtCantDisponible.addKeyListener(new KeyAdapter() {
+					@Override
+					public void keyTyped(KeyEvent e) {
+						char c = e.getKeyChar();
+						if(!Character.isDigit(c)) {
+							e.consume();
+						}
+					}
+				});
 				txtCantDisponible.setColumns(10);
 				txtCantDisponible.setBounds(166, 125, 174, 22);
 				pParentPanel.add(txtCantDisponible);
