@@ -54,6 +54,7 @@ public class Inicio extends JFrame {
 					Inicio frame = new Inicio();
 					frame.setVisible(true);
 					frame.setLocationRelativeTo(null);
+					frame.setResizable(false);
 					System.out.println(pParentContainer.getLocationOnScreen());
 					System.out.println("Ancho: " + pParentContainer.getWidth());
 					System.out.println("Alto: " + pParentContainer.getHeight());
