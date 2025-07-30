@@ -22,6 +22,7 @@ import javax.swing.JComboBox;
 import javax.swing.JTable;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Font;
 
 public class DGVerDetalleFactura extends JDialog {
 
@@ -111,11 +112,13 @@ public class DGVerDetalleFactura extends JDialog {
 		contentPanel.add(scrollPane);
 		
 		JLabel lblTotal = new JLabel("Total");
+		lblTotal.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblTotal.setBounds(28, 495, 111, 16);
 		contentPanel.add(lblTotal);
 		
 		txtTotal = new JTextField();
-		txtTotal.setBounds(84, 492, 160, 22);
+		txtTotal.setFont(new Font("Tahoma", Font.BOLD, 16));
+		txtTotal.setBounds(99, 493, 160, 22);
 		contentPanel.add(txtTotal);
 		txtTotal.setEnabled(true);
 		txtTotal.setEditable(false);
@@ -159,7 +162,7 @@ public class DGVerDetalleFactura extends JDialog {
 	private void fillFields() {
 		txtCodigoFactura.setText(factura.getCodigo());    
 		txtClienteNombre.setText(factura.getCliente().getNombre());    
-		txtTotal.setText(String.valueOf(factura.getTotalPagar()));             
+		txtTotal.setText(String.format("%.2f", factura.getTotalPagar()));
 		txtClienteContacto.setText(factura.getCliente().getTelefono()); 
 		txtFecha.setText(String.valueOf(factura.getFecha()));            
 	}
@@ -181,7 +184,7 @@ public class DGVerDetalleFactura extends JDialog {
 					d.getComponente().getPrecio(),
 					d.getDescuento(),
 					d.getCantidadVendida(),
-					d.getTotal()
+					String.format("%.2f",d.getTotal())
 			};
 			model.addRow(row);
 		}

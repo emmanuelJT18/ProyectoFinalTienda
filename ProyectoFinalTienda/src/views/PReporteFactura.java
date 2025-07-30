@@ -117,7 +117,7 @@ public class PReporteFactura extends JPanel {
 			Object[] row = {
 					f.getCodigo(),
 					f.getCliente().getNombre(),
-					f.getTotalPagar(),
+					String.format("%.2f",f.getTotalPagar()),
 					f.getFecha(),
 			};
 			model.addRow(row);

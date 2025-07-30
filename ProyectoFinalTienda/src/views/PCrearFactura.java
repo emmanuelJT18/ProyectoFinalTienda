@@ -41,6 +41,7 @@ import java.awt.event.ActionEvent;
 import java.awt.Color;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.Font;
 
 public class PCrearFactura extends JPanel {
 	private JTextField txtIdComponente;
@@ -305,10 +306,12 @@ public class PCrearFactura extends JPanel {
 		add(scrollPane);
 
 		JLabel lblTotalName = new JLabel("Total");
+		lblTotalName.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblTotalName.setBounds(755, 592, 56, 16);
 		add(lblTotalName);
 
 		lblTotalValue = new JLabel("$0.00");
+		lblTotalValue.setFont(new Font("Tahoma", Font.BOLD, 18));
 		lblTotalValue.setBounds(850, 592, 133, 16);
 		add(lblTotalValue);
 
@@ -364,7 +367,7 @@ public class PCrearFactura extends JPanel {
 			total += (double) tblDetalleFactura.getValueAt(rowIndex, colIndex);
 		}
 		totalFactura = total;
-		lblTotalValue.setText(String.valueOf(total));
+		lblTotalValue.setText(String.format("%.2f", total));
 	}
 
 
