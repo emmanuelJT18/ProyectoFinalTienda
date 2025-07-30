@@ -30,6 +30,7 @@ import javax.swing.JTable;
 import javax.swing.JTree;
 import javax.swing.table.DefaultTableModel;
 
+import connection.DetalleFacturaDAO;
 import connection.FacturaDAO;
 
 import java.awt.event.ActionListener;
@@ -51,6 +52,7 @@ public class PCrearFactura extends JPanel {
 	private ArrayList<DetalleFactura> detalles;
 	private Tienda controller = Tienda.getInstance();
 	private Componente componenteBuscado = null;
+	//private Factura factura;
 	private Cliente clienteBuscado = null;
 	private Map<String, Integer> codigoAndIndex; //This will store the component's codigo and its rowIndex
 	private double totalFactura;
@@ -370,6 +372,7 @@ public class PCrearFactura extends JPanel {
 		}
 		Factura factura = new Factura(controller.genCodigoFactura(), clienteBuscado, totalFactura);
 		controller.createFactura(factura);
+		fillDetalleFacturas(factura);
 		cleanFields();
 	}
 
@@ -408,10 +411,6 @@ public class PCrearFactura extends JPanel {
 		);
 		updatedModel.addRow(rowData);
 		tblDetalleFactura.setModel(updatedModel);
-		
-		int facturaId = FacturaDAO.getLastId()+1;
-		DetalleFactura detalle = new DetalleFactura(facturaId, componenteBuscado, 0.0, cantidadVender, totalPorComponente);
-		detalles.add(detalle);	
 	}
 	
 	private void eliminateRow(int row) {
@@ -423,5 +422,28 @@ public class PCrearFactura extends JPanel {
         }
 	}
 	
-	
+	private void fillDetalleFacturas(Factura factura) {
+		//String[] columns = {"Cod.", "Marca", "Precio", "Desc.", "Cant.","Total Por Comp.", "Quitar Comp."};
+		for(int row = 0; row < tblDetalleFactura.getRowCount(); row++) {
+			String codigo = (String) tblDetalleFactura.getValueAt(row, 0);
+			Componente componente = controller.searchComponente(codigo);
+			String descuentoStr = (String) tblDetalleFactura.getValueAt(row, 3);
+			double descuento = Double.parseDouble(descuentoStr.replace("%", ""));
+			Object valor = tblDetalleFactura.getValueAt(row, 4);
+			int cantidadVender = (int) tblDetalleFactura.getValueAt(row, 4);
+/*
+			if (valor instanceof Number) {
+			    cantidadVender = ((Number) valor).intValue();
+			} else if (valor instanceof String) {
+			    cantidadVender = Integer.parseInt((String) valor);
+			} else {
+			    System.out.println("Tipo inesperado en columna 4: " + valor.getClass().getSimpleName());
+			}	*/		
+			double totalPorComponente = (double) tblDetalleFactura.getValueAt(row, 5);
+			
+			DetalleFactura detalle = new DetalleFactura(factura.getId(), componente, descuento, cantidadVender, totalPorComponente);
+			DetalleFacturaDAO.insertDetalleFactura(detalle);
+			detalles.add(detalle);	
+		}
+	}
 }
