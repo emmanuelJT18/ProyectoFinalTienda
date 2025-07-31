@@ -47,7 +47,7 @@ public class Inicio extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	/*
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -64,7 +64,7 @@ public class Inicio extends JFrame {
 				}
 			}
 		});
-	}*/
+	}
 
 	/**
 	 * Create the frame.
@@ -74,7 +74,7 @@ public class Inicio extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1436, 936);
 		contentPane = new JPanel();
-		contentPane.setBackground(SystemColor.controlLtHighlight);
+		contentPane.setBackground(Color.LIGHT_GRAY);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
@@ -155,6 +155,7 @@ public class Inicio extends JFrame {
 		pWestContainer.add(btnGoToCliente);
 		
 		lblLogo.setBounds(0, 0, 300, 178);
+		
 		Utilidad.fitImageInsideLabel(
 				"img/logo.jpg", 
 				lblLogo
@@ -164,7 +165,7 @@ public class Inicio extends JFrame {
 		
 
 	
-		pParentContainer.setBackground(Color.BLUE);
+		pParentContainer.setBackground(Color.LIGHT_GRAY);
 		pParentContainer.add(new PInicioView());
 		contentPane.add(pParentContainer, BorderLayout.CENTER);
 		ConnectToDB.getInstance();

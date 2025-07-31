@@ -50,10 +50,7 @@ public class PComponenteView extends JPanel {
 	public PComponenteView() {
 		
 		setPreferredSize(
-				new Dimension(
-						Utilidad.witdhForParentPanelView,
-						Utilidad.heightForParentPanelView
-				)
+				new Dimension(1121, 800)
 		);
 		setLayout(new BorderLayout(0, 0));
 		
@@ -157,7 +154,7 @@ public class PComponenteView extends JPanel {
 		table.getColumnModel().getColumn(6).setCellRenderer(new TableActionCellRender());
 		table.getColumnModel().getColumn(6).setCellEditor(new TableActionCellEditor(tableActionEvent));
 		JScrollPane scrollPane = new JScrollPane(table);
-		scrollPane.setBounds(30, 0, 1047, 400);
+		scrollPane.setBounds(12, 0, 1093, 400);
 		pShowData.add(scrollPane/*, BorderLayout.CENTER*/);
 		
 	}

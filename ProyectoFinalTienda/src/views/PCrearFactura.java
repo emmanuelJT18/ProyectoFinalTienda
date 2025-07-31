@@ -78,8 +78,8 @@ public class PCrearFactura extends JPanel {
 		setBounds(
 				Utilidad.xlocationForChildPanelView, 
 				Utilidad.ylocationForChildPanelView, 
-				Utilidad.witdhForChildPanelView, 
-				Utilidad.heightForChildPanelView
+				1100, 
+				631
 				);
 		setLayout(null);		
 		JPanel pComponente = new JPanel();
@@ -336,17 +336,17 @@ public class PCrearFactura extends JPanel {
 
 		tblDetalleFactura = new JTable(getTableModel());
 		JScrollPane scrollPane = new JScrollPane(tblDetalleFactura);
-		scrollPane.setBounds(34,217,1034, 330);
+		scrollPane.setBounds(34,217,1034, 296);
 		add(scrollPane);
 
 		JLabel lblTotalName = new JLabel("Total");
 		lblTotalName.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblTotalName.setBounds(755, 592, 56, 16);
+		lblTotalName.setBounds(755, 553, 56, 16);
 		add(lblTotalName);
 
 		lblTotalValue = new JLabel("$0.00");
 		lblTotalValue.setFont(new Font("Tahoma", Font.BOLD, 18));
-		lblTotalValue.setBounds(850, 592, 133, 16);
+		lblTotalValue.setBounds(823, 552, 133, 16);
 		add(lblTotalValue);
 
 		JButton btnFacturar = new JButton("Facturar");
@@ -356,7 +356,7 @@ public class PCrearFactura extends JPanel {
 			}
 		});
 		btnFacturar.setBackground(Color.GREEN);
-		btnFacturar.setBounds(755, 633, 313, 54);
+		btnFacturar.setBounds(769, 582, 287, 41);
 		add(btnFacturar);
 
 		JButton btnCancel = new JButton("Cancelar");
@@ -367,7 +367,7 @@ public class PCrearFactura extends JPanel {
 			}
 		});
 		btnCancel.setBackground(Color.RED);
-		btnCancel.setBounds(430, 633, 313, 54);
+		btnCancel.setBounds(444, 582, 313, 41);
 		add(btnCancel);
 		fillCbxCombos();
 

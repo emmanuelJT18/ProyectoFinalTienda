@@ -91,7 +91,7 @@ public class PComboView extends JPanel {
 		txtParameter.setColumns(10);
 		
 		JPanel pShowData = new JPanel();
-		pShowData.setBounds(50, 178, 947, 344);
+		pShowData.setBounds(16, 178, 1060, 344);
 		add(pShowData);
 		pShowData.setLayout(null);
 		
@@ -131,7 +131,7 @@ public class PComboView extends JPanel {
 		tblCombo.getColumnModel().getColumn(3).setCellRenderer(new TableActionCellRender());
 		tblCombo.getColumnModel().getColumn(3).setCellEditor(new TableActionCellEditor(tableActionEvent));
 		JScrollPane scrollPane = new JScrollPane(tblCombo);
-		scrollPane.setBounds(12, 28, 923, 268);
+		scrollPane.setBounds(12, 28, 1028, 268);
 		pShowData.add(scrollPane);
 	}
 	

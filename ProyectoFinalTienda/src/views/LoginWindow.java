@@ -148,7 +148,7 @@ public class LoginWindow extends JDialog {
         					Inicio frame = new Inicio();
         					frame.setVisible(true);
         					frame.setLocationRelativeTo(null);
-        					frame.setResizable(false);
+        					frame.pack();
         				} catch (Exception e) {
         					e.printStackTrace();
         				}

@@ -127,7 +127,7 @@ public class PClienteView extends JPanel {
 		tblClientes.getColumnModel().getColumn(4).setCellRenderer(new TableActionCellRender());
 		tblClientes.getColumnModel().getColumn(4).setCellEditor(new TableActionCellEditor(tableActionEvent));
 		JScrollPane scrollPane = new JScrollPane(tblClientes);
-		scrollPane.setBounds(85, 10, 927, 419);
+		scrollPane.setBounds(29, 6, 1043, 419);
 		pParentContainer.add(scrollPane);
 		
 	}

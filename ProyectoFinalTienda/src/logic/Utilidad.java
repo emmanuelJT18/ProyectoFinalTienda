@@ -13,7 +13,7 @@ public class Utilidad {
 	public static final int heightForParentPanelView = 800;
 	
 	public static final int witdhForChildPanelView = 1100;
-	public static final int heightForChildPanelView = 740;
+	public static final int heightForChildPanelView = 640;
 	public static final int xlocationForChildPanelView = 0;
 	public static final int ylocationForChildPanelView = 60;
 	
